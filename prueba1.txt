@@ -1,0 +1,54 @@
+program patito ; 
+var int uno=1, dos; float tres=-3.0; bool x = true;
+
+def void test(){
+
+	var int uno, dos; float tres; bool x;
+
+    uno = uno + dos;
+	tres = (tres * tres) * tres;
+
+	
+
+	
+
+
+	if ( uno + dos < tres){
+		dos = uno + uno;	
+	}
+	else{
+		uno = dos + dos;
+	};
+
+	print( uno, patito, dos, tres);
+}
+
+def int test2(int number, string word, bool popo, float haha){
+    uno = uno + dos;
+	tres = (tres * tres) * tres;
+
+
+	if ( uno + dos < tres){
+		dos = uno + uno;	
+	}
+	else{
+		uno = dos + dos;
+	};
+
+	print( uno, patito, dos, tres);
+	return !uno;
+}
+
+	
+
+main() {
+	test();
+	test2();
+	loop 5 {
+		print(hola);
+	}
+	loop (i != 4 and i > 3 or 5){
+		print(hola);
+
+	}
+}
