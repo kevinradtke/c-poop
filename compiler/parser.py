@@ -181,7 +181,7 @@ def p_error(p):
     sys.exit()
 
 
-parser = yacc.yacc()
+parser = yacc.yacc(debug=False, write_tables=False)
 
 archivo = "prueba1.txt"
 f = open(archivo, 'r')
