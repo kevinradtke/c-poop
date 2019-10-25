@@ -1,6 +1,8 @@
 import ply.yacc as yacc
 import lexer
+import symbol_table
 import sys
+import pprint
 
 tokens = lexer.tokens
 
@@ -15,7 +17,7 @@ def p_program(p):
 
 def p_funciones(p):
     '''funciones : funcion
-                  | funcion funciones'''
+                 | funcion funciones'''
 
 
 def p_main_dec(p):
@@ -29,6 +31,7 @@ def p_vars(p):
 def p_varAux1(p):
     '''varAux1 : tipo varAux2 SEMICOLON
                | tipo varAux2 SEMICOLON varAux1'''
+    symbol_table.insert_var('main', p[2]['name'], p[1], 0, p[2]['value'])
 
 
 def p_varAux2(p):
@@ -36,6 +39,14 @@ def p_varAux2(p):
                | ID COMMA varAux2
                | ID EQUAL expresion
                | ID EQUAL expresion COMMA varAux2'''
+
+
+    # ESTOS HANDLERS PODRIAN MANEJARSE EN OTRO ARCHIVO DESPUES REFACTORIZAMOS
+    if (len(p) > 2):
+        if (p[2] == '='):
+            p[0] = {'name': p[1], 'value': 'XD'}
+        else:
+            p[0] = {'name': p[1], 'value': 'null'}
 
 
 def p_tipo(p):
@@ -140,6 +151,7 @@ def p_loop(p):
 def p_funcion(p):
     '''funcion : DEF tipo funcionAux RETURN expresion SEMICOLON RBRACE
                | DEF VOID funcionAux RBRACE'''
+    symbol_table.insert_func(p[3]['func_name'], p[2], 100)
 
 
 def p_funcionAux(p):
@@ -147,7 +159,7 @@ def p_funcionAux(p):
                   | dec_func LBRACE vars
                   | dec_func LBRACE funcionAux2
                   | dec_func LBRACE vars funcionAux2'''
-
+    p[0] = {'func_name': p[1]['func_name']}
 
 def p_funcionAux2(p):
     '''funcionAux2 : estatuto
@@ -157,6 +169,7 @@ def p_funcionAux2(p):
 def p_dec_func(p):
     '''dec_func : ID LPAREN RPAREN
                 | ID LPAREN dec_func_aux RPAREN'''
+    p[0] = {'func_name': p[1]}
 
 
 def p_dec_func_aux(p):
@@ -191,6 +204,10 @@ parser.parse(s)
 
 if success == True:
     print("Archivo aprobado")
+
+    pp = pprint.PrettyPrinter(indent=2)
+    pp.pprint(symbol_table.func_table)
+    
     sys.exit()
 else:
     print("Archivo no aprobado")
