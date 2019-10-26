@@ -1,4 +1,24 @@
 
+class Function:
+    type = 'void'
+    pos = 0
+    vars = {}
+
+    def __init__(self, t, p, v):
+        self.type = t
+        self.pos = t
+        self.vars = v
+
+class Var:
+    type = 'bool'
+    addr = 0
+    value = False
+
+    def __init__(self, t, a, v):
+        self.type = t
+        self.addr = a
+        self.value = v
+
 func_table = {
     'main': {
         'type': 'void',
