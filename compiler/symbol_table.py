@@ -22,7 +22,7 @@ class Var:
 func_table = {
     'main': {
         'type': 'void',
-        'position': 0,
+        'pos': 0,
         'vars': {
             'example': {
                 'type': 'int',
@@ -33,7 +33,7 @@ func_table = {
     },
     'test_function': {
         'type': 'string',
-        'position': 1,
+        'pos': 1,
         'vars': {
             'a': {
                 'type': 'string',
@@ -49,13 +49,13 @@ func_table = {
     }
 }
 
-def insert_func(func_name, type, position):
+def insert_func(func_name, type, pos):
     if func_name in func_table.keys():
         print(f'Error: function with name {func_name} already declared')
     else:
         func_table[func_name] = {
             'type': type,
-            'position': position,
+            'pos': pos,
             'vars': {}
         }
 
