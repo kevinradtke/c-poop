@@ -134,13 +134,42 @@ def p_factorAux(p):
 
 
 def p_var_cte(p):
-    '''var_cte : ID
-               | CTE_I
-               | CTE_BOOL
-               | CTE_F
-               | CTE_STRING
+    '''var_cte : id
+               | cte_i
+               | cte_f
+               | cte_string
+               | cte_bool
                | func_call
                '''
+    p[0] = p[1]
+    print(p[0])
+
+
+def p_id(p):
+    '''id : ID'''
+
+    # FIXME: should search id in symbol table based on context and return value
+    p[0] = {'value': p[1], 'type': 'id'}
+
+
+def p_cte_i(p):
+    '''cte_i : CTE_I'''
+    p[0] = {'value': p[1], 'type': 'int'}
+
+
+def p_cte_f(p):
+    '''cte_f : CTE_F'''
+    p[0] = {'value': p[1], 'type': 'float'}
+
+
+def p_cte_string(p):
+    '''cte_string : CTE_STRING'''
+    p[0] = {'value': p[1], 'type': 'string'}
+
+
+def p_cte_bool(p):
+    '''cte_bool : CTE_BOOL'''
+    p[0] = {'value': p[1], 'type': 'bool'}
 
 
 def p_loop(p):
@@ -161,6 +190,7 @@ def p_funcionAux(p):
                   | dec_func LBRACE vars funcionAux2'''
     p[0] = {'func_name': p[1]['func_name']}
 
+
 def p_funcionAux2(p):
     '''funcionAux2 : estatuto
                    | estatuto funcionAux2'''
@@ -180,6 +210,9 @@ def p_dec_func_aux(p):
 def p_func_call(p):
     '''func_call : ID LPAREN RPAREN SEMICOLON
                  | ID LPAREN func_call_aux RPAREN SEMICOLON'''
+
+    # FIXME: should evaluate function and return a value
+    p[0] = {'value': p[1], 'type': 'function'}
 
 
 def p_func_call_aux(p):
@@ -207,7 +240,7 @@ if success == True:
 
     pp = pprint.PrettyPrinter(indent=2)
     pp.pprint(symbol_table.func_table)
-    
+
     sys.exit()
 else:
     print("Archivo no aprobado")

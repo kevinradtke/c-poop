@@ -100,13 +100,12 @@ def t_CTE_BOOL(t):
     t.value = bool(t.value)
     return t
 
-tokens = tokens + list(reserved.values())
-
-
 def t_ID(t):
     r'[a-zA-Z][a-zA-Z0-9]*'
     t.type = reserved.get(t.value, 'ID')
     return t
+
+tokens = tokens + list(reserved.values())
 
 
 def t_error(t):
