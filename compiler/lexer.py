@@ -73,13 +73,32 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_COMMA = r'\,'
 t_SEMICOLON = r'\;'
-# t_COLON = r'\:'
 
 # Constants
-t_CTE_I = r'[0-9]+'
-t_CTE_F = r'[0-9]+\.[0-9]+'
-t_CTE_STRING = r'\"([^\\\n]|(\\.))*?\"'
-t_CTE_BOOL = r'(true|false)'
+
+def t_CTE_F(t):
+    r'[0-9]+\.[0-9]+'
+    t.type = reserved.get(t.value, 'CTE_F')
+    t.value = float(t.value)
+    return t
+
+def t_CTE_I(t):
+    r'[0-9]+'
+    t.type = reserved.get(t.value, 'CTE_I')
+    t.value = int(t.value)
+    return t
+
+def t_CTE_S(t):
+    r'\"([^\\\n]|(\\.))*?\"'
+    t.type = reserved.get(t.value, 'CTE_STRING')
+    t.value = str(t.value)
+    return t
+
+def t_CTE_BOOL(t):
+    r'(true|false)'
+    t.type = reserved.get(t.value, 'CTE_BOOL')
+    t.value = bool(t.value)
+    return t
 
 tokens = tokens + list(reserved.values())
 
