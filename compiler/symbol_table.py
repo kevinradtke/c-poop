@@ -1,23 +1,23 @@
 
 class Function:
     type = 'void'
-    pos = 0
     vars = {}
+    pos = 0
 
-    def __init__(self, t, p, v):
+    def __init__(self, t, v={}, a=0):
         self.type = t
-        self.pos = t
+        self.pos = p
         self.vars = v
 
 class Var:
-    type = 'bool'
+    type = 'string'
+    value = 'temp'
     addr = 0
-    value = False
 
-    def __init__(self, t, a, v):
+    def __init__(self, t, v, a=0):
         self.type = t
-        self.addr = a
         self.value = v
+        self.addr = a
 
 func_table = {
     'main': {

@@ -96,6 +96,8 @@ def t_CTE_S(t):
 
 def t_CTE_BOOL(t):
     r'(true|false)'
+    if (t.value == 'false'):
+        t.value = 0
     t.type = reserved.get(t.value, 'CTE_BOOL')
     t.value = bool(t.value)
     return t

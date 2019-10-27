@@ -1,10 +1,13 @@
 import ply.yacc as yacc
 import lexer
 import symbol_table
+from symbol_table import Var
+import semantic_cube
 import sys
 import pprint
 
 tokens = lexer.tokens
+cube = semantic_cube.cube
 
 success = True
 
@@ -127,10 +130,42 @@ def p_factor(p):
 
 
 def p_factorAux(p):
-    '''factorAux : PLUS var_cte
-                 | MINUS var_cte
-                 | NOT var_cte
+    '''factorAux : unary_plus
+                 | unary_minus
+                 | unary_not
                  | var_cte'''
+
+
+def p_unary_plus(p):
+    '''unary_plus : PLUS var_cte'''
+
+    res = cube['unary+'][p[2].type]['']
+
+    if (res == 'error'):
+        print('Error: Type mismatch!')
+    else:
+        print(p[2].value)
+
+
+def p_unary_minus(p):
+    '''unary_minus : MINUS var_cte'''
+
+    res = cube['unary-'][p[2].type]['']
+
+    if (res == 'error'):
+        print('Error: Type mismatch!')
+    else:
+        print(-p[2].value)
+
+
+def p_unary_not(p):
+    '''unary_not : NOT var_cte'''
+
+    res = cube['unary!'][p[2].type]['']
+    if (res == 'error'):
+        print('Error: Type mismatch!')
+    else:
+        print(not p[2].value)
 
 
 def p_var_cte(p):
@@ -142,35 +177,33 @@ def p_var_cte(p):
                | func_call_var
                '''
     p[0] = p[1]
-    print(p[0])
 
 
 def p_id(p):
     '''id : ID'''
 
     # FIXME: should search id in symbol table based on context and return value
-    p[0] = {'value': p[1], 'type': 'id'}
+    p[0] = Var('string', 'fixme')
 
 
 def p_cte_i(p):
     '''cte_i : CTE_I'''
-    p[0] = {'value': p[1], 'type': 'int'}
+    p[0] = Var('int', p[1])
 
 
 def p_cte_f(p):
     '''cte_f : CTE_F'''
-    p[0] = {'value': p[1], 'type': 'float'}
+    p[0] = Var('float', p[1])
 
 
 def p_cte_string(p):
     '''cte_string : CTE_STRING'''
-    p[0] = {'value': p[1], 'type': 'string'}
+    p[0] = Var('string', p[1])
 
 
 def p_cte_bool(p):
     '''cte_bool : CTE_BOOL'''
-    p[0] = {'value': p[1], 'type': 'bool'}
-
+    p[0] = Var('bool', p[1])
 
 def p_loop(p):
     '''loop : LOOP LPAREN expresion RPAREN bloque
@@ -212,7 +245,7 @@ def p_func_call(p):
                  | ID LPAREN func_call_aux RPAREN SEMICOLON'''
 
     # FIXME: should evaluate function and return a value
-    p[0] = {'value': p[1], 'type': 'function'}
+    p[0] = Var('string', 'fixme')
 
 
 def p_func_call_var(p):
@@ -234,7 +267,7 @@ def p_error(p):
 
 parser = yacc.yacc(debug=False, write_tables=False)
 
-archivo = "tests/test1.txt"
+archivo = "tests/unary_op_test.txt"
 f = open(archivo, 'r')
 s = f.read()
 
