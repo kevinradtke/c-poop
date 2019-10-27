@@ -234,7 +234,7 @@ def p_error(p):
 
 parser = yacc.yacc(debug=False, write_tables=False)
 
-archivo = "prueba1.txt"
+archivo = "tests/test1.txt"
 f = open(archivo, 'r')
 s = f.read()
 

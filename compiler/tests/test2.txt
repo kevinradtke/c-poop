@@ -1,0 +1,13 @@
+program test2;
+var int x=5;
+
+def void func1(){
+	print("Hola");
+}
+
+main() {
+	y = z;
+	y = 5;
+	y = 5 + 3;
+	y = test();
+}
