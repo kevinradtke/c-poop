@@ -1,0 +1,8 @@
+program patito;
+var int uno=+1, dos; float tres=-3.0; bool x = !true;
+
+main() {
+	uno = 5 - -3;
+	t = !true;
+	t = !false;
+}
