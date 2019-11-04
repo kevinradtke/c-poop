@@ -8,6 +8,7 @@ tokens = lexer.tokens
 
 success = True
 
+
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON main_dec bloque
                | PROGRAM ID SEMICOLON vars main_dec bloque
@@ -39,7 +40,6 @@ def p_varAux2(p):
                | ID COMMA varAux2
                | ID EQUAL expresion
                | ID EQUAL expresion COMMA varAux2'''
-
 
     # ESTOS HANDLERS PODRIAN MANEJARSE EN OTRO ARCHIVO DESPUES REFACTORIZAMOS
     if (len(p) > 2):
@@ -139,7 +139,7 @@ def p_var_cte(p):
                | cte_f
                | cte_string
                | cte_bool
-               | func_call
+               | func_call_var
                '''
     p[0] = p[1]
     print(p[0])
@@ -213,6 +213,11 @@ def p_func_call(p):
 
     # FIXME: should evaluate function and return a value
     p[0] = {'value': p[1], 'type': 'function'}
+
+
+def p_func_call_var(p):
+    '''func_call_var : ID LPAREN RPAREN
+                 | ID LPAREN func_call_aux RPAREN'''
 
 
 def p_func_call_aux(p):
