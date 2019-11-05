@@ -30,6 +30,7 @@ tokens = [
     'MINUS',
     'TIMES',
     'DIVIDE',
+    'FLOOR_DIVIDE',
     'NOT',
     'EQUAL',
     'EQUALEQUAL',
@@ -56,6 +57,7 @@ t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
 t_DIVIDE = r'\/'
+t_FLOOR_DIVIDE = r'\/\/'
 
 # Relational Operators
 t_EQUAL = r'\='

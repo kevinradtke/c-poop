@@ -85,6 +85,33 @@ equality_dict = {
     }
 }
 
+division_dict = {
+    'int': {
+        'int': 'int',
+        'float': 'float',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'float': {
+        'int': 'float',
+        'float': 'float',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'string': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'bool': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    }
+}
+
 
 # SEMANTIC CUBE
 
@@ -125,32 +152,8 @@ cube = {
             'bool': 'error'
         }
     },
-    '/': {
-        'int': {
-            'int': 'int',
-            'float': 'float',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'float': {
-            'int': 'float',
-            'float': 'float',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'string': {
-            'int': 'error',
-            'float': 'error',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'bool': {
-            'int': 'error',
-            'float': 'error',
-            'string': 'error',
-            'bool': 'error'
-        }
-    },
+    '/': division_dict,
+    '//': division_dict,
 
 
     # NIVEL EXP3
