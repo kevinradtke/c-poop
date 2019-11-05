@@ -11,6 +11,23 @@ cube = semantic_cube.cube
 
 success = True
 
+context = 'main'
+my_list = []
+
+
+def changeContext(func_name):
+    global context
+    context = func_name
+
+
+def addVariablesToFunction():
+    global context
+    global my_list
+    for var in my_list:
+        symbol_table.insert_var(
+            context, var['var_name'], var['type'], var['addr'], var['value'])
+        my_list = []
+
 
 # --- GENERALES ---
 
@@ -37,7 +54,13 @@ def p_vars(p):
 def p_varAux1(p):
     '''varAux1 : tipo varAux2 SEMICOLON
                | tipo varAux2 SEMICOLON varAux1'''
-    symbol_table.insert_var('main', p[2]['name'], p[1], 0, p[2]['value'])
+    # symbol_table.insert_var(context, p[2]['name'], p[1], 0, p[2]['value'])
+    my_list.append({
+        'var_name': p[2]['name'],
+        'type': p[1],
+        'addr': 0,
+        'value': p[2]['value']
+    })
 
 
 def p_varAux2(p):
@@ -150,7 +173,6 @@ def p_subtraction(p):
         print(p[0].value)
 
 
-
 # --- NIVEL TERMINO ---
 
 def p_termino(p):
@@ -158,6 +180,7 @@ def p_termino(p):
                | mult
                | div'''
     p[0] = p[1]
+
 
 def p_mult(p):
     '''mult : factor TIMES termino'''
@@ -170,6 +193,7 @@ def p_mult(p):
         val = p[1].value * p[3].value
         p[0] = Var(res, val)
 
+
 def p_div(p):
     '''div : factor DIVIDE termino'''
 
@@ -180,8 +204,6 @@ def p_div(p):
     else:
         val = p[1].value / p[3].value
         p[0] = Var(res, val)
-
-
 
 
 # --- NIVEL FACTOR ---
@@ -238,8 +260,6 @@ def p_unary_not(p):
         p[0] = Var(res, val)
 
 
-
-
 # --- VARIABLE DECLARATION ---
 
 def p_var_cte(p):
@@ -264,20 +284,21 @@ def p_cte_i(p):
     '''cte_i : CTE_I'''
     p[0] = Var('int', int(p[1]))
 
+
 def p_cte_f(p):
     '''cte_f : CTE_F'''
     p[0] = Var('float', float(p[1]))
+
 
 def p_cte_string(p):
     '''cte_string : CTE_STRING'''
     p[1] = p[1][1:-1]
     p[0] = Var('string', str(p[1]))
 
+
 def p_cte_bool(p):
     '''cte_bool : CTE_BOOL'''
     p[0] = Var('bool', bool(p[1]))
-
-
 
 
 # --- CONTROL ---
@@ -287,14 +308,13 @@ def p_loop(p):
             | LOOP CTE_I bloque'''
 
 
-
-
 # --- FUNCIONES ---
 
 def p_funcion(p):
     '''funcion : DEF tipo funcionAux RETURN expresion SEMICOLON RBRACE
                | DEF VOID funcionAux RBRACE'''
     symbol_table.insert_func(p[3]['func_name'], p[2], 100)
+    addVariablesToFunction()
 
 
 def p_funcionAux(p):
@@ -314,6 +334,7 @@ def p_dec_func(p):
     '''dec_func : ID LPAREN RPAREN
                 | ID LPAREN dec_func_aux RPAREN'''
     p[0] = {'func_name': p[1]}
+    changeContext(p[1])
 
 
 def p_dec_func_aux(p):
@@ -339,8 +360,6 @@ def p_func_call_aux(p):
                      | expresion COMMA func_call_aux'''
 
 
-
-
 # --- ERRORS ---
 
 def p_error(p):
@@ -349,15 +368,14 @@ def p_error(p):
     print("Error de sintaxis en '%s'" % p.value)
     sys.exit()
 
+
 def type_mismatch(op1, op, op2):
     print('ERROR: Type mismatch! => ' + str(op1) + op + str(op2))
 
 
-
-
 # --- PARSING ---
-
 parser = yacc.yacc(debug=False, write_tables=False)
+
 
 archivo = "tests/exp3_test.txt"
 f = open(archivo, 'r')
