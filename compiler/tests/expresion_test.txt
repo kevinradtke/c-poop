@@ -1,0 +1,9 @@
+program patito;
+var bool x = true;
+
+main() {
+	x = true and true;
+  x = true or true;
+  x = true and false;
+  x = true or false;
+}
