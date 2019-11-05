@@ -15,6 +15,29 @@ success = True
 context = 'main'
 my_list = []
 
+# --- UTILS ---
+
+def resolve_operation(op, op1, op2):
+    type = cube[op][op1.type][op2.type]
+
+    if (type == 'error'):
+        type_mismatch(op1.value, op, op2.value)
+        sys.exit()
+    else:
+        val = ops_table.ops[op](op1.value, op2.value)
+        return Var(type, val)
+
+
+def resolve_operation2(op, op1):
+    type = cube[op][op1.type]['']
+
+    if (type == 'error'):
+        type_mismatch(op1.value, op)
+        sys.exit()
+    else:
+        val = ops_table.ops[op](op1.value)
+        return Var(type, val)
+
 
 def changeContext(func_name):
     global context
@@ -28,6 +51,7 @@ def addVariablesToFunction():
         symbol_table.insert_var(
             context, var['var_name'], var['type'], var['addr'], var['value'])
         my_list = []
+
 
 
 # --- GENERALES ---
@@ -109,11 +133,6 @@ def p_asignacion(p):
     '''asignacion : ID EQUAL expresion SEMICOLON'''
 
 
-def p_condicion(p):
-    '''condicion : IF LPAREN expresion RPAREN bloque SEMICOLON
-                 | IF LPAREN expresion RPAREN bloque ELSE bloque SEMICOLON'''
-
-
 def p_escritura(p):
     '''escritura : PRINT LPAREN escrituraAux RPAREN SEMICOLON'''
 
@@ -172,6 +191,8 @@ def p_ne(p):
     p[0] = resolve_operation('!=', p[1], p[3])
     print(p[0].value)
 
+
+
 # --- NIVEL EXP3 ---
 
 def p_exp3(p):
@@ -187,7 +208,6 @@ def p_addition(p):
 def p_subtraction(p):
     '''subtraction : termino MINUS exp3'''
     p[0] = resolve_operation('-', p[1], p[3])
-
 
 
 
@@ -211,7 +231,6 @@ def p_div(p):
 def p_floor_div(p):
     '''floor_div : factor FLOOR_DIVIDE termino'''
     p[0] = resolve_operation('//', p[1], p[3])
-
 
 
 
@@ -283,11 +302,17 @@ def p_cte_bool(p):
     p[0] = Var('bool', bool(p[1]))
 
 
+
 # --- CONTROL ---
 
 def p_loop(p):
     '''loop : LOOP LPAREN expresion RPAREN bloque
             | LOOP CTE_I bloque'''
+
+def p_condicion(p):
+    '''condicion : IF LPAREN expresion RPAREN bloque SEMICOLON
+                 | IF LPAREN expresion RPAREN bloque ELSE bloque SEMICOLON'''
+
 
 
 # --- FUNCIONES ---
@@ -342,6 +367,7 @@ def p_func_call_aux(p):
                      | expresion COMMA func_call_aux'''
 
 
+
 # --- ERRORS ---
 
 def p_error(p):
@@ -356,29 +382,8 @@ def type_mismatch(op1, op, op2):
 
 
 
-# --- UTILS ---
-
-def resolve_operation(op, op1, op2):
-    type = cube[op][op1.type][op2.type]
-
-    if (type == 'error'):
-        type_mismatch(op1.value, op, op2.value)
-        sys.exit()
-    else:
-        val = ops_table.ops[op](op1.value, op2.value)
-        return Var(type, val)
-
-def resolve_operation2(op, op1):
-    type = cube[op][op1.type]['']
-
-    if (type == 'error'):
-        type_mismatch(op1.value, op)
-        sys.exit()
-    else:
-        val = ops_table.ops[op](op1.value)
-        return Var(type, val)
-
 # --- PARSING ---
+
 parser = yacc.yacc(debug=False, write_tables=False)
 
 
