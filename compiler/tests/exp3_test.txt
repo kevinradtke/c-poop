@@ -1,0 +1,11 @@
+program patito;
+var int uno=+1, dos; float tres=-3.0; bool x = !true;
+
+main() {
+	uno = uno + dos;
+	tres = tres - tres;
+	uno = 5 + 5;
+	uno = 10 - 2.0;
+	uno = "aa" + 2;
+	uno = "aa" + "bb";
+}
