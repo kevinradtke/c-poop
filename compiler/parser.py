@@ -115,10 +115,39 @@ def p_exp2(p):
             | exp3 NOTEQUAL exp3'''
 
 
+
+
+# --- NIVEL EXP3 ---
+
 def p_exp3(p):
     '''exp3 : termino
-            | termino PLUS exp3
-            | termino MINUS exp3'''
+            | addition
+            | subtraction'''
+    p[0] = p[1]
+
+def p_addition(p):
+    '''addition : termino PLUS exp3'''
+
+    res = cube['+'][p[1].type][p[3].type]
+
+    if (res == 'error'):
+        type_mismatch(p[1].value, '+', p[3].value)
+    else:
+        val = p[1].value + p[3].value
+        p[0] = Var(res, val)
+        print(p[0].value)
+
+def p_subtraction(p):
+    '''subtraction : termino MINUS exp3'''
+
+    res = cube['-'][p[1].type][p[3].type]
+
+    if (res == 'error'):
+        type_mismatch(p[1].value, '-', p[3].value)
+    else:
+        val = p[1].value - p[3].value
+        p[0] = Var(res, val)
+        print(p[0].value)
 
 
 
@@ -140,7 +169,6 @@ def p_mult(p):
     else:
         val = p[1].value * p[3].value
         p[0] = Var(res, val)
-        print(p[0].value)
 
 def p_div(p):
     '''div : factor DIVIDE termino'''
@@ -331,7 +359,7 @@ def type_mismatch(op1, op, op2):
 
 parser = yacc.yacc(debug=False, write_tables=False)
 
-archivo = "tests/unary_op_test.txt"
+archivo = "tests/exp3_test.txt"
 f = open(archivo, 'r')
 s = f.read()
 
