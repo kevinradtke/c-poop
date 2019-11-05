@@ -85,7 +85,115 @@ equality_dict = {
     }
 }
 
-division_dict = {
+mult_dict = {
+    'int': {
+        'int': 'int',
+        'float': 'float',
+        'string': 'string',
+        'bool': 'error'
+    },
+    'float': {
+        'int': 'float',
+        'float': 'float',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'string': {
+        'int': 'string',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'bool': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    }
+}
+
+floor_division_dict = {
+    'int': {
+        'int': 'int',
+        'float': 'float',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'float': {
+        'int': 'float',
+        'float': 'float',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'string': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'bool': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    }
+}
+
+true_division_dict = {
+    'int': {
+        'int': 'float',
+        'float': 'float',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'float': {
+        'int': 'float',
+        'float': 'float',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'string': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'bool': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    }
+}
+
+addition_dict = {
+    'int': {
+        'int': 'int',
+        'float': 'float',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'float': {
+        'int': 'float',
+        'float': 'float',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'string': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'string',
+        'bool': 'error'
+    },
+    'bool': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    }
+}
+
+subtraction_dict = {
     'int': {
         'int': 'int',
         'float': 'float',
@@ -126,90 +234,15 @@ cube = {
 
     # NIVEL TERMINO
 
-    '*': {
-        'int': {
-            'int': 'int',
-            'float': 'float',
-            'string': 'string',
-            'bool': 'error'
-        },
-        'float': {
-            'int': 'float',
-            'float': 'float',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'string': {
-            'int': 'string',
-            'float': 'error',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'bool': {
-            'int': 'error',
-            'float': 'error',
-            'string': 'error',
-            'bool': 'error'
-        }
-    },
-    '/': division_dict,
-    '//': division_dict,
+    '*': mult_dict,
+    '/': true_division_dict,
+    '//': floor_division_dict,
 
 
     # NIVEL EXP3
 
-    '+': {
-        'int': {
-            'int': 'int',
-            'float': 'float',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'float': {
-            'int': 'float',
-            'float': 'float',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'string': {
-            'int': 'error',
-            'float': 'error',
-            'string': 'string',
-            'bool': 'error'
-        },
-        'bool': {
-            'int': 'error',
-            'float': 'error',
-            'string': 'error',
-            'bool': 'error'
-        }
-    },
-    '-': {
-        'int': {
-            'int': 'int',
-            'float': 'float',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'float': {
-            'int': 'float',
-            'float': 'float',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'string': {
-            'int': 'error',
-            'float': 'error',
-            'string': 'error',
-            'bool': 'error'
-        },
-        'bool': {
-            'int': 'error',
-            'float': 'error',
-            'string': 'error',
-            'bool': 'error'
-        }
-    },
+    '+': addition_dict,
+    '-': subtraction_dict,
 
 
     # NIVEL EXP2
