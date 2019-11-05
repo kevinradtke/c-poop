@@ -134,16 +134,43 @@ def p_expresion(p):
 
 def p_exp2(p):
     '''exp2 : exp3
-            | exp3 LT exp3
-            | exp3 LTE exp3
-            | exp3 GT exp3
-            | exp3 GTE exp3
-            | exp3 EQUALEQUAL exp3
-            | exp3 NOTEQUAL exp3'''
+            | lt
+            | lte
+            | gt
+            | gte
+            | eq
+            | ne'''
     p[0] = p[1]
 
+def p_lt(p):
+    '''lt : exp3 LT exp3'''
+    p[0] = resolve_operation('<', p[1], p[3])
+    print(p[0].value)
 
+def p_lte(p):
+    '''lte : exp3 LTE exp3'''
+    p[0] = resolve_operation('<=', p[1], p[3])
+    print(p[0].value)
 
+def p_gt(p):
+    '''gt : exp3 GT exp3'''
+    p[0] = resolve_operation('>', p[1], p[3])
+    print(p[0].value)
+
+def p_gte(p):
+    '''gte : exp3 GTE exp3'''
+    p[0] = resolve_operation('>=', p[1], p[3])
+    print(p[0].value)
+
+def p_eq(p):
+    '''eq : exp3 EQUALEQUAL exp3'''
+    p[0] = resolve_operation('==', p[1], p[3])
+    print(p[0].value)
+
+def p_ne(p):
+    '''ne : exp3 NOTEQUAL exp3'''
+    p[0] = resolve_operation('!=', p[1], p[3])
+    print(p[0].value)
 
 # --- NIVEL EXP3 ---
 
