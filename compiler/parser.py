@@ -121,10 +121,37 @@ def p_exp3(p):
             | termino MINUS exp3'''
 
 
+
+# --- NIVEL TERMINO ---
+
 def p_termino(p):
     '''termino : factor
-               | factor TIMES termino
-               | factor DIVIDE termino'''
+               | mult
+               | div'''
+    p[0] = p[1]
+
+def p_mult(p):
+    '''mult : factor TIMES termino'''
+
+    res = cube['*'][p[1].type][p[3].type]
+
+    if (res == 'error'):
+        type_mismatch(p[1].value, '*', p[3].value)
+    else:
+        val = p[1].value * p[3].value
+        p[0] = Var(res, val)
+        print(p[0].value)
+
+def p_div(p):
+    '''div : factor DIVIDE termino'''
+
+    res = cube['/'][p[1].type][p[3].type]
+
+    if (res == 'error'):
+        type_mismatch(p[1].value, '/', p[3].value)
+    else:
+        val = p[1].value / p[3].value
+        p[0] = Var(res, val)
 
 
 
@@ -134,6 +161,10 @@ def p_termino(p):
 def p_factor(p):
     '''factor : LPAREN expresion RPAREN
               | factorAux'''
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = p[2]
 
 
 def p_factorAux(p):
@@ -141,6 +172,7 @@ def p_factorAux(p):
                  | unary_minus
                  | unary_not
                  | var_cte'''
+    p[0] = p[1]
 
 
 def p_unary_plus(p):
@@ -149,9 +181,10 @@ def p_unary_plus(p):
     res = cube['unary+'][p[2].type]['']
 
     if (res == 'error'):
-        print('Error: Type mismatch!')
+        type_mismatch('', '+', p[2].value)
     else:
-        print(p[2].value)
+        val = p[2].value
+        p[0] = Var(res, p[2].value)
 
 
 def p_unary_minus(p):
@@ -160,9 +193,10 @@ def p_unary_minus(p):
     res = cube['unary-'][p[2].type]['']
 
     if (res == 'error'):
-        print('Error: Type mismatch!')
+        type_mismatch('', '-', p[2].value)
     else:
-        print(-p[2].value)
+        val = -p[2].value
+        p[0] = Var(res, val)
 
 
 def p_unary_not(p):
@@ -170,9 +204,10 @@ def p_unary_not(p):
 
     res = cube['unary!'][p[2].type]['']
     if (res == 'error'):
-        print('Error: Type mismatch!')
+        type_mismatch('', '!', p[2].value)
     else:
-        print(not p[2].value)
+        val = not p[2].value
+        p[0] = Var(res, val)
 
 
 
@@ -199,19 +234,20 @@ def p_id(p):
 
 def p_cte_i(p):
     '''cte_i : CTE_I'''
-    p[0] = Var('int', p[1])
+    p[0] = Var('int', int(p[1]))
 
 def p_cte_f(p):
     '''cte_f : CTE_F'''
-    p[0] = Var('float', p[1])
+    p[0] = Var('float', float(p[1]))
 
 def p_cte_string(p):
     '''cte_string : CTE_STRING'''
-    p[0] = Var('string', p[1])
+    p[1] = p[1][1:-1]
+    p[0] = Var('string', str(p[1]))
 
 def p_cte_bool(p):
     '''cte_bool : CTE_BOOL'''
-    p[0] = Var('bool', p[1])
+    p[0] = Var('bool', bool(p[1]))
 
 
 
@@ -277,6 +313,7 @@ def p_func_call_aux(p):
 
 
 
+# --- ERRORS ---
 
 def p_error(p):
     global success
@@ -284,6 +321,13 @@ def p_error(p):
     print("Error de sintaxis en '%s'" % p.value)
     sys.exit()
 
+def type_mismatch(op1, op, op2):
+    print('ERROR: Type mismatch! => ' + str(op1) + op + str(op2))
+
+
+
+
+# --- PARSING ---
 
 parser = yacc.yacc(debug=False, write_tables=False)
 
