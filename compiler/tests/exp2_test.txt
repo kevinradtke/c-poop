@@ -1,0 +1,13 @@
+program patito;
+var bool x = true; bool y = false;
+
+main() {
+	uno = 5 < 5;
+  uno = 5 <= 5;
+
+  uno = 5.0 > 5;
+  uno = 5.0 >= 5;
+
+  uno = 5 == 5;
+  uno = 5 != 5;
+}
