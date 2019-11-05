@@ -12,6 +12,8 @@ cube = semantic_cube.cube
 success = True
 
 
+# --- GENERALES ---
+
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON main_dec bloque
                | PROGRAM ID SEMICOLON vars main_dec bloque
@@ -45,11 +47,12 @@ def p_varAux2(p):
                | ID EQUAL expresion COMMA varAux2'''
 
     # ESTOS HANDLERS PODRIAN MANEJARSE EN OTRO ARCHIVO DESPUES REFACTORIZAMOS
+    # FIXME : checar por comas
     if (len(p) > 2):
         if (p[2] == '='):
-            p[0] = {'name': p[1], 'value': 'XD'}
-        else:
-            p[0] = {'name': p[1], 'value': 'null'}
+            p[0] = {'name': p[1], 'value': 'xd'}
+    else:
+        p[0] = {'name': p[1], 'value': 'null'}
 
 
 def p_tipo(p):
@@ -124,6 +127,10 @@ def p_termino(p):
                | factor DIVIDE termino'''
 
 
+
+
+# --- NIVEL FACTOR ---
+
 def p_factor(p):
     '''factor : LPAREN expresion RPAREN
               | factorAux'''
@@ -168,6 +175,10 @@ def p_unary_not(p):
         print(not p[2].value)
 
 
+
+
+# --- VARIABLE DECLARATION ---
+
 def p_var_cte(p):
     '''var_cte : id
                | cte_i
@@ -190,25 +201,31 @@ def p_cte_i(p):
     '''cte_i : CTE_I'''
     p[0] = Var('int', p[1])
 
-
 def p_cte_f(p):
     '''cte_f : CTE_F'''
     p[0] = Var('float', p[1])
-
 
 def p_cte_string(p):
     '''cte_string : CTE_STRING'''
     p[0] = Var('string', p[1])
 
-
 def p_cte_bool(p):
     '''cte_bool : CTE_BOOL'''
     p[0] = Var('bool', p[1])
+
+
+
+
+# --- CONTROL ---
 
 def p_loop(p):
     '''loop : LOOP LPAREN expresion RPAREN bloque
             | LOOP CTE_I bloque'''
 
+
+
+
+# --- FUNCIONES ---
 
 def p_funcion(p):
     '''funcion : DEF tipo funcionAux RETURN expresion SEMICOLON RBRACE
@@ -256,6 +273,9 @@ def p_func_call_var(p):
 def p_func_call_aux(p):
     '''func_call_aux : expresion
                      | expresion COMMA func_call_aux'''
+
+
+
 
 
 def p_error(p):
