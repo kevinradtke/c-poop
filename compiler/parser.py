@@ -3,6 +3,7 @@ import lexer
 import symbol_table
 from symbol_table import Var
 import semantic_cube
+import ops_table
 import sys
 import pprint
 
@@ -128,6 +129,9 @@ def p_expresion(p):
                  | exp2 OR expresion'''
 
 
+
+# --- NIVEL EXP2 ---
+
 def p_exp2(p):
     '''exp2 : exp3
             | exp3 LT exp3
@@ -136,6 +140,7 @@ def p_exp2(p):
             | exp3 GTE exp3
             | exp3 EQUALEQUAL exp3
             | exp3 NOTEQUAL exp3'''
+    p[0] = p[1]
 
 
 
@@ -150,27 +155,13 @@ def p_exp3(p):
 
 def p_addition(p):
     '''addition : termino PLUS exp3'''
-
-    res = cube['+'][p[1].type][p[3].type]
-
-    if (res == 'error'):
-        type_mismatch(p[1].value, '+', p[3].value)
-    else:
-        val = p[1].value + p[3].value
-        p[0] = Var(res, val)
-        print(p[0].value)
+    p[0] = resolve_operation('+', p[1], p[3])
 
 def p_subtraction(p):
     '''subtraction : termino MINUS exp3'''
+    p[0] = resolve_operation('-', p[1], p[3])
 
-    res = cube['-'][p[1].type][p[3].type]
 
-    if (res == 'error'):
-        type_mismatch(p[1].value, '-', p[3].value)
-    else:
-        val = p[1].value - p[3].value
-        p[0] = Var(res, val)
-        print(p[0].value)
 
 
 # --- NIVEL TERMINO ---
@@ -178,32 +169,23 @@ def p_subtraction(p):
 def p_termino(p):
     '''termino : factor
                | mult
-               | div'''
+               | div
+               | floor_div'''
     p[0] = p[1]
-
 
 def p_mult(p):
     '''mult : factor TIMES termino'''
-
-    res = cube['*'][p[1].type][p[3].type]
-
-    if (res == 'error'):
-        type_mismatch(p[1].value, '*', p[3].value)
-    else:
-        val = p[1].value * p[3].value
-        p[0] = Var(res, val)
-
+    p[0] = resolve_operation('*', p[1], p[3])
 
 def p_div(p):
     '''div : factor DIVIDE termino'''
+    p[0] = resolve_operation('/', p[1], p[3])
 
-    res = cube['/'][p[1].type][p[3].type]
+def p_floor_div(p):
+    '''floor_div : factor FLOOR_DIVIDE termino'''
+    p[0] = resolve_operation('//', p[1], p[3])
 
-    if (res == 'error'):
-        type_mismatch(p[1].value, '/', p[3].value)
-    else:
-        val = p[1].value / p[3].value
-        p[0] = Var(res, val)
+
 
 
 # --- NIVEL FACTOR ---
@@ -216,7 +198,6 @@ def p_factor(p):
     else:
         p[0] = p[2]
 
-
 def p_factorAux(p):
     '''factorAux : unary_plus
                  | unary_minus
@@ -224,40 +205,18 @@ def p_factorAux(p):
                  | var_cte'''
     p[0] = p[1]
 
-
 def p_unary_plus(p):
     '''unary_plus : PLUS var_cte'''
-
-    res = cube['unary+'][p[2].type]['']
-
-    if (res == 'error'):
-        type_mismatch('', '+', p[2].value)
-    else:
-        val = p[2].value
-        p[0] = Var(res, p[2].value)
-
+    p[0] = resolve_operation2('unary+', p[2])
 
 def p_unary_minus(p):
     '''unary_minus : MINUS var_cte'''
-
-    res = cube['unary-'][p[2].type]['']
-
-    if (res == 'error'):
-        type_mismatch('', '-', p[2].value)
-    else:
-        val = -p[2].value
-        p[0] = Var(res, val)
-
+    p[0] = resolve_operation2('unary-', p[2])
 
 def p_unary_not(p):
     '''unary_not : NOT var_cte'''
+    p[0] = resolve_operation2('unary!', p[2])
 
-    res = cube['unary!'][p[2].type]['']
-    if (res == 'error'):
-        type_mismatch('', '!', p[2].value)
-    else:
-        val = not p[2].value
-        p[0] = Var(res, val)
 
 
 # --- VARIABLE DECLARATION ---
@@ -279,22 +238,18 @@ def p_id(p):
     # FIXME: should search id in symbol table based on context and return value
     p[0] = Var('string', 'fixme')
 
-
 def p_cte_i(p):
     '''cte_i : CTE_I'''
     p[0] = Var('int', int(p[1]))
-
 
 def p_cte_f(p):
     '''cte_f : CTE_F'''
     p[0] = Var('float', float(p[1]))
 
-
 def p_cte_string(p):
     '''cte_string : CTE_STRING'''
     p[1] = p[1][1:-1]
     p[0] = Var('string', str(p[1]))
-
 
 def p_cte_bool(p):
     '''cte_bool : CTE_BOOL'''
@@ -372,6 +327,29 @@ def p_error(p):
 def type_mismatch(op1, op, op2):
     print('ERROR: Type mismatch! => ' + str(op1) + op + str(op2))
 
+
+
+# --- UTILS ---
+
+def resolve_operation(op, op1, op2):
+    type = cube[op][op1.type][op2.type]
+
+    if (type == 'error'):
+        type_mismatch(op1.value, op, op2.value)
+        sys.exit()
+    else:
+        val = ops_table.ops[op](op1.value, op2.value)
+        return Var(type, val)
+
+def resolve_operation2(op, op1):
+    type = cube[op][op1.type]['']
+
+    if (type == 'error'):
+        type_mismatch(op1.value, op)
+        sys.exit()
+    else:
+        val = ops_table.ops[op](op1.value)
+        return Var(type, val)
 
 # --- PARSING ---
 parser = yacc.yacc(debug=False, write_tables=False)
