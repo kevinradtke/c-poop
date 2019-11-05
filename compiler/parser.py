@@ -142,10 +142,22 @@ def p_escrituraAux(p):
                     | expresion COMMA escrituraAux'''
 
 
+
+# --- NIVEL EXPRESION ---
+
 def p_expresion(p):
     '''expresion : exp2
-                 | exp2 AND expresion
-                 | exp2 OR expresion'''
+                 | and
+                 | or'''
+    p[0] = p[1]
+
+def p_and(p):
+    '''and : exp2 AND expresion'''
+    p[0] = resolve_operation('and', p[1], p[3])
+
+def p_or(p):
+    '''or : exp2 OR expresion'''
+    p[0] = resolve_operation('or', p[1], p[3])
 
 
 
@@ -164,32 +176,26 @@ def p_exp2(p):
 def p_lt(p):
     '''lt : exp3 LT exp3'''
     p[0] = resolve_operation('<', p[1], p[3])
-    print(p[0].value)
 
 def p_lte(p):
     '''lte : exp3 LTE exp3'''
     p[0] = resolve_operation('<=', p[1], p[3])
-    print(p[0].value)
 
 def p_gt(p):
     '''gt : exp3 GT exp3'''
     p[0] = resolve_operation('>', p[1], p[3])
-    print(p[0].value)
 
 def p_gte(p):
     '''gte : exp3 GTE exp3'''
     p[0] = resolve_operation('>=', p[1], p[3])
-    print(p[0].value)
 
 def p_eq(p):
     '''eq : exp3 EQUALEQUAL exp3'''
     p[0] = resolve_operation('==', p[1], p[3])
-    print(p[0].value)
 
 def p_ne(p):
     '''ne : exp3 NOTEQUAL exp3'''
     p[0] = resolve_operation('!=', p[1], p[3])
-    print(p[0].value)
 
 
 

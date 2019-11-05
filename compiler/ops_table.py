@@ -14,5 +14,7 @@ ops = {
     '!=': operator.ne,
     'unary+': operator.pos,
     'unary-': operator.neg,
-    'unary!': operator.not_
+    'unary!': operator.not_,
+    'and': operator.and_,
+    'or': operator.or_
 }
