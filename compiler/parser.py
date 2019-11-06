@@ -13,9 +13,10 @@ cube = semantic_cube.cube
 success = True
 
 context = 'main'
-my_list = []
+variable_array = []
 
 # --- UTILS ---
+
 
 def resolve_operation(op, op1, op2):
     type = cube[op][op1.type][op2.type]
@@ -46,12 +47,12 @@ def changeContext(func_name):
 
 def addVariablesToFunction():
     global context
-    global my_list
-    for var in my_list:
-        symbol_table.insert_var(
-            context, var['var_name'], var['type'], var['addr'], var['value'])
-        my_list = []
-
+    global variable_array
+    for type_arr in variable_array:
+        for var_arr in type_arr[2]:
+            symbol_table.insert_var(
+                type_arr[0], var_arr['name'], type_arr[1], 'FIXME', var_arr['value'])
+    variable_array = []
 
 
 # --- GENERALES ---
@@ -79,13 +80,7 @@ def p_vars(p):
 def p_varAux1(p):
     '''varAux1 : tipo varAux2 SEMICOLON
                | tipo varAux2 SEMICOLON varAux1'''
-    # symbol_table.insert_var(context, p[2]['name'], p[1], 0, p[2]['value'])
-    my_list.append({
-        'var_name': p[2]['name'],
-        'type': p[1],
-        'addr': 0,
-        'value': p[2]['value']
-    })
+    variable_array.append([context, p[1], p[2]])
 
 
 def p_varAux2(p):
@@ -94,13 +89,15 @@ def p_varAux2(p):
                | ID EQUAL expresion
                | ID EQUAL expresion COMMA varAux2'''
 
-    # ESTOS HANDLERS PODRIAN MANEJARSE EN OTRO ARCHIVO DESPUES REFACTORIZAMOS
-    # FIXME : checar por comas
-    if (len(p) > 2):
-        if (p[2] == '='):
-            p[0] = {'name': p[1], 'value': 'xd'}
+    if (len(p) == 2):
+        p[0] = [{'name': p[1], 'value': None}]
+    elif (len(p) == 4):
+        if (p[2] == ','):
+            p[0] = [{'name': p[1], 'value': None}] + p[3]
+        else:
+            p[0] = [{'name': p[1], 'value': 'EQUAL'}]
     else:
-        p[0] = {'name': p[1], 'value': 'null'}
+        p[0] = [{'name': p[1], 'value': 'EXPRESSION'}] + p[5]
 
 
 def p_tipo(p):
@@ -142,7 +139,6 @@ def p_escrituraAux(p):
                     | expresion COMMA escrituraAux'''
 
 
-
 # --- NIVEL EXPRESION ---
 
 def p_expresion(p):
@@ -151,14 +147,15 @@ def p_expresion(p):
                  | or'''
     p[0] = p[1]
 
+
 def p_and(p):
     '''and : exp2 AND expresion'''
     p[0] = resolve_operation('and', p[1], p[3])
 
+
 def p_or(p):
     '''or : exp2 OR expresion'''
     p[0] = resolve_operation('or', p[1], p[3])
-
 
 
 # --- NIVEL EXP2 ---
@@ -173,30 +170,35 @@ def p_exp2(p):
             | ne'''
     p[0] = p[1]
 
+
 def p_lt(p):
     '''lt : exp3 LT exp3'''
     p[0] = resolve_operation('<', p[1], p[3])
+
 
 def p_lte(p):
     '''lte : exp3 LTE exp3'''
     p[0] = resolve_operation('<=', p[1], p[3])
 
+
 def p_gt(p):
     '''gt : exp3 GT exp3'''
     p[0] = resolve_operation('>', p[1], p[3])
+
 
 def p_gte(p):
     '''gte : exp3 GTE exp3'''
     p[0] = resolve_operation('>=', p[1], p[3])
 
+
 def p_eq(p):
     '''eq : exp3 EQUALEQUAL exp3'''
     p[0] = resolve_operation('==', p[1], p[3])
 
+
 def p_ne(p):
     '''ne : exp3 NOTEQUAL exp3'''
     p[0] = resolve_operation('!=', p[1], p[3])
-
 
 
 # --- NIVEL EXP3 ---
@@ -207,14 +209,15 @@ def p_exp3(p):
             | subtraction'''
     p[0] = p[1]
 
+
 def p_addition(p):
     '''addition : termino PLUS exp3'''
     p[0] = resolve_operation('+', p[1], p[3])
 
+
 def p_subtraction(p):
     '''subtraction : termino MINUS exp3'''
     p[0] = resolve_operation('-', p[1], p[3])
-
 
 
 # --- NIVEL TERMINO ---
@@ -226,18 +229,20 @@ def p_termino(p):
                | floor_div'''
     p[0] = p[1]
 
+
 def p_mult(p):
     '''mult : factor TIMES termino'''
     p[0] = resolve_operation('*', p[1], p[3])
+
 
 def p_div(p):
     '''div : factor DIVIDE termino'''
     p[0] = resolve_operation('/', p[1], p[3])
 
+
 def p_floor_div(p):
     '''floor_div : factor FLOOR_DIVIDE termino'''
     p[0] = resolve_operation('//', p[1], p[3])
-
 
 
 # --- NIVEL FACTOR ---
@@ -250,6 +255,7 @@ def p_factor(p):
     else:
         p[0] = p[2]
 
+
 def p_factorAux(p):
     '''factorAux : unary_plus
                  | unary_minus
@@ -257,18 +263,20 @@ def p_factorAux(p):
                  | var_cte'''
     p[0] = p[1]
 
+
 def p_unary_plus(p):
     '''unary_plus : PLUS var_cte'''
     p[0] = resolve_operation2('unary+', p[2])
+
 
 def p_unary_minus(p):
     '''unary_minus : MINUS var_cte'''
     p[0] = resolve_operation2('unary-', p[2])
 
+
 def p_unary_not(p):
     '''unary_not : NOT var_cte'''
     p[0] = resolve_operation2('unary!', p[2])
-
 
 
 # --- VARIABLE DECLARATION ---
@@ -290,23 +298,26 @@ def p_id(p):
     # FIXME: should search id in symbol table based on context and return value
     p[0] = Var('string', 'fixme')
 
+
 def p_cte_i(p):
     '''cte_i : CTE_I'''
     p[0] = Var('int', int(p[1]))
 
+
 def p_cte_f(p):
     '''cte_f : CTE_F'''
     p[0] = Var('float', float(p[1]))
+
 
 def p_cte_string(p):
     '''cte_string : CTE_STRING'''
     p[1] = p[1][1:-1]
     p[0] = Var('string', str(p[1]))
 
+
 def p_cte_bool(p):
     '''cte_bool : CTE_BOOL'''
     p[0] = Var('bool', bool(p[1]))
-
 
 
 # --- CONTROL ---
@@ -315,10 +326,10 @@ def p_loop(p):
     '''loop : LOOP LPAREN expresion RPAREN bloque
             | LOOP CTE_I bloque'''
 
+
 def p_condicion(p):
     '''condicion : IF LPAREN expresion RPAREN bloque SEMICOLON
                  | IF LPAREN expresion RPAREN bloque ELSE bloque SEMICOLON'''
-
 
 
 # --- FUNCIONES ---
@@ -373,7 +384,6 @@ def p_func_call_aux(p):
                      | expresion COMMA func_call_aux'''
 
 
-
 # --- ERRORS ---
 
 def p_error(p):
@@ -387,13 +397,11 @@ def type_mismatch(op1, op, op2):
     print('ERROR: Type mismatch! => ' + str(op1) + op + str(op2))
 
 
-
 # --- PARSING ---
-
 parser = yacc.yacc(debug=False, write_tables=False)
 
 
-archivo = "tests/exp3_test.txt"
+archivo = "tests/test1.txt"
 f = open(archivo, 'r')
 s = f.read()
 

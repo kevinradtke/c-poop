@@ -1,14 +1,14 @@
 program patito;
-var int uno=1, dos; float tres=-3.0; bool x = true;
+var int uno; string dos, tres; float cuatro= 4.0; bool cinco = true, seis = false;
 
 def void test(){
 	print("Hola");
 }
 
 def int test2(int number, string word, bool poop, float haha){
+	var int siete, ocho = 8;
 	uno = uno + dos;
-	tres = (tres * tres) * tres;
-
+	
 	if ( uno + dos < tres){
 		dos = uno + uno;
 	}
@@ -17,7 +17,12 @@ def int test2(int number, string word, bool poop, float haha){
 	};
 
 	print(uno, patito, dos, tres);
-	return !uno;
+	return uno;
+}
+
+def int test3(int number, string word, bool poop, float haha){
+	var string nueve;
+	return nueve;
 }
 
 main() {
@@ -26,7 +31,7 @@ main() {
 	loop 5 {
 		print(666);
 	}
-	loop (i != 4 and i > 3 or 5){
+	loop (i != 4 or 5){
 		print(hola);
 	}
 }
