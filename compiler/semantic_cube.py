@@ -85,6 +85,33 @@ equality_dict = {
     }
 }
 
+logic_dict = {
+    'int': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'float': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'string': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'error'
+    },
+    'bool': {
+        'int': 'error',
+        'float': 'error',
+        'string': 'error',
+        'bool': 'bool'
+    }
+}
+
 mult_dict = {
     'int': {
         'int': 'int',
@@ -257,6 +284,6 @@ cube = {
 
     # NIVEL EXPRESION
 
-    'and': equality_dict,
-    'or': equality_dict
+    'and': logic_dict,
+    'or': logic_dict
 }

@@ -394,7 +394,7 @@ def p_error(p):
 
 
 def type_mismatch(op1, op, op2):
-    print('ERROR: Type mismatch! => ' + str(op1) + op + str(op2))
+    print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))
 
 
 # --- PARSING ---
