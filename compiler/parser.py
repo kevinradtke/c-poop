@@ -95,9 +95,9 @@ def p_varAux2(p):
         if (p[2] == ','):
             p[0] = [{'name': p[1], 'value': None}] + p[3]
         else:
-            p[0] = [{'name': p[1], 'value': 'EQUAL'}]
+            p[0] = [{'name': p[1], 'value': p[3].value}]
     else:
-        p[0] = [{'name': p[1], 'value': 'EXPRESSION'}] + p[5]
+        p[0] = [{'name': p[1], 'value': p[3].value}] + p[5]
 
 
 def p_tipo(p):
