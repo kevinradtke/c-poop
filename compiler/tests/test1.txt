@@ -31,7 +31,4 @@ main() {
 	loop 5 {
 		print(666);
 	}
-	loop (i != 4 or 5){
-		print(hola);
-	}
 }
