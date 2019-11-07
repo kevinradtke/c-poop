@@ -45,6 +45,9 @@ def insert_var(func_name, var_name, type, addr, value):
     if var_name in func_table[func_name]['vars'].keys():
         print(
             f'Error: variable with name {var_name} in function {func_name} already declared')
+    elif var_name in func_table['main']['vars'].keys():
+        print(
+            f'Error: variable with name {var_name} in function {func_name} already declared globally')
     else:
         func_table[func_name]['vars'][var_name] = {
             'type': type,
