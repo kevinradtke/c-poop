@@ -14,6 +14,7 @@ success = True
 
 context = 'main'
 variable_array = []
+param_array = []
 
 # --- UTILS ---
 
@@ -48,11 +49,22 @@ def changeContext(func_name):
 def addVariablesToFunction():
     global context
     global variable_array
+
     for type_arr in variable_array:
         for var_arr in type_arr[2]:
             symbol_table.insert_var(
                 type_arr[0], var_arr['name'], type_arr[1], 'FIXME', var_arr['value'])
     variable_array = []
+
+
+def addParametersToFunction():
+    global param_array
+    global context
+
+    for param in param_array:
+        symbol_table.insert_var(
+            context, param['name'], param['type'], 'FIXME', None)
+    param_array = []
 
 
 # --- GENERALES ---
@@ -88,7 +100,6 @@ def p_varAux2(p):
                | ID COMMA varAux2
                | ID EQUAL expresion
                | ID EQUAL expresion COMMA varAux2'''
-
     if (len(p) == 2):
         p[0] = [{'name': p[1], 'value': None}]
     elif (len(p) == 4):
@@ -339,6 +350,7 @@ def p_funcion(p):
                | DEF VOID funcionAux RBRACE'''
     symbol_table.insert_func(p[3]['func_name'], p[2], 100)
     addVariablesToFunction()
+    addParametersToFunction()
 
 
 def p_funcionAux(p):
@@ -359,11 +371,17 @@ def p_dec_func(p):
                 | ID LPAREN dec_func_aux RPAREN'''
     p[0] = {'func_name': p[1]}
     changeContext(p[1])
+    if (len(p) == 5):
+        param_array.extend(p[3])
 
 
 def p_dec_func_aux(p):
     '''dec_func_aux : tipo ID
                     | tipo ID COMMA dec_func_aux'''
+    if (len(p) == 3):
+        p[0] = [{'name': p[2], 'type': p[1]}]
+    else:
+        p[0] = [{'name': p[2], 'type': p[1]}] + p[4]
 
 
 def p_func_call(p):

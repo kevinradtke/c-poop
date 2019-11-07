@@ -20,7 +20,7 @@ def int test2(int number, string word, bool poop, float haha){
 	return uno;
 }
 
-def int test3(int number, string word, bool poop, float haha){
+def int test3(int iNumber){
 	var string nueve;
 	return nueve;
 }
@@ -28,6 +28,7 @@ def int test3(int number, string word, bool poop, float haha){
 main() {
 	test();
 	test2();
+	test3(10);
 	loop 5 {
 		print(666);
 	}
