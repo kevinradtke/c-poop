@@ -5,12 +5,9 @@ from symbol_table import Var
 import semantic_cube
 import ops_table
 import sys
-import pprint
 
 tokens = lexer.tokens
 cube = semantic_cube.cube
-
-success = True
 
 context = 'main'
 variable_array = []
@@ -415,23 +412,5 @@ def type_mismatch(op1, op, op2):
     print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))
 
 
-# --- PARSING ---
+# BUILDS PARSER
 parser = yacc.yacc(debug=False, write_tables=False)
-
-
-archivo = "tests/test1.txt"
-f = open(archivo, 'r')
-s = f.read()
-
-parser.parse(s)
-
-if success == True:
-    print("Archivo aprobado")
-
-    pp = pprint.PrettyPrinter(indent=2)
-    pp.pprint(symbol_table.func_table)
-
-    sys.exit()
-else:
-    print("Archivo no aprobado")
-    sys.exit()
