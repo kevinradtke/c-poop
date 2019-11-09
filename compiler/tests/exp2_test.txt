@@ -2,12 +2,12 @@ program patito;
 var bool x = true; bool y = false;
 
 main() {
-	uno = 5 < 5;
-  uno = 5 <= 5;
+	x = 5 < 5;
+  y = 5 <= 5;
 
-  uno = 5.0 > 5;
-  uno = 5.0 >= 5;
+  x = 5.0 > 5;
+  y = 5.0 >= 5;
 
-  uno = 5 == 5;
-  uno = 5 != 5;
+  x = 5 == 5;
+  y = 5 != 5;
 }

@@ -1,5 +1,5 @@
 program patito;
-var int uno=+1, dos; float tres=-3.0; bool x = !true;
+var int uno=+1, dos; float tres=-3.0; bool x = !true; string s;
 
 main() {
 	uno = 5 * 3;
@@ -15,5 +15,5 @@ main() {
 
 	uno = -6.0 / 12.0;
 
-	uno = "abc" * 3;
+	s = "abc" * 3;
 }
