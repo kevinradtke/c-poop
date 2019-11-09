@@ -1,0 +1,2 @@
+tabulate==0.8.5
+termcolor==1.1.0
