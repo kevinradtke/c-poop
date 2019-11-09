@@ -2,41 +2,16 @@ import ply.yacc as yacc
 import lexer
 import symbol_table
 from symbol_table import Var
-import semantic_cube
-import ops_table
 import sys
+import code_generator
 
 tokens = lexer.tokens
-cube = semantic_cube.cube
 
 context = 'main'
 variable_array = []
 param_array = []
 
 # --- UTILS ---
-
-
-def resolve_operation(op, op1, op2):
-    type = cube[op][op1.type][op2.type]
-
-    if (type == 'error'):
-        type_mismatch(op1.value, op, op2.value)
-        sys.exit()
-    else:
-        val = ops_table.ops[op](op1.value, op2.value)
-        return Var(type, val)
-
-
-def resolve_operation2(op, op1):
-    type = cube[op][op1.type]['']
-
-    if (type == 'error'):
-        type_mismatch(op1.value, op)
-        sys.exit()
-    else:
-        val = ops_table.ops[op](op1.value)
-        return Var(type, val)
-
 
 def changeContext(func_name):
     global context
@@ -158,12 +133,12 @@ def p_expresion(p):
 
 def p_and(p):
     '''and : exp2 AND expresion'''
-    p[0] = resolve_operation('and', p[1], p[3])
+    p[0] = code_generator.gen_quad('and', p[1], p[3])
 
 
 def p_or(p):
     '''or : exp2 OR expresion'''
-    p[0] = resolve_operation('or', p[1], p[3])
+    p[0] = code_generator.gen_quad('or', p[1], p[3])
 
 
 # --- NIVEL EXP2 ---
@@ -181,32 +156,32 @@ def p_exp2(p):
 
 def p_lt(p):
     '''lt : exp3 LT exp3'''
-    p[0] = resolve_operation('<', p[1], p[3])
+    p[0] = code_generator.gen_quad('<', p[1], p[3])
 
 
 def p_lte(p):
     '''lte : exp3 LTE exp3'''
-    p[0] = resolve_operation('<=', p[1], p[3])
+    p[0] = code_generator.gen_quad('<=', p[1], p[3])
 
 
 def p_gt(p):
     '''gt : exp3 GT exp3'''
-    p[0] = resolve_operation('>', p[1], p[3])
+    p[0] = code_generator.gen_quad('>', p[1], p[3])
 
 
 def p_gte(p):
     '''gte : exp3 GTE exp3'''
-    p[0] = resolve_operation('>=', p[1], p[3])
+    p[0] = code_generator.gen_quad('>=', p[1], p[3])
 
 
 def p_eq(p):
     '''eq : exp3 EQUALEQUAL exp3'''
-    p[0] = resolve_operation('==', p[1], p[3])
+    p[0] = code_generator.gen_quad('==', p[1], p[3])
 
 
 def p_ne(p):
     '''ne : exp3 NOTEQUAL exp3'''
-    p[0] = resolve_operation('!=', p[1], p[3])
+    p[0] = code_generator.gen_quad('!=', p[1], p[3])
 
 
 # --- NIVEL EXP3 ---
@@ -220,12 +195,12 @@ def p_exp3(p):
 
 def p_addition(p):
     '''addition : termino PLUS exp3'''
-    p[0] = resolve_operation('+', p[1], p[3])
+    p[0] = code_generator.gen_quad('+', p[1], p[3])
 
 
 def p_subtraction(p):
     '''subtraction : termino MINUS exp3'''
-    p[0] = resolve_operation('-', p[1], p[3])
+    p[0] = code_generator.gen_quad('-', p[1], p[3])
 
 
 # --- NIVEL TERMINO ---
@@ -240,17 +215,17 @@ def p_termino(p):
 
 def p_mult(p):
     '''mult : factor TIMES termino'''
-    p[0] = resolve_operation('*', p[1], p[3])
+    p[0] = code_generator.gen_quad('*', p[1], p[3])
 
 
 def p_div(p):
     '''div : factor DIVIDE termino'''
-    p[0] = resolve_operation('/', p[1], p[3])
+    p[0] = code_generator.gen_quad('/', p[1], p[3])
 
 
 def p_floor_div(p):
     '''floor_div : factor FLOOR_DIVIDE termino'''
-    p[0] = resolve_operation('//', p[1], p[3])
+    p[0] = code_generator.gen_quad('//', p[1], p[3])
 
 
 # --- NIVEL FACTOR ---
@@ -274,17 +249,17 @@ def p_factorAux(p):
 
 def p_unary_plus(p):
     '''unary_plus : PLUS var_cte'''
-    p[0] = resolve_operation2('unary+', p[2])
+    p[0] = code_generator.gen_quad2('unary+', p[2])
 
 
 def p_unary_minus(p):
     '''unary_minus : MINUS var_cte'''
-    p[0] = resolve_operation2('unary-', p[2])
+    p[0] = code_generator.gen_quad2('unary-', p[2])
 
 
 def p_unary_not(p):
     '''unary_not : NOT var_cte'''
-    p[0] = resolve_operation2('unary!', p[2])
+    p[0] = code_generator.gen_quad2('unary!', p[2])
 
 
 # --- VARIABLE DECLARATION ---
