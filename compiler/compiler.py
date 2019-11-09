@@ -1,34 +1,20 @@
-import pprint
 from parser import parser
-import symbol_table
-import sys
-import code_generator
+from test_log import test_log
 
-def testLog():
-    '''Prints stuff for testing'''
+def compile(file):
 
-    print('\nFunction Table\n')
-    pp = pprint.PrettyPrinter(indent=2)
-    pp.pprint(symbol_table.func_table)
+    success = True
 
-    print('\nQuadruples\n')
-    quadruples = code_generator.quadruples
-    for q in quadruples:
-        print(q)
+    f = open(file, 'r')
+    s = f.read()
 
+    parser.parse(s)
 
-success = True
+    if success == True:
+        print('Compiling successful!')
+        test_log(file)
+    else:
+        print('Compile error')
 
-archivo = "tests/test1.txt"
-f = open(archivo, 'r')
-s = f.read()
-
-parser.parse(s)
-
-if success == True:
-    print('Archivo aprobado')
-    testLog()
-    sys.exit()
-else:
-    print("Archivo no aprobado")
-    sys.exit()
+test_name = 'tests/test1.txt'
+compile(test_name)
