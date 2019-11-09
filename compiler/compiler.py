@@ -1,5 +1,6 @@
 from parser import parser
 from test_log import test_log
+import sys
 
 def compile(file):
 
@@ -16,5 +17,11 @@ def compile(file):
     else:
         print('Compile error')
 
+# DEFAULT TEST
 test_name = 'tests/test1.txt'
+
+# TAKES TEST NAME FROM ARGS
+if (len(sys.argv) > 1):
+    test_name = 'tests/' + sys.argv[1] + '.txt'
+
 compile(test_name)
