@@ -15,22 +15,8 @@ def gen_quad(op, op1, op2):
         sys.exit()
     else:
         global temppos
-        quad = [op, op1.value, op2.value, 'temp' + str(temppos)]
-        temppos += 1
+        temp = 'temp' + str(temppos)
+        quad = [op, op1.value, op2.value, temp]
         quadruples.append(quad)
-        val = ops_table.ops[op](op1.value, op2.value)
-        return Var(type, val)
-
-
-def gen_quad2(op, op1):
-    type = cube[op][op1.type]['']
-
-    if (type == 'error'):
-        type_mismatch(op1.value, op)
-        sys.exit()
-    else:
-        quad = [op, op1.value, '', 'temp' + str(temppos)]
         temppos += 1
-        quadruples.append(quad)
-        val = ops_table.ops[op](op1.value)
-        return Var(type, val)
+        return Var(type, temp)

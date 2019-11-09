@@ -249,17 +249,17 @@ def p_factorAux(p):
 
 def p_unary_plus(p):
     '''unary_plus : PLUS var_cte'''
-    p[0] = code_generator.gen_quad2('unary+', p[2])
+    p[0] = code_generator.gen_quad('unary+', p[2], Var('',''))
 
 
 def p_unary_minus(p):
     '''unary_minus : MINUS var_cte'''
-    p[0] = code_generator.gen_quad2('unary-', p[2])
+    p[0] = code_generator.gen_quad('unary-', p[2], Var('',''))
 
 
 def p_unary_not(p):
     '''unary_not : NOT var_cte'''
-    p[0] = code_generator.gen_quad2('unary!', p[2])
+    p[0] = code_generator.gen_quad('unary!', p[2], Var('',''))
 
 
 # --- VARIABLE DECLARATION ---
