@@ -111,16 +111,20 @@ def p_estatuto(p):
 
 def p_asignacion(p):
     '''asignacion : ID EQUAL expresion SEMICOLON'''
-
+    code_generator.gen_quad_3('=', p[3].value, p[1])
 
 def p_escritura(p):
     '''escritura : PRINT LPAREN escrituraAux RPAREN SEMICOLON'''
-
+    for exp in p[3]:
+        code_generator.gen_quad_2('print', exp.value)
 
 def p_escrituraAux(p):
     '''escrituraAux : expresion
                     | expresion COMMA escrituraAux'''
-
+    if (len(p)==2):
+        p[0] = [p[1]]
+    else:
+        p[0] = [p[1]] + p[3]
 
 # --- NIVEL EXPRESION ---
 
@@ -133,12 +137,12 @@ def p_expresion(p):
 
 def p_and(p):
     '''and : exp2 AND expresion'''
-    p[0] = code_generator.gen_quad('and', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('and', p[1], p[3])
 
 
 def p_or(p):
     '''or : exp2 OR expresion'''
-    p[0] = code_generator.gen_quad('or', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('or', p[1], p[3])
 
 
 # --- NIVEL EXP2 ---
@@ -156,32 +160,32 @@ def p_exp2(p):
 
 def p_lt(p):
     '''lt : exp3 LT exp3'''
-    p[0] = code_generator.gen_quad('<', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('<', p[1], p[3])
 
 
 def p_lte(p):
     '''lte : exp3 LTE exp3'''
-    p[0] = code_generator.gen_quad('<=', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('<=', p[1], p[3])
 
 
 def p_gt(p):
     '''gt : exp3 GT exp3'''
-    p[0] = code_generator.gen_quad('>', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('>', p[1], p[3])
 
 
 def p_gte(p):
     '''gte : exp3 GTE exp3'''
-    p[0] = code_generator.gen_quad('>=', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('>=', p[1], p[3])
 
 
 def p_eq(p):
     '''eq : exp3 EQUALEQUAL exp3'''
-    p[0] = code_generator.gen_quad('==', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('==', p[1], p[3])
 
 
 def p_ne(p):
     '''ne : exp3 NOTEQUAL exp3'''
-    p[0] = code_generator.gen_quad('!=', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('!=', p[1], p[3])
 
 
 # --- NIVEL EXP3 ---
@@ -195,12 +199,12 @@ def p_exp3(p):
 
 def p_addition(p):
     '''addition : termino PLUS exp3'''
-    p[0] = code_generator.gen_quad('+', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('+', p[1], p[3])
 
 
 def p_subtraction(p):
     '''subtraction : termino MINUS exp3'''
-    p[0] = code_generator.gen_quad('-', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('-', p[1], p[3])
 
 
 # --- NIVEL TERMINO ---
@@ -215,17 +219,17 @@ def p_termino(p):
 
 def p_mult(p):
     '''mult : factor TIMES termino'''
-    p[0] = code_generator.gen_quad('*', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('*', p[1], p[3])
 
 
 def p_div(p):
     '''div : factor DIVIDE termino'''
-    p[0] = code_generator.gen_quad('/', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('/', p[1], p[3])
 
 
 def p_floor_div(p):
     '''floor_div : factor FLOOR_DIVIDE termino'''
-    p[0] = code_generator.gen_quad('//', p[1], p[3])
+    p[0] = code_generator.gen_quad_exp('//', p[1], p[3])
 
 
 # --- NIVEL FACTOR ---
@@ -249,17 +253,17 @@ def p_factorAux(p):
 
 def p_unary_plus(p):
     '''unary_plus : PLUS var_cte'''
-    p[0] = code_generator.gen_quad('unary+', p[2], Var('',''))
+    p[0] = code_generator.gen_quad_exp('unary+', p[2], Var('',''))
 
 
 def p_unary_minus(p):
     '''unary_minus : MINUS var_cte'''
-    p[0] = code_generator.gen_quad('unary-', p[2], Var('',''))
+    p[0] = code_generator.gen_quad_exp('unary-', p[2], Var('',''))
 
 
 def p_unary_not(p):
     '''unary_not : NOT var_cte'''
-    p[0] = code_generator.gen_quad('unary!', p[2], Var('',''))
+    p[0] = code_generator.gen_quad_exp('unary!', p[2], Var('',''))
 
 
 # --- VARIABLE DECLARATION ---
