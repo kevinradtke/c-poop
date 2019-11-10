@@ -34,6 +34,7 @@ func_table = {
 def insert_func(func_name, type, pos):
     if func_name in func_table.keys():
         print(f'Error: function with name {func_name} already declared')
+        sys.exit()
     else:
         func_table[func_name] = {
             'type': type,

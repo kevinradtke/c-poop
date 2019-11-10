@@ -111,12 +111,12 @@ def p_estatuto(p):
 
 def p_asignacion(p):
     '''asignacion : ID EQUAL expresion SEMICOLON'''
-    code_generator.gen_quad_3('=', p[3].value, p[1])
+    code_generator.gen_quad('=', p[3].value, '', p[1])
 
 def p_escritura(p):
     '''escritura : PRINT LPAREN escrituraAux RPAREN SEMICOLON'''
     for exp in p[3]:
-        code_generator.gen_quad_2('print', exp.value)
+        code_generator.gen_quad('PRINT', '', '', exp.value)
 
 def p_escrituraAux(p):
     '''escrituraAux : expresion
@@ -315,9 +315,19 @@ def p_loop(p):
 
 
 def p_condicion(p):
-    '''condicion : IF LPAREN expresion RPAREN bloque SEMICOLON
-                 | IF LPAREN expresion RPAREN bloque ELSE bloque SEMICOLON'''
+    '''condicion : IF if_expresion bloque SEMICOLON
+                 | IF if_expresion bloque if_else bloque SEMICOLON'''
+    code_generator.fill_gotof()
 
+
+def p_if_expresion(p):
+    '''if_expresion : LPAREN expresion RPAREN'''
+    code_generator.gen_gotof(p[2])
+
+
+def p_if_else(p):
+    '''if_else : ELSE'''
+    code_generator.gen_if_goto()
 
 # --- FUNCIONES ---
 
@@ -371,7 +381,7 @@ def p_func_call(p):
 def p_func_call_var(p):
     '''func_call_var : ID LPAREN RPAREN
                  | ID LPAREN func_call_aux RPAREN'''
-
+    p[0] = Var('string', 'fixme')
 
 def p_func_call_aux(p):
     '''func_call_aux : expresion
