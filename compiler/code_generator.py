@@ -1,6 +1,7 @@
 import semantic_cube
 import ops_table
 from symbol_table import Var
+import sys
 
 cube = semantic_cube.cube
 
@@ -28,3 +29,7 @@ def gen_quad_2(op, val):
 def gen_quad_3(op, val1, val2):
     quad = [op, val1, '', val2]
     quadruples.append(quad)
+
+
+def type_mismatch(op1, op, op2):
+    print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))

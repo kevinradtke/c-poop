@@ -387,9 +387,5 @@ def p_error(p):
     sys.exit()
 
 
-def type_mismatch(op1, op, op2):
-    print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))
-
-
 # BUILDS PARSER
 parser = yacc.yacc(debug=False, write_tables=False)
