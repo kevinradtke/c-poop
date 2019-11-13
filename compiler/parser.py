@@ -10,6 +10,7 @@ tokens = lexer.tokens
 context = 'main'
 variable_array = []
 param_array = []
+func_start_pos = 0
 
 # --- UTILS ---
 
@@ -37,6 +38,11 @@ def addParametersToFunction():
         symbol_table.insert_var(
             context, param['name'], param['type'], 'FIXME', None)
     param_array = []
+
+def addQuadStartPos():
+    global func_start_pos
+    symbol_table.func_table[context]['pos'] = func_start_pos
+
 
 
 # --- GENERALES ---
@@ -337,14 +343,19 @@ def p_funcion(p):
     symbol_table.insert_func(p[3]['func_name'], p[2], 100)
     addVariablesToFunction()
     addParametersToFunction()
+    addQuadStartPos()
 
 
 def p_funcionAux(p):
-    '''funcionAux : dec_func LBRACE
-                  | dec_func LBRACE vars
-                  | dec_func LBRACE funcionAux2
-                  | dec_func LBRACE vars funcionAux2'''
+    '''funcionAux : dec_func end_of_dec_func
+                  | dec_func end_of_dec_func funcionAux2'''
     p[0] = {'func_name': p[1]['func_name']}
+
+def p_end_of_dec_func(p):
+    '''end_of_dec_func : LBRACE
+                       | LBRACE vars'''
+    global func_start_pos
+    func_start_pos = code_generator.quad_pos()
 
 
 def p_funcionAux2(p):
