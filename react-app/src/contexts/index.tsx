@@ -1,9 +1,14 @@
 import React from "react";
 
+import { CodeContext, CodeProvider } from "./codeContext";
 import { ThemeContext, ThemeProvider } from "./themeContext";
 
 const AppProvider = ({ children }: { children: any }) => {
-  return <ThemeProvider>{children}</ThemeProvider>;
+  return (
+    <CodeProvider>
+      <ThemeProvider>{children}</ThemeProvider>
+    </CodeProvider>
+  );
 };
 
-export { AppProvider, ThemeContext };
+export { AppProvider, CodeContext, ThemeContext };

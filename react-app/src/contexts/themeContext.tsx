@@ -1,6 +1,5 @@
 import React, { createContext } from "react";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { grey } from "@material-ui/core/colors";
 
 const fetchTheme = localStorage.getItem("theme");
 const fetchFontSize = Number(localStorage.getItem("fontSize"));
@@ -23,12 +22,6 @@ const initialState: ContextProps = {
   }
 };
 
-// const codeAcademyColors = {
-//   light: "#1f1e2e",
-//   main: "#15141f",
-//   dark: "#111019"
-// };
-
 const ThemeContext = createContext(initialState);
 
 const ThemeProvider = ({ children }: { children: any }) => {
@@ -38,9 +31,9 @@ const ThemeProvider = ({ children }: { children: any }) => {
     palette: {
       type,
       primary: {
-        light: grey[800],
-        main: "#151420",
-        dark: grey[900]
+        light: "#38444d",
+        main: "#15202b",
+        dark: "#0d1217"
       }
     },
     typography: {
