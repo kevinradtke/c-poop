@@ -64,6 +64,12 @@ def insert_func(func_name, type='void', pos=0):
             'vars': {}
         }
 
+defaults = {
+    'int': 0,
+    'float': 0.0,
+    'string': '',
+    'bool': True
+}
 
 def insert_var(func_name, var_name, type, value=None):
     if var_name in func_table[func_name]['vars'].keys():
@@ -73,6 +79,8 @@ def insert_var(func_name, var_name, type, value=None):
         print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared globally')
         sys.exit()
     else:
+        if (value == None):
+            value = defaults[type]
         func_table[func_name]['vars'][var_name] = {
             'type': type,
             'addr': 0,
