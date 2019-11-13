@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: "100%",
 
-      backgroundColor: theme.palette.background.paper,
+      // backgroundColor: theme.palette.background.paper,
       position: "relative",
       overflow: "auto",
       height: "100%"
