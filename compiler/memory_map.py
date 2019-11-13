@@ -20,11 +20,11 @@ class Segment:
         self.BOOL_MIN += base_dir
         self.BOOL_MAX += base_dir
 
-# DATA SEGMENT
+# DATA SEGMENT (GLOBAL VARS)
 DS = Segment(1000)
 
-# STACK SEGMENT
+# STACK SEGMENT (LOCAL VARS)
 SS = Segment(5000)
 
-# CTE SEGMENT
+# CTE SEGMENT (CONSTANTS)
 CS = Segment(9000)

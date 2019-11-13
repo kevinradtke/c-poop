@@ -38,7 +38,10 @@ def p_varAux1(p):
     '''varAux1 : tipo varAux2 SEMICOLON
                | tipo varAux2 SEMICOLON varAux1'''
     for var in p[2]:
-        symbol_table.insert_var(utils.context, var['name'], p[1], var['value'])
+        if (utils.context == 'global'):
+            symbol_table.insert_global_var(var['name'], p[1], var['value'])
+        else:
+            symbol_table.insert_local_var(utils.context, var['name'], p[1], var['value'])
 
 
 
@@ -260,8 +263,8 @@ def p_id(p):
     if (p[1] in symbol_table.func_table[utils.context]['vars']):
         var = symbol_table.func_table[utils.context]['vars'][p[1]]
         p[0] = Var(var['type'], p[1], var['addr'])
-    elif (p[1] in symbol_table.func_table['main']['vars']):
-        var = symbol_table.func_table['main']['vars'][p[1]]
+    elif (p[1] in symbol_table.func_table['global']['vars']):
+        var = symbol_table.func_table['global']['vars'][p[1]]
         p[0] = Var(var['type'], p[1], var['addr'])
     else:
         print('ERROR: Variable with name `' + p[1] + '` does not exist!')
@@ -347,7 +350,7 @@ def p_dec_func(p):
     utils.context = p[1]
     if (len(p) == 5):
         for var in p[3]:
-            symbol_table.insert_var(p[1], var['name'], var['type'])
+            symbol_table.insert_local_var(p[1], var['name'], var['type'])
 
 
 def p_func_name(p):

@@ -22,6 +22,7 @@ def int test2(int number, string word, bool poop, float haha){
 
 def int test3(int iNumber){
 	var string nueve;
+	print(nueve);
 	return nueve;
 }
 

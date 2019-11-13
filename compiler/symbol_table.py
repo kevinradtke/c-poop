@@ -24,7 +24,7 @@ class Var:
 
 
 func_table = {
-    'main': {
+    'global': {
         'type': 'void',
         'pos': 0,
         'vars': {}
@@ -71,11 +71,41 @@ defaults = {
     'bool': True
 }
 
-def insert_var(func_name, var_name, type, value=None):
+# GLOBAL VARS
+
+g_limits = memory_map.DS
+
+g_table = {
+    'int' : [[], g_limits.INT_MIN, g_limits.INT_MAX],
+    'float' : [[], g_limits.FLOAT_MIN, g_limits.FLOAT_MAX],
+    'string' : [[], g_limits.STRING_MIN, g_limits.STRING_MAX],
+    'bool' : [[], g_limits.BOOL_MIN, g_limits.BOOL_MAX]
+}
+
+def insert_global_var(var_name, type, value=None):
+    if var_name in func_table['global']['vars'].keys():
+        print(f'ERROR: variable with name `{var_name}` already declared globally')
+        sys.exit()
+    else:
+        if (value == None):
+            value = defaults[type]
+        if (g_table[type][1] <= g_table[type][2]):
+            g_table[type][0].append([var_name, value, g_table[type][1]])
+            func_table['global']['vars'][var_name] = {
+                'type': type,
+                'addr': g_table[type][1],
+                'value': value
+            }
+            g_table[type][1] += 1
+        else:
+            print('ERROR: Data segment overflow!')
+            sys.exit()
+
+def insert_local_var(func_name, var_name, type, value=None):
     if var_name in func_table[func_name]['vars'].keys():
         print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared')
         sys.exit()
-    elif var_name in func_table['main']['vars'].keys():
+    elif var_name in func_table['global']['vars'].keys():
         print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared globally')
         sys.exit()
     else:
