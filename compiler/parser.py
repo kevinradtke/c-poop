@@ -12,11 +12,14 @@ tokens = lexer.tokens
 # --- GENERALES ---
 
 def p_program(p):
-    '''program : PROGRAM ID SEMICOLON main_dec bloque
-               | PROGRAM ID SEMICOLON vars main_dec bloque
-               | PROGRAM ID SEMICOLON funciones main_dec bloque
-               | PROGRAM ID SEMICOLON vars funciones main_dec bloque'''
+    '''program : program_init main_dec bloque
+               | program_init vars main_dec bloque
+               | program_init funciones main_dec bloque
+               | program_init vars funciones main_dec bloque'''
 
+def p_program_init(p):
+    '''program_init : PROGRAM ID SEMICOLON'''
+    code_generator.gen_quad('GOTO','','','')
 
 def p_funciones(p):
     '''funciones : funcion
@@ -25,7 +28,7 @@ def p_funciones(p):
 
 def p_main_dec(p):
     '''main_dec : MAIN LPAREN RPAREN'''
-
+    code_generator.quadruples[0][4] = code_generator.quad_pos()
 
 def p_vars(p):
     '''vars : VAR varAux1'''
