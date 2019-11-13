@@ -1,5 +1,5 @@
 program patito;
-var int uno; string dos, tres; float cuatro= 4.0; bool cinco = true, seis = false;
+var int uno, dos, tres; float cuatro= 4.0; bool cinco = true, seis = false;
 
 def void test(){
 	print("Hola");
@@ -8,7 +8,7 @@ def void test(){
 def int test2(int number, string word, bool poop, float haha){
 	var int siete, ocho = 8;
 	uno = uno + dos;
-	
+
 	if ( uno + dos < tres){
 		dos = uno + uno;
 	}
@@ -16,7 +16,7 @@ def int test2(int number, string word, bool poop, float haha){
 		uno = dos + dos;
 	};
 
-	print(uno, patito, dos, tres);
+	print(uno, dos, tres);
 	return uno;
 }
 

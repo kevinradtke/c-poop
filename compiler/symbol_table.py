@@ -67,10 +67,10 @@ def insert_func(func_name, type='void', pos=0):
 
 def insert_var(func_name, var_name, type, value=None):
     if var_name in func_table[func_name]['vars'].keys():
-        print(f'ERROR: variable with name {var_name} in function {func_name} already declared')
+        print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared')
         sys.exit()
     elif var_name in func_table['main']['vars'].keys():
-        print(f'ERROR: variable with name {var_name} in function {func_name} already declared globally')
+        print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared globally')
         sys.exit()
     else:
         func_table[func_name]['vars'][var_name] = {
