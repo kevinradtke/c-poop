@@ -24,19 +24,7 @@ class Segment:
 DS = Segment(1000)
 
 # STACK SEGMENT
-cur_ss_base = 5000
-SS = {}
-
-def era(func_name):
-    global cur_ss_base
-    if (cur_ss_base < SS_MAX):
-        SS[func_name] = Segment(cur_ss_base)
-        cur_ss_base += 4000
-    else:
-        print('ERROR: Stack overflow! => Function limits exceeded. (max 5)')
-        sys.exit()
-
-SS_MAX = 24999
+SS = Segment(5000)
 
 # CTE SEGMENT
-CS = Segment(25000)
+CS = Segment(9000)

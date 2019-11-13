@@ -262,22 +262,25 @@ def p_id(p):
 def p_cte_i(p):
     '''cte_i : CTE_I'''
     p[0] = Var('int', int(p[1]))
-
+    symbol_table.insert_cte('i', int(p[1]))
 
 def p_cte_f(p):
     '''cte_f : CTE_F'''
     p[0] = Var('float', float(p[1]))
+    symbol_table.insert_cte('f', float(p[1]))
 
 
 def p_cte_string(p):
     '''cte_string : CTE_STRING'''
     p[1] = p[1][1:-1]
     p[0] = Var('string', str(p[1]))
+    symbol_table.insert_cte('s',(str(p[1])))
 
 
 def p_cte_bool(p):
     '''cte_bool : CTE_BOOL'''
     p[0] = Var('bool', bool(p[1]))
+    symbol_table.insert_cte('b', bool(p[1]))
 
 
 # --- CONTROL ---
