@@ -15,8 +15,8 @@ const SplitPanes: React.FC = () => (
       <EmojiPane />
     </div>
     <SplitPane split="vertical" defaultSize="50%">
-      <div className="pane pane-2">hola</div>
-      <div className="pane pane-3" />
+      <div className="pane pane-2">IDE</div>
+      <div className="pane pane-3">Translated IDE</div>
     </SplitPane>
   </SplitPane>
 );

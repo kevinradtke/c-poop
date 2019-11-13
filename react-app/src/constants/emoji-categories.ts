@@ -84,7 +84,7 @@ const EMOJI_CATEGORIES: EmojiCategories[] = [
       },
       {
         emoji: "🔂",
-        equivalentValue: "for",
+        equivalentValue: "repeat",
         shortcode: ":repeat_one:"
       }
     ]
@@ -136,7 +136,7 @@ const EMOJI_CATEGORIES: EmojiCategories[] = [
         shortcode: ":balloon:"
       },
       {
-        emoji: "🧵",
+        emoji: "🧶",
         equivalentValue: "string",
         shortcode: ":string:"
       },

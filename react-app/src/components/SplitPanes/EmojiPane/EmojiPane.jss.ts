@@ -4,14 +4,12 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
-
-      // backgroundColor: theme.palette.background.paper,
       position: "relative",
       overflow: "auto",
       height: "100%"
     },
     listSection: {
-      backgroundColor: "inherit"
+      backgroundColor: "#192734"
     },
     ul: {
       backgroundColor: "inherit",
