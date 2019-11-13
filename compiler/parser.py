@@ -4,45 +4,9 @@ import symbol_table
 from symbol_table import Var
 import sys
 import code_generator
+import utils
 
 tokens = lexer.tokens
-
-context = 'main'
-variable_array = []
-param_array = []
-func_start_pos = 0
-
-# --- UTILS ---
-
-def changeContext(func_name):
-    global context
-    context = func_name
-
-
-def addVariablesToFunction():
-    global context
-    global variable_array
-
-    for type_arr in variable_array:
-        for var_arr in type_arr[2]:
-            symbol_table.insert_var(
-                type_arr[0], var_arr['name'], type_arr[1], 'FIXME', var_arr['value'])
-    variable_array = []
-
-
-def addParametersToFunction():
-    global param_array
-    global context
-
-    for param in param_array:
-        symbol_table.insert_var(
-            context, param['name'], param['type'], 'FIXME', None)
-    param_array = []
-
-def addQuadStartPos():
-    global func_start_pos
-    symbol_table.func_table[context]['pos'] = func_start_pos
-
 
 
 # --- GENERALES ---
@@ -70,7 +34,7 @@ def p_vars(p):
 def p_varAux1(p):
     '''varAux1 : tipo varAux2 SEMICOLON
                | tipo varAux2 SEMICOLON varAux1'''
-    variable_array.append([context, p[1], p[2]])
+    utils.variable_array.append([utils.context, p[1], p[2]])
 
 
 def p_varAux2(p):
@@ -340,10 +304,8 @@ def p_if_else(p):
 def p_funcion(p):
     '''funcion : DEF tipo funcionAux RETURN expresion SEMICOLON RBRACE
                | DEF VOID funcionAux RBRACE'''
-    symbol_table.insert_func(p[3]['func_name'], p[2], 100)
-    addVariablesToFunction()
-    addParametersToFunction()
-    addQuadStartPos()
+    symbol_table.insert_func(p[3]['func_name'], p[2], utils.func_start_pos)
+    utils.init_function()
 
 
 def p_funcionAux(p):
@@ -354,8 +316,7 @@ def p_funcionAux(p):
 def p_end_of_dec_func(p):
     '''end_of_dec_func : LBRACE
                        | LBRACE vars'''
-    global func_start_pos
-    func_start_pos = code_generator.quad_pos()
+    utils.func_start_pos = code_generator.quad_pos()
 
 
 def p_funcionAux2(p):
@@ -367,9 +328,9 @@ def p_dec_func(p):
     '''dec_func : ID LPAREN RPAREN
                 | ID LPAREN dec_func_aux RPAREN'''
     p[0] = {'func_name': p[1]}
-    changeContext(p[1])
+    utils.changeContext(p[1])
     if (len(p) == 5):
-        param_array.extend(p[3])
+        utils.param_array.extend(p[3])
 
 
 def p_dec_func_aux(p):
