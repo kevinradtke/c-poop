@@ -37,7 +37,9 @@ def p_vars(p):
 def p_varAux1(p):
     '''varAux1 : tipo varAux2 SEMICOLON
                | tipo varAux2 SEMICOLON varAux1'''
-    utils.variable_array.append([utils.context, p[1], p[2]])
+    for var in p[2]:
+        symbol_table.insert_var(utils.context, var['name'], p[1], var['value'])
+
 
 
 def p_varAux2(p):
@@ -310,14 +312,15 @@ def p_if_else(p):
 def p_funcion(p):
     '''funcion : DEF tipo funcionAux RETURN expresion SEMICOLON RBRACE
                | DEF VOID funcionAux RBRACE'''
-    symbol_table.insert_func(p[3]['func_name'], p[2], utils.func_start_pos)
-    utils.init_function()
+    symbol_table.func_table[p[3]]['type'] = p[2]
+    symbol_table.func_table[p[3]]['pos'] = utils.func_start_pos
 
 
 def p_funcionAux(p):
     '''funcionAux : dec_func end_of_dec_func
                   | dec_func end_of_dec_func funcionAux2'''
-    p[0] = {'func_name': p[1]['func_name']}
+    p[0] = p[1]
+
 
 def p_end_of_dec_func(p):
     '''end_of_dec_func : LBRACE
@@ -331,12 +334,19 @@ def p_funcionAux2(p):
 
 
 def p_dec_func(p):
-    '''dec_func : ID LPAREN RPAREN
-                | ID LPAREN dec_func_aux RPAREN'''
-    p[0] = {'func_name': p[1]}
-    utils.changeContext(p[1])
+    '''dec_func : func_name LPAREN RPAREN
+                | func_name LPAREN dec_func_aux RPAREN'''
+    p[0] = p[1]
+    utils.context = p[1]
     if (len(p) == 5):
-        utils.param_array.extend(p[3])
+        for var in p[3]:
+            symbol_table.insert_var(p[1], var['name'], var['type'])
+
+
+def p_func_name(p):
+    '''func_name : ID'''
+    p[0] = p[1]
+    symbol_table.insert_func(p[1])
 
 
 def p_dec_func_aux(p):

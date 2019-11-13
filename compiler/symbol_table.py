@@ -53,7 +53,7 @@ def insert_cte(type, val):
         print('ERROR: Constant segment overflow!')
         sys.exit()
 
-def insert_func(func_name, type, pos):
+def insert_func(func_name, type='void', pos=0):
     if func_name in func_table.keys():
         print(f'ERROR: function with name {func_name} already declared')
         sys.exit()
@@ -65,7 +65,7 @@ def insert_func(func_name, type, pos):
         }
 
 
-def insert_var(func_name, var_name, type, addr, value):
+def insert_var(func_name, var_name, type, value=None):
     if var_name in func_table[func_name]['vars'].keys():
         print(f'ERROR: variable with name {var_name} in function {func_name} already declared')
         sys.exit()
@@ -75,6 +75,6 @@ def insert_var(func_name, var_name, type, addr, value):
     else:
         func_table[func_name]['vars'][var_name] = {
             'type': type,
-            'addr': addr,
+            'addr': 0,
             'value': value
         }
