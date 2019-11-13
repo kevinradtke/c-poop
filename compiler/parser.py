@@ -257,8 +257,15 @@ def p_var_cte(p):
 def p_id(p):
     '''id : ID'''
 
-    # FIXME: should search id in symbol table based on context and return value
-    p[0] = Var('string', 'fixme')
+    if (p[1] in symbol_table.func_table[utils.context]['vars']):
+        var = symbol_table.func_table[utils.context]['vars'][p[1]]
+        p[0] = Var(var['type'], p[1], var['addr'])
+    elif (p[1] in symbol_table.func_table['main']['vars']):
+        var = symbol_table.func_table['main']['vars'][p[1]]
+        p[0] = Var(var['type'], p[1], var['addr'])
+    else:
+        print('ERROR: Variable with name `' + p[1] + '` does not exist!')
+        sys.exit()
 
 
 def p_cte_i(p):
@@ -381,7 +388,7 @@ def p_func_call_aux(p):
 def p_error(p):
     global success
     success = False
-    print("Error de sintaxis en '%s'" % p.value)
+    print('Error de sintaxis en `%s`' % p.value)
     sys.exit()
 
 

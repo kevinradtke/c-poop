@@ -2,11 +2,13 @@ program test2;
 var int x=5;
 
 def void func1(){
-	print("Hola");
+	var string s = "hey";
+	print("Hola" + s);
+	print(s);
 }
 
 main() {
-	x = z;
+	x = x;
 	x = 5;
 	x = 5 + 3;
 	x = test();
