@@ -27,3 +27,6 @@ def test_log(file):
     print_title('Global vars', 'yellow')
     globals = symbol_table.g_table
     print(tabulate(globals))
+
+    print_title('Local vars', 'yellow')
+    pp.pprint(symbol_table.stack)

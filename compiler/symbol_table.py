@@ -31,6 +31,59 @@ func_table = {
     },
 }
 
+# LOCAL VARS
+
+l_limits = memory_map.SS
+
+stack = {}
+
+def insert_func(func_name, type='void', pos=0):
+    if func_name in func_table.keys():
+        print(f'ERROR: function with name {func_name} already declared')
+        sys.exit()
+    else:
+        stack[func_name] = {
+            'int' : [[], l_limits.INT_MIN, l_limits.INT_MAX],
+            'float' : [[], l_limits.FLOAT_MIN, l_limits.FLOAT_MAX],
+            'string' : [[], l_limits.STRING_MIN, l_limits.STRING_MAX],
+            'bool' : [[], l_limits.BOOL_MIN, l_limits.BOOL_MAX]
+        }
+        func_table[func_name] = {
+            'type': type,
+            'pos': pos,
+            'vars': {}
+        }
+
+def insert_local_var(func_name, var_name, type, value=None):
+    if var_name in func_table[func_name]['vars'].keys():
+        print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared')
+        sys.exit()
+    elif var_name in func_table['global']['vars'].keys():
+        print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared globally')
+        sys.exit()
+    else:
+        if (value == None):
+            value = defaults[type]
+        if (stack[func_name][type][1] <= stack[func_name][type][2]):
+            stack[func_name][type][0].append([var_name, value, stack[func_name][type][1]])
+            func_table[func_name]['vars'][var_name] = {
+                'type': type,
+                'addr': stack[func_name][type][1],
+                'value': value
+            }
+            stack[func_name][type][1] += 1
+        else:
+            print('ERROR: Stack segment overflow!')
+            sys.exit()
+
+defaults = {
+    'int': 0,
+    'float': 0.0,
+    'string': '',
+    'bool': True
+}
+
+
 # CONSTANTS
 
 cte_limits = memory_map.CS
@@ -39,10 +92,10 @@ cte_limits = memory_map.CS
 # Pos 1 => current position (starts at lower limit)
 # Pos 2 => upper limit
 cte_table = {
-    'i' : [[], cte_limits.INT_MIN, cte_limits.INT_MAX],
-    'f' : [[], cte_limits.FLOAT_MIN, cte_limits.FLOAT_MAX],
-    's' : [[], cte_limits.STRING_MIN, cte_limits.STRING_MAX],
-    'b' : [[], cte_limits.BOOL_MIN, cte_limits.BOOL_MAX]
+    'int' : [[], cte_limits.INT_MIN, cte_limits.INT_MAX],
+    'float' : [[], cte_limits.FLOAT_MIN, cte_limits.FLOAT_MAX],
+    'string' : [[], cte_limits.STRING_MIN, cte_limits.STRING_MAX],
+    'bool' : [[], cte_limits.BOOL_MIN, cte_limits.BOOL_MAX]
 }
 
 def insert_cte(type, val):
@@ -53,23 +106,6 @@ def insert_cte(type, val):
         print('ERROR: Constant segment overflow!')
         sys.exit()
 
-def insert_func(func_name, type='void', pos=0):
-    if func_name in func_table.keys():
-        print(f'ERROR: function with name {func_name} already declared')
-        sys.exit()
-    else:
-        func_table[func_name] = {
-            'type': type,
-            'pos': pos,
-            'vars': {}
-        }
-
-defaults = {
-    'int': 0,
-    'float': 0.0,
-    'string': '',
-    'bool': True
-}
 
 # GLOBAL VARS
 
@@ -100,19 +136,3 @@ def insert_global_var(var_name, type, value=None):
         else:
             print('ERROR: Data segment overflow!')
             sys.exit()
-
-def insert_local_var(func_name, var_name, type, value=None):
-    if var_name in func_table[func_name]['vars'].keys():
-        print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared')
-        sys.exit()
-    elif var_name in func_table['global']['vars'].keys():
-        print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared globally')
-        sys.exit()
-    else:
-        if (value == None):
-            value = defaults[type]
-        func_table[func_name]['vars'][var_name] = {
-            'type': type,
-            'addr': 0,
-            'value': value
-        }
