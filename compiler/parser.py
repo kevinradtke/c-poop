@@ -30,7 +30,7 @@ def p_main_dec(p):
     '''main_dec : main_init LPAREN RPAREN bloque
                 | main_init LPAREN RPAREN LBRACE vars main_aux RBRACE'''
     code_generator.quadruples[0][4] = code_generator.quad_pos()
-    symbol_table.func_table['main']['pos'] = code_generator.quad_pos()
+    symbol_table.func_dir['main']['pos'] = code_generator.quad_pos()
 
 def p_main_aux(p):
     '''main_aux : estatuto
@@ -100,12 +100,15 @@ def p_estatuto(p):
 
 def p_asignacion(p):
     '''asignacion : ID EQUAL expresion SEMICOLON'''
-    code_generator.gen_quad('=', p[3].value, '', p[1])
+    #FIXME: BUSCAR ID EN TABLA DE FUNCIONES
+    code_generator.gen_quad_name('=', p[3].value, '', p[1])
+    code_generator.gen_quad_addr('=', p[3].addr, '', p[1])
 
 def p_escritura(p):
     '''escritura : PRINT LPAREN escrituraAux RPAREN SEMICOLON'''
     for exp in p[3]:
-        code_generator.gen_quad('PRINT', '', '', exp.value)
+        code_generator.gen_quad_name('PRINT', '', '', exp.value)
+        code_generator.gen_quad_addr('PRINT', '', '', exp.addr)
 
 def p_escrituraAux(p):
     '''escrituraAux : expresion
@@ -271,11 +274,11 @@ def p_var_cte(p):
 def p_id(p):
     '''id : ID'''
 
-    if (p[1] in symbol_table.func_table[utils.context]['vars']):
-        var = symbol_table.func_table[utils.context]['vars'][p[1]]
+    if (p[1] in symbol_table.func_dir[utils.context]['vars']):
+        var = symbol_table.func_dir[utils.context]['vars'][p[1]]
         p[0] = Var(var['type'], p[1], var['addr'])
-    elif (p[1] in symbol_table.func_table['global']['vars']):
-        var = symbol_table.func_table['global']['vars'][p[1]]
+    elif (p[1] in symbol_table.func_dir['global']['vars']):
+        var = symbol_table.func_dir['global']['vars'][p[1]]
         p[0] = Var(var['type'], p[1], var['addr'])
     else:
         print('ERROR: Variable with name `' + p[1] + '` does not exist!')
@@ -333,8 +336,8 @@ def p_if_else(p):
 def p_funcion(p):
     '''funcion : DEF tipo funcionAux RETURN expresion SEMICOLON RBRACE
                | DEF VOID funcionAux RBRACE'''
-    symbol_table.func_table[p[3]]['type'] = p[2]
-    symbol_table.func_table[p[3]]['pos'] = utils.func_start_pos
+    symbol_table.func_dir[p[3]]['type'] = p[2]
+    symbol_table.func_dir[p[3]]['pos'] = utils.func_start_pos
 
 
 def p_funcionAux(p):

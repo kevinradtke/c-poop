@@ -23,7 +23,7 @@ class Var:
         self.addr = a
 
 
-func_table = {
+func_dir = {
     'global': {
         'type': 'void',
         'pos': 0,
@@ -31,49 +31,51 @@ func_table = {
     },
 }
 
+cte_dir = []
+
 # LOCAL VARS
 
 l_limits = memory_map.SS
 
-stack = {}
+func_table = {}
 
 def insert_func(func_name, type='void', pos=0):
-    if func_name in func_table.keys():
+    if func_name in func_dir.keys():
         print(f'ERROR: function with name {func_name} already declared')
         sys.exit()
     else:
-        stack[func_name] = {
+        func_table[func_name] = {
             'int' : [[], l_limits.INT_MIN, l_limits.INT_MAX],
             'float' : [[], l_limits.FLOAT_MIN, l_limits.FLOAT_MAX],
             'string' : [[], l_limits.STRING_MIN, l_limits.STRING_MAX],
             'bool' : [[], l_limits.BOOL_MIN, l_limits.BOOL_MAX]
         }
-        func_table[func_name] = {
+        func_dir[func_name] = {
             'type': type,
             'pos': pos,
             'vars': {}
         }
 
 def insert_local_var(func_name, var_name, type, value=None):
-    if var_name in func_table[func_name]['vars'].keys():
+    if var_name in func_dir[func_name]['vars'].keys():
         print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared')
         sys.exit()
-    elif var_name in func_table['global']['vars'].keys():
+    elif var_name in func_dir['global']['vars'].keys():
         print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared globally')
         sys.exit()
     else:
         if (value == None):
             value = defaults[type]
-        if (stack[func_name][type][1] <= stack[func_name][type][2]):
-            stack[func_name][type][0].append([var_name, value, stack[func_name][type][1]])
-            func_table[func_name]['vars'][var_name] = {
+        if (func_table[func_name][type][1] <= func_table[func_name][type][2]):
+            func_table[func_name][type][0].append([var_name, value, func_table[func_name][type][1]])
+            func_dir[func_name]['vars'][var_name] = {
                 'type': type,
-                'addr': stack[func_name][type][1],
+                'addr': func_table[func_name][type][1],
                 'value': value
             }
-            stack[func_name][type][1] += 1
+            func_table[func_name][type][1] += 1
         else:
-            print('ERROR: Stack segment overflow!')
+            print('ERROR: func_table segment overflow!')
             sys.exit()
 
 defaults = {
@@ -101,6 +103,7 @@ cte_table = {
 def insert_cte(type, val):
     if (cte_table[type][1] <= cte_table[type][2]):
         cte_table[type][0].append([val, cte_table[type][1]])
+        cte_dir.append({'val': val, 'type': type, 'addr': cte_table[type][1]})
         cte_table[type][1] += 1
     else:
         print('ERROR: Constant segment overflow!')
@@ -119,7 +122,7 @@ g_table = {
 }
 
 def insert_global_var(var_name, type, value=None):
-    if var_name in func_table['global']['vars'].keys():
+    if var_name in func_dir['global']['vars'].keys():
         print(f'ERROR: variable with name `{var_name}` already declared globally')
         sys.exit()
     else:
@@ -127,7 +130,7 @@ def insert_global_var(var_name, type, value=None):
             value = defaults[type]
         if (g_table[type][1] <= g_table[type][2]):
             g_table[type][0].append([var_name, value, g_table[type][1]])
-            func_table['global']['vars'][var_name] = {
+            func_dir['global']['vars'][var_name] = {
                 'type': type,
                 'addr': g_table[type][1],
                 'value': value

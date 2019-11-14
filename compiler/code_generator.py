@@ -6,6 +6,7 @@ import sys
 cube = semantic_cube.cube
 
 quadruples = []
+quadruples_addr = []
 jump_stack = []
 temp_pos = 1
 
@@ -15,6 +16,15 @@ def quad_pos():
 def gen_quad(q1, q2, q3, q4):
     quad = [quad_pos(), q1, q2, q3, q4]
     quadruples.append(quad)
+    quadruples_addr.append(quad)
+
+def gen_quad_name(q1, q2, q3, q4):
+    quad = [quad_pos(), q1, q2, q3, q4]
+    quadruples.append(quad)
+
+def gen_quad_addr(q1, q2, q3, q4):
+    quad = [quad_pos(), q1, q2, q3, q4]
+    quadruples_addr.append(quad)
 
 def gen_quad_exp(op, op1, op2):
     type = cube[op][op1.type][op2.type]
@@ -25,7 +35,8 @@ def gen_quad_exp(op, op1, op2):
     else:
         global temp_pos
         temp = 'temp' + str(temp_pos)
-        gen_quad(op, op1.value, op2.value, temp)
+        gen_quad_name(op, op1.value, op2.value, temp)
+        gen_quad_addr(op, op1.addr, op2.addr, temp)
         temp_pos += 1
         return Var(type, temp)
 
