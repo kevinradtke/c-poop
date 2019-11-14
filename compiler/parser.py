@@ -12,10 +12,10 @@ tokens = lexer.tokens
 # --- GENERALES ---
 
 def p_program(p):
-    '''program : program_init main_dec bloque
-               | program_init vars main_dec bloque
-               | program_init funciones main_dec bloque
-               | program_init vars funciones main_dec bloque'''
+    '''program : program_init main_dec
+               | program_init vars main_dec
+               | program_init funciones main_dec
+               | program_init vars funciones main_dec'''
 
 def p_program_init(p):
     '''program_init : PROGRAM ID SEMICOLON'''
@@ -27,8 +27,19 @@ def p_funciones(p):
 
 
 def p_main_dec(p):
-    '''main_dec : MAIN LPAREN RPAREN'''
+    '''main_dec : main_init LPAREN RPAREN bloque
+                | main_init LPAREN RPAREN LBRACE vars main_aux RBRACE'''
     code_generator.quadruples[0][4] = code_generator.quad_pos()
+    symbol_table.func_table['main']['pos'] = code_generator.quad_pos()
+
+def p_main_aux(p):
+    '''main_aux : estatuto
+                | estatuto main_aux'''
+
+def p_main_init(p):
+    '''main_init : MAIN'''
+    utils.context = 'main'
+    symbol_table.insert_func('main')
 
 def p_vars(p):
     '''vars : VAR varAux1'''
