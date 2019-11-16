@@ -5,7 +5,7 @@ import code_generator
 import sys
 
 def gen_obj():
-    obj_file = open('ovejota.obj', 'w')
+    obj_file = open('output.poop', 'w')
     output = {
         'func_dir': symbol_table.func_dir,
         'quadruples': code_generator.quadruples,
