@@ -27,8 +27,9 @@ def int test3(int iNumber){
 }
 
 main() {
-	var string localmain = "uwu";
+	var string loc = "uwu";
 	test();
+	print(5+5.0);
 	test2();
 	test3(10);
 	loop 5 {

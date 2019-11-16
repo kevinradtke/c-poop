@@ -18,11 +18,13 @@ def test_log(file):
 
     print_title('Quadruples Names', 'blue')
     quadruples = code_generator.quadruples
-    print(tabulate(quadruples))
+    quad_names = tabulate(quadruples)
+    print(quad_names)
 
     print_title('Quadruples Addresses', 'blue')
     quadruples = code_generator.quadruples_addr
-    print(tabulate(quadruples))
+    quad_addr = tabulate(quadruples)
+    print(quad_addr)
 
     print_title('Constant Table', 'yellow')
     constants = symbol_table.cte_dir

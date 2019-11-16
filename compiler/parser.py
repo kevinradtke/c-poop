@@ -29,7 +29,7 @@ def p_funciones(p):
 def p_main_dec(p):
     '''main_dec : main_init LPAREN RPAREN bloque
                 | main_init LPAREN RPAREN LBRACE vars main_aux RBRACE'''
-    code_generator.quadruples[0][4] = code_generator.quad_pos()
+    code_generator.mod_quad(0, 4, code_generator.quad_pos())
     symbol_table.func_dir['main']['pos'] = code_generator.quad_pos()
 
 def p_main_aux(p):
@@ -100,15 +100,15 @@ def p_estatuto(p):
 
 def p_asignacion(p):
     '''asignacion : ID EQUAL expresion SEMICOLON'''
-    #FIXME: BUSCAR ID EN TABLA DE FUNCIONES
-    code_generator.gen_quad_name('=', p[3].value, '', p[1])
-    code_generator.gen_quad_addr('=', p[3].addr, '', p[1])
+    var = utils.id_lookup(p[1])
+    code_generator.gen_quad_addr('=', p[3].addr, '', var.addr)
+    code_generator.gen_quad_name('=', p[3].value, '', var.value)
 
 def p_escritura(p):
     '''escritura : PRINT LPAREN escrituraAux RPAREN SEMICOLON'''
     for exp in p[3]:
-        code_generator.gen_quad_name('PRINT', '', '', exp.value)
         code_generator.gen_quad_addr('PRINT', '', '', exp.addr)
+        code_generator.gen_quad_name('PRINT', '', '', exp.value)
 
 def p_escrituraAux(p):
     '''escrituraAux : expresion
@@ -273,40 +273,30 @@ def p_var_cte(p):
 
 def p_id(p):
     '''id : ID'''
-
-    if (p[1] in symbol_table.func_dir[utils.context]['vars']):
-        var = symbol_table.func_dir[utils.context]['vars'][p[1]]
-        p[0] = Var(var['type'], p[1], var['addr'])
-    elif (p[1] in symbol_table.func_dir['global']['vars']):
-        var = symbol_table.func_dir['global']['vars'][p[1]]
-        p[0] = Var(var['type'], p[1], var['addr'])
-    else:
-        print('ERROR: Variable with name `' + p[1] + '` does not exist!')
-        sys.exit()
-
+    p[0] = utils.id_lookup(p[1])
 
 def p_cte_i(p):
     '''cte_i : CTE_I'''
-    p[0] = Var('int', int(p[1]))
-    symbol_table.insert_cte('int', int(p[1]))
+    addr = symbol_table.insert_cte('int', int(p[1]))
+    p[0] = Var('int', int(p[1]), addr)
 
 def p_cte_f(p):
     '''cte_f : CTE_F'''
-    p[0] = Var('float', float(p[1]))
-    symbol_table.insert_cte('float', float(p[1]))
+    addr = symbol_table.insert_cte('float', float(p[1]))
+    p[0] = Var('float', float(p[1]), addr)
 
 
 def p_cte_string(p):
     '''cte_string : CTE_STRING'''
     p[1] = p[1][1:-1]
-    p[0] = Var('string', str(p[1]))
-    symbol_table.insert_cte('string',(str(p[1])))
+    addr = symbol_table.insert_cte('string', str(p[1]))
+    p[0] = Var('string', str(p[1]), addr)
 
 
 def p_cte_bool(p):
     '''cte_bool : CTE_BOOL'''
-    p[0] = Var('bool', bool(p[1]))
-    symbol_table.insert_cte('bool', bool(p[1]))
+    addr = symbol_table.insert_cte('bool', bool(p[1]))
+    p[0] = Var('bool', bool(p[1]), addr)
 
 
 # --- CONTROL ---

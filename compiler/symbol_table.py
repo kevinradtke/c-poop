@@ -33,6 +33,13 @@ func_dir = {
 
 cte_dir = []
 
+defaults = {
+    'int': 0,
+    'float': 0.0,
+    'string': '',
+    'bool': True
+}
+
 # LOCAL VARS
 
 l_limits = memory_map.SS
@@ -53,7 +60,8 @@ def insert_func(func_name, type='void', pos=0):
         func_dir[func_name] = {
             'type': type,
             'pos': pos,
-            'vars': {}
+            'vars': {},
+            'temps': {}
         }
 
 def insert_local_var(func_name, var_name, type, value=None):
@@ -75,15 +83,8 @@ def insert_local_var(func_name, var_name, type, value=None):
             }
             func_table[func_name][type][1] += 1
         else:
-            print('ERROR: func_table segment overflow!')
+            print('ERROR: Stack overflow! => ' + func_name)
             sys.exit()
-
-defaults = {
-    'int': 0,
-    'float': 0.0,
-    'string': '',
-    'bool': True
-}
 
 
 # CONSTANTS
@@ -101,10 +102,12 @@ cte_table = {
 }
 
 def insert_cte(type, val):
-    if (cte_table[type][1] <= cte_table[type][2]):
-        cte_table[type][0].append([val, cte_table[type][1]])
-        cte_dir.append({'val': val, 'type': type, 'addr': cte_table[type][1]})
+    addr = cte_table[type][1]
+    if (addr <= cte_table[type][2]):
+        cte_table[type][0].append([val, addr])
+        cte_dir.append({'val': val, 'type': type, 'addr': addr})
         cte_table[type][1] += 1
+        return addr
     else:
         print('ERROR: Constant segment overflow!')
         sys.exit()
