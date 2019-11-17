@@ -47,3 +47,21 @@ def display_memory():
     for var in memory[9000][1][stack_size-1]:
         if (var[1] != None):
             print(var)
+
+# MEMORY ACCESS
+
+def access(addr):
+    if (addr < 9000):
+        return memory[addr]
+    else:
+        stack_size = len(memory[9000][1])
+        cur_stack = memory[9000][1][stack_size-1]
+        return cur_stack[addr-9000]
+
+def get(addr):
+    space = access(addr)
+    return space[1]
+
+def set(addr, value):
+    space = access(addr)
+    space[1] = value
