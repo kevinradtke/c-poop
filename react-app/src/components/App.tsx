@@ -2,8 +2,8 @@ import React from "react";
 import { CssBaseline } from "@material-ui/core";
 import { AppProvider } from "../contexts";
 
-import Navbar from "./Navbar/Navbar";
-import SplitPanes from "./SplitPanes/SplitPanes";
+import Navbar from "./nav-bar/Navbar";
+import SplitPanes from "./split-panes/SplitPanes";
 
 const App: React.FC = () => {
   return (

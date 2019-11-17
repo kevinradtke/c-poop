@@ -24,7 +24,7 @@ const initialState: ContextProps = {
 
 const ThemeContext = createContext(initialState);
 
-const ThemeProvider = ({ children }: { children: any }) => {
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { type, fontSize } = initialState;
 
   const muitheme = createMuiTheme({

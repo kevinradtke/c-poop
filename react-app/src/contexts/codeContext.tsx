@@ -1,15 +1,24 @@
-import React, { createContext } from "react";
+import React, { createContext, useState, createRef } from "react";
 
-const initialState = {};
+const initialState: any = "console.log('C💩 Rocks!');";
 
 const CodeContext = createContext(initialState);
 
-const CodeProvider = ({ children }: { children: any }) => {
-  const test = {};
+const CodeProvider = ({ children }: { children: React.ReactNode }) => {
+  const [code, setCode] = useState(undefined);
+  const ref: any = createRef();
 
-  const value = { test };
+  const addEmoji = (emoji: string) => {
+    const { editor } = ref.current;
+    editor.session.insert(editor.getCursorPosition(), emoji);
+    editor.focus();
+  };
 
-  return <CodeContext.Provider value={value}>{children}</CodeContext.Provider>;
+  return (
+    <CodeContext.Provider value={{ code, setCode, ref, addEmoji }}>
+      {children}
+    </CodeContext.Provider>
+  );
 };
 
 export { CodeProvider, CodeContext };
