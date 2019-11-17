@@ -23,8 +23,8 @@ class Segment:
 # DATA SEGMENT (GLOBAL VARS)
 DS = Segment(1000)
 
-# STACK SEGMENT (LOCAL VARS)
-SS = Segment(5000)
-
 # CTE SEGMENT (CONSTANTS)
-CS = Segment(9000)
+CS = Segment(5000)
+
+# STACK SEGMENT (LOCAL VARS)
+SS = Segment(9000)

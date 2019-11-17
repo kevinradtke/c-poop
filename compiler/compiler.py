@@ -8,7 +8,7 @@ def gen_obj():
     obj_file = open('output.poop', 'w')
     output = {
         'func_dir': symbol_table.func_dir,
-        'quadruples': code_generator.quadruples,
+        'quadruples': code_generator.quadruples_addr,
         'cte_dir': symbol_table.cte_dir
     }
     obj_file.write(str(output))

@@ -1,17 +1,6 @@
 import memory_map
 import sys
 
-class Function:
-    type = 'void'
-    vars = {}
-    pos = 0
-
-    def __init__(self, t, v={}, a=0):
-        self.type = t
-        self.pos = p
-        self.vars = v
-
-
 class Var:
     type = 'string'
     value = 'temp'
@@ -105,7 +94,7 @@ def insert_cte(type, val):
     addr = cte_table[type][1]
     if (addr <= cte_table[type][2]):
         cte_table[type][0].append([val, addr])
-        cte_dir.append({'val': val, 'type': type, 'addr': addr})
+        cte_dir.append({'value': val, 'type': type, 'addr': addr})
         cte_table[type][1] += 1
         return addr
     else:

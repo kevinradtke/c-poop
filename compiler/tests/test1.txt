@@ -1,5 +1,5 @@
 program patito;
-var int uno, dos, tres; float cuatro= 4.0; bool cinco = true, seis = false;
+var int uno, dos=2, tres; float cuatro= 4.0; bool cinco = true, seis = false;
 
 def void test(){
 	print("Hola");
