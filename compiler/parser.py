@@ -309,13 +309,22 @@ def p_loop(p):
 
 
 def p_repeat(p):
-    '''repeat : REPEAT CTE_I bloque'''
+    '''repeat : repeat_exp bloque'''
 
+def p_repeat_exp(p):
+    '''repeat_exp : REPEAT cte_i'''
 
 def p_while(p):
-    '''while : WHILE LPAREN expresion RPAREN bloque'''
-    
+    '''while : while_begin while_exp bloque'''
+    code_generator.fill_while()
 
+def p_while_begin(p):
+    '''while_begin : WHILE'''
+    code_generator.init_while()
+
+def p_while_exp(p):
+    '''while_exp : LPAREN expresion RPAREN'''
+    code_generator.gen_gotof(p[2])
 
 def p_condicion(p):
     '''condicion : IF if_expresion bloque SEMICOLON

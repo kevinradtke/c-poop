@@ -32,7 +32,13 @@ main() {
 	print(5+5.0);
 	test2();
 	test3(10);
-	repeat 5 {
+	repeat 4 {
 		print(666);
 	}
+	print(dos);
+	while (dos+1 >= 0) {
+		print(dos);
+		dos = dos-1;
+	}
+	print("Last line!");
 }

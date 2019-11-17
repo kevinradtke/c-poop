@@ -86,6 +86,15 @@ def gen_gotof(exp):
     else:
         type_mismatch('Received:', str(exp.value), '| Expected: bool')
 
+def init_while():
+    jump_stack.append(quad_pos())
+
+def fill_while():
+    false = jump_stack.pop()
+    ret = jump_stack.pop()
+    gen_quad('GOTO', '', '', ret)
+    mod_quad(false, 4, quad_pos())
+
 def fill_gotof():
     end = jump_stack.pop()
     mod_quad(end, 4, quad_pos())
