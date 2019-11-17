@@ -102,8 +102,7 @@ def p_estatuto(p):
 def p_asignacion(p):
     '''asignacion : ID EQUAL expresion SEMICOLON'''
     var = utils.id_lookup(p[1])
-    code_generator.gen_quad_addr('EQUAL', p[3].addr, '', var.addr)
-    code_generator.gen_quad_name('EQUAL', p[3].value, '', var.value)
+    code_generator.gen_quad_assig(var, p[3])
 
 def p_escritura(p):
     '''escritura : PRINT LPAREN escrituraAux RPAREN SEMICOLON'''

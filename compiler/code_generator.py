@@ -32,6 +32,13 @@ def mod_quad(row, col, val):
     quadruples[row][col] = val
     quadruples_addr[row][col] = val
 
+def gen_quad_assig(var, exp):
+    if (var.type != exp.type):
+        type_mismatch(var.type, '=', exp.type)
+        sys.exit()
+    gen_quad_addr('EQUAL', exp.addr, '', var.addr)
+    gen_quad_name('EQUAL', exp.value, '', var.value)
+
 def gen_quad_exp(op, op1, op2):
     type = cube[op][op1.type][op2.type]
 
