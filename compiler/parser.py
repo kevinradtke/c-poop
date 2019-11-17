@@ -304,8 +304,17 @@ def p_cte_bool(p):
 # --- CONTROL ---
 
 def p_loop(p):
-    '''loop : LOOP LPAREN expresion RPAREN bloque
-            | LOOP CTE_I bloque'''
+    '''loop : while
+            | repeat'''
+
+
+def p_repeat(p):
+    '''repeat : REPEAT CTE_I bloque'''
+
+
+def p_while(p):
+    '''while : WHILE LPAREN expresion RPAREN bloque'''
+    
 
 
 def p_condicion(p):

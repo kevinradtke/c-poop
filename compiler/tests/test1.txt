@@ -32,7 +32,7 @@ main() {
 	print(5+5.0);
 	test2();
 	test3(10);
-	loop 5 {
+	repeat 5 {
 		print(666);
 	}
 }
