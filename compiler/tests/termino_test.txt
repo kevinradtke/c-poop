@@ -3,17 +3,17 @@ var int uno=+1, dos; float tres=-3.0; bool x = !true; string s;
 
 main() {
 	uno = 5 * 3;
-	uno = 5 * 3.0;
-	uno = 5 * 1.5;
+	tres = 5 * 3.0;
+	tres = 5 * 1.5;
 
-	uno = 10 / 2;
+	tres = 10 / 2;
 	uno = 10 // 2;
-	uno = 10 / 2.0;
+	tres = 10 / 2.0;
 
-	uno = 10 / 3;
+	tres = 10 / 3;
 	uno = 10 // 3;
 
-	uno = -6.0 / 12.0;
+	tres = -6.0 / 12.0;
 
 	s = "abc" * 3;
 }
