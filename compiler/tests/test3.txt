@@ -1,0 +1,23 @@
+program test3;
+var int x;
+
+def void func1(){
+	var string s = "hey";
+	print("Hola" + s);
+	print(s);
+}
+
+main() {
+  var int y = 5;
+	y = 5;
+  print(y);
+  if ((5+3*2) <= 11) {
+    print("Yes its true!");
+    y = y + 5;
+  } else {
+    print("Not true!");
+    y = y - 5;
+  };
+  print("ended if");
+  print(y);
+}
