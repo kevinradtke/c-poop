@@ -8,6 +8,7 @@ class QuadOps:
     pos = 0
 
     def __init__(self, quadruples):
+        print('\nEXECUTION BEGIN\n')
         while (self.pos < len(quadruples)):
             quad = quadruples[self.pos]
             op = quad[1].lower()
@@ -54,3 +55,7 @@ class QuadOps:
         else:
             value = ops[op](op1)
         memory.set(quad[4], value)
+
+    def endprog(self, quad):
+        print('\nEXECUTION COMPLETE\n')
+        sys.exit()

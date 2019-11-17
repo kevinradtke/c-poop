@@ -30,6 +30,8 @@ def p_funciones(p):
 def p_main_dec(p):
     '''main_dec : main_init LPAREN RPAREN bloque
                 | main_init LPAREN RPAREN LBRACE vars main_aux RBRACE'''
+    code_generator.gen_quad('ENDPROG', '', '', '')
+
 
 def p_main_aux(p):
     '''main_aux : estatuto
