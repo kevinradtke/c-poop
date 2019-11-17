@@ -1,10 +1,25 @@
 import memory
 from quad_ops import QuadOps
+from compiler import compile
+import sys
 
-f = open('output.poop')
-input_dict = eval(f.read())
+def run():
+    f = open('output.poop')
+    input_dict = eval(f.read())
+    memory.init_memory(input_dict)
+    quadruples = input_dict['quadruples']
+    QuadOps(quadruples)
 
-memory.init_memory(input_dict)
+def comp_and_run():
+    compile(test_name)
+    run()
 
-quadruples = input_dict['quadruples']
-quad_ops = QuadOps(quadruples)
+
+# DEFAULT TEST
+test_name = 'tests/test1.txt'
+
+# TAKES TEST NAME FROM ARGS
+if (len(sys.argv) == 2):
+    test_name = 'tests/' + sys.argv[1] + '.txt'
+
+comp_and_run()
