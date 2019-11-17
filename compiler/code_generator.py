@@ -50,17 +50,15 @@ def gen_quad_exp(op, op1, op2):
 def insert_temp(type, temp_name):
     func_table = symbol_table.func_table
     func_dir = symbol_table.func_dir
-    defaults = symbol_table.defaults
     context = utils.context
     addr = func_table[context][type][2]
     if (addr >= func_table[context][type][1]):
-        temp = [temp_name, defaults[type], addr]
+        temp = [temp_name, addr]
         func_table[context][type][0].append(temp)
         func_table[context][type][2] = addr-1
         func_dir[context]['temps'][temp_name] = {
             'type': type,
-            'addr': addr,
-            'value': defaults[type]
+            'addr': addr
         }
         return addr
     else:

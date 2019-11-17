@@ -31,10 +31,6 @@ def era(func_dir, func_name):
     for v in vars:
         stack_frame[vars[v]['addr']-9000][1] = vars[v]['value']
 
-    temps = func_dir[func_name]['temps']
-    for t in temps:
-        stack_frame[temps[t]['addr']-9000][1] = temps[t]['value']
-
     if (len(memory[9000]) < 100):
         memory[9000][1].append(stack_frame)
     else:
