@@ -12,14 +12,7 @@ class Var:
         self.addr = a
 
 
-func_dir = {
-    'global': {
-        'type': 'void',
-        'pos': 0,
-        'vars': {}
-    },
-}
-
+func_dir = {}
 cte_dir = []
 
 defaults = {

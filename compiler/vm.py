@@ -1,9 +1,10 @@
-import pprint
-import virtual_memory
+import memory
+from quad_ops import QuadOps
 
 f = open('output.poop')
 input_dict = eval(f.read())
-pp = pprint.PrettyPrinter(indent=2)
-pp.pprint(input_dict)
 
-virtual_memory.init_memory(input_dict)
+memory.init_memory(input_dict)
+
+quadruples = input_dict['quadruples']
+quad_ops = QuadOps(quadruples)
