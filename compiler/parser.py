@@ -310,9 +310,11 @@ def p_loop(p):
 
 def p_repeat(p):
     '''repeat : repeat_exp bloque'''
+    code_generator.fill_repeat()
 
 def p_repeat_exp(p):
     '''repeat_exp : REPEAT cte_i'''
+    code_generator.gen_repeat(p[2])
 
 def p_while(p):
     '''while : while_begin while_exp bloque'''

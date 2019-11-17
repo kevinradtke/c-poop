@@ -95,6 +95,33 @@ def fill_while():
     gen_quad('GOTO', '', '', ret)
     mod_quad(false, 4, quad_pos())
 
+def gen_repeat(n):
+    global temp_pos
+    temp = 'temp' + str(temp_pos)
+    temp_addr = insert_temp('int', temp)
+    print(temp)
+    temp_var = Var('int', temp, temp_addr)
+    temp_pos += 1
+    gen_quad_assig(temp_var, n)
+    jump_stack.append(quad_pos())
+    zero_addr = symbol_table.insert_cte('int', 0)
+    zero_var = Var('int', 0, zero_addr)
+    res = gen_quad_exp('>', temp_var, zero_var)
+    gen_gotof(res)
+
+def fill_repeat():
+    false = jump_stack.pop()
+    ret = jump_stack.pop()
+    print(quadruples[false])
+    print(quadruples[ret])
+    counter = Var('int', quadruples[ret-2][4], quadruples_addr[ret-2][4])
+    one_addr = symbol_table.insert_cte('int', 1)
+    one_var = Var('int', 1, one_addr)
+    res = gen_quad_exp('-', counter, one_var)
+    gen_quad_assig(counter, res)
+    gen_quad('GOTO', '', '', ret)
+    mod_quad(false, 4, quad_pos())
+
 def fill_gotof():
     end = jump_stack.pop()
     mod_quad(end, 4, quad_pos())
