@@ -53,9 +53,9 @@ def p_varAux1(p):
                | tipo varAux2 SEMICOLON varAux1'''
     for var in p[2]:
         if (utils.context == 'global'):
-            symbol_table.insert_global_var(var['name'], p[1], var['value'])
+            symbol_table.insert_global_var(var['name'], p[1], var['value'], var['type'])
         else:
-            symbol_table.insert_local_var(utils.context, var['name'], p[1], var['value'])
+            symbol_table.insert_local_var(utils.context, var['name'], p[1], var['value'], var['type'])
 
 
 
@@ -65,14 +65,14 @@ def p_varAux2(p):
                | ID EQUAL expresion
                | ID EQUAL expresion COMMA varAux2'''
     if (len(p) == 2):
-        p[0] = [{'name': p[1], 'value': None}]
+        p[0] = [{'name': p[1], 'value': None, 'type': None}]
     elif (len(p) == 4):
         if (p[2] == ','):
-            p[0] = [{'name': p[1], 'value': None}] + p[3]
+            p[0] = [{'name': p[1], 'value': None, 'type': None}] + p[3]
         else:
-            p[0] = [{'name': p[1], 'value': p[3].value}]
+            p[0] = [{'name': p[1], 'value': p[3].value, 'type': p[3].type}]
     else:
-        p[0] = [{'name': p[1], 'value': p[3].value}] + p[5]
+        p[0] = [{'name': p[1], 'value': p[3].value, 'type': p[3].type}] + p[5]
 
 
 def p_tipo(p):

@@ -46,7 +46,12 @@ def insert_func(func_name, type='void', pos=0):
             'temps': {}
         }
 
-def insert_local_var(func_name, var_name, type, value=None):
+def insert_local_var(func_name, var_name, type, value=None, exp_type=None):
+    if (exp_type == None):
+        exp_type = type
+    if (type != exp_type):
+        print('ERROR: Type mismatch! =>', type, '=', exp_type)
+        sys.exit()
     if var_name in func_dir[func_name]['vars'].keys():
         print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared')
         sys.exit()
@@ -106,7 +111,12 @@ g_table = {
     'bool' : [[], g_limits.BOOL_MIN, g_limits.BOOL_MAX]
 }
 
-def insert_global_var(var_name, type, value=None):
+def insert_global_var(var_name, type, value=None, exp_type=None):
+    if (exp_type == None):
+        exp_type = type
+    if (type != exp_type):
+        print('ERROR: Type mismatch! =>', type, '=', exp_type)
+        sys.exit()
     if var_name in func_dir['global']['vars'].keys():
         print(f'ERROR: variable with name `{var_name}` already declared globally')
         sys.exit()
