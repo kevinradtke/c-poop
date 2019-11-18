@@ -21,7 +21,7 @@ const EMOJI_CATEGORIES: EmojiCategories[] = [
   {
     inputOutput: [
       {
-        emoji: "✏️",
+        emoji: "🖨",
         equivalentValue: "print",
         shortcode: ":pencil2:"
       }
@@ -49,7 +49,7 @@ const EMOJI_CATEGORIES: EmojiCategories[] = [
         shortcode: ":open_hands:"
       },
       {
-        emoji: "🙅‍♀️",
+        emoji: "❗️",
         equivalentValue: "not",
         shortcode: ":no_good:"
       },

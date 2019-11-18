@@ -5,28 +5,23 @@ import { Theme, useTheme } from "@material-ui/core/styles";
 import { CodeContext } from "../../../contexts";
 
 import "ace-builds/src-noconflict/mode-typescript";
-import "ace-builds/src-noconflict/theme-dracula";
+import "ace-builds/src-noconflict/theme-monokai";
 
 const CodeEditor = () => {
-  const { code, ref, setCode } = useContext(CodeContext);
+  const { code } = useContext(CodeContext);
   const theme: Theme = useTheme();
   const { fontSize } = theme.typography;
 
-  const handleCodeChange = (newValue: any) => {
-    setCode(newValue);
-  };
-
   return (
     <AceEditor
-      ref={ref}
       mode="typescript"
-      theme="dracula"
+      theme="monokai"
       value={code}
-      name="UNIQUE_ID_OF_DIV"
+      name="UNIQUE_ID_OF_DIV_2"
       editorProps={{ $blockScrolling: true }}
       fontSize={fontSize}
-      style={{ width: "100%", height: "100%" }}
-      onChange={handleCodeChange}
+      style={{ width: "100%" }}
+      readOnly
     />
   );
 };
