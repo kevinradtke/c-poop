@@ -8,12 +8,13 @@ import "ace-builds/src-noconflict/mode-typescript";
 import "ace-builds/src-noconflict/theme-dracula";
 
 const CodeEditor = () => {
-  const { code, ref, setCode } = useContext(CodeContext);
+  const { code, ref, setCode, handleTranslation } = useContext(CodeContext);
   const theme: Theme = useTheme();
   const { fontSize } = theme.typography;
 
   const handleCodeChange = (newValue: any) => {
     setCode(newValue);
+    handleTranslation(newValue);
   };
 
   return (

@@ -8,7 +8,7 @@ import "ace-builds/src-noconflict/mode-typescript";
 import "ace-builds/src-noconflict/theme-monokai";
 
 const CodeEditor = () => {
-  const { code } = useContext(CodeContext);
+  const { translatedCode } = useContext(CodeContext);
   const theme: Theme = useTheme();
   const { fontSize } = theme.typography;
 
@@ -16,7 +16,7 @@ const CodeEditor = () => {
     <AceEditor
       mode="typescript"
       theme="monokai"
-      value={code}
+      value={translatedCode}
       name="UNIQUE_ID_OF_DIV_2"
       editorProps={{ $blockScrolling: true }}
       fontSize={fontSize}

@@ -2,7 +2,7 @@ import React from "react";
 import { List, ListSubheader } from "@material-ui/core/";
 import _ from "lodash";
 import EmojiItemButton from "./emoji-item-button/EmojiItemButton";
-import EMOJI_CATEGORIES from "../../../constants/emoji-categories";
+import { EMOJI_CATEGORIES } from "../../../constants/emoji-categories";
 import useStyles from "./emoji-pane.jss";
 
 const EmojiList = () => {

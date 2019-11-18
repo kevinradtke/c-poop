@@ -2,13 +2,17 @@ interface EmojiCategories {
   [key: string]: Emoji[];
 }
 
-export interface Emoji {
+interface Emoji {
   emoji: string;
   equivalentValue: string;
   shortcode: string;
 }
 
-const EMOJI_CATEGORIES: EmojiCategories[] = [
+interface EmojiHash {
+  [key: string]: string;
+}
+
+export const EMOJI_CATEGORIES: EmojiCategories[] = [
   {
     general: [
       {
@@ -149,4 +153,27 @@ const EMOJI_CATEGORIES: EmojiCategories[] = [
   }
 ];
 
-export default EMOJI_CATEGORIES;
+export const EMOJI_HASH: EmojiHash = {
+  "💩": ";",
+  "🖨": "print",
+  "⬅️": "=",
+  "🤝": "and",
+  "👐": "or",
+  "️️❗️": "not",
+  "▶️": ">",
+  "◀️": "<",
+  "🙌": "==",
+  "🤔": "if",
+  "🔁": "while",
+  "🔂": "repeat",
+  "🚀": "def",
+  "🤲": "return",
+  "📭": "void",
+  "💡": "bool",
+  "👍": "True",
+  "👎": "False",
+  "🔢": "int",
+  "🎈": "float",
+  "🧶": "string",
+  "🔤": '"'
+};
