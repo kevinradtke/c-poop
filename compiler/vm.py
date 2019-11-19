@@ -25,6 +25,6 @@ test_name = 'tests/test1.txt'
 if (len(sys.argv) == 2):
     test_name = 'tests/' + sys.argv[1] + '.txt'
 
-# comp_and_run()
-comp()
+comp_and_run()
+# comp()
 # run()

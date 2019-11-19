@@ -99,7 +99,6 @@ def gen_repeat(n):
     global temp_pos
     temp = 'temp' + str(temp_pos)
     temp_addr = insert_temp('int', temp)
-    print(temp)
     temp_var = Var('int', temp, temp_addr)
     temp_pos += 1
     gen_quad_assig(temp_var, n)
@@ -112,8 +111,6 @@ def gen_repeat(n):
 def fill_repeat():
     false = jump_stack.pop()
     ret = jump_stack.pop()
-    print(quadruples[false])
-    print(quadruples[ret])
     counter = Var('int', quadruples[ret-2][4], quadruples_addr[ret-2][4])
     one_addr = symbol_table.insert_cte('int', 1)
     one_var = Var('int', 1, one_addr)
