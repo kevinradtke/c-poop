@@ -3,7 +3,8 @@ import SplitPane from "react-split-pane";
 
 import EmojiPane from "./emoji-pane/EmojiPane";
 import CodeEditor from "./code-editor/CodeEditor";
-import TranslatedPane from "./translated-pane/TranslatedPane";
+// import TranslatedPane from "./translated-pane/TranslatedPane";
+import TerminalPane from "./terminal-pane/TerminalPane";
 
 const SplitPanes: React.FC = () => {
   return (
@@ -20,8 +21,9 @@ const SplitPanes: React.FC = () => {
         <div className="pane pane-2">
           <CodeEditor />
         </div>
-        <div className="pane pane-3">
-          <TranslatedPane />
+        <div className="pane pane-3" style={{ overflowY: "auto" }}>
+          {/* <TranslatedPane /> */}
+          <TerminalPane />
         </div>
       </SplitPane>
     </SplitPane>

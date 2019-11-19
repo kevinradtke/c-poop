@@ -3,6 +3,7 @@ from quad_ops import QuadOps
 from compiler import compile
 import sys
 
+
 def run():
     f = open('output.poop')
     input_dict = eval(f.read())
@@ -10,8 +11,10 @@ def run():
     quadruples = input_dict['quadruples']
     QuadOps(quadruples)
 
+
 def comp():
     compile(test_name)
+
 
 def comp_and_run():
     comp()
@@ -25,6 +28,6 @@ test_name = 'tests/test1.txt'
 if (len(sys.argv) == 2):
     test_name = 'tests/' + sys.argv[1] + '.txt'
 
-# comp_and_run()
-comp()
+comp_and_run()
+# comp()
 # run()
