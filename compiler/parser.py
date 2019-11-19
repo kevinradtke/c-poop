@@ -8,7 +8,6 @@ import utils
 
 tokens = lexer.tokens
 
-
 # --- GENERALES ---
 
 def p_program(p):
@@ -26,12 +25,10 @@ def p_funciones(p):
     '''funciones : funcion
                  | funcion funciones'''
 
-
 def p_main_dec(p):
     '''main_dec : main_init LPAREN RPAREN bloque
                 | main_init LPAREN RPAREN LBRACE vars main_aux RBRACE'''
     code_generator.gen_quad('ENDPROG', '', '', '')
-
 
 def p_main_aux(p):
     '''main_aux : estatuto
@@ -47,17 +44,14 @@ def p_main_init(p):
 def p_vars(p):
     '''vars : VAR varAux1'''
 
-
 def p_varAux1(p):
     '''varAux1 : tipo varAux2 SEMICOLON
                | tipo varAux2 SEMICOLON varAux1'''
     for var in p[2]:
         if (utils.context == 'global'):
-            symbol_table.insert_global_var(var['name'], p[1], var['value'])
+            symbol_table.insert_global_var(var['name'], p[1], var['value'], var['type'])
         else:
-            symbol_table.insert_local_var(utils.context, var['name'], p[1], var['value'])
-
-
+            symbol_table.insert_local_var(utils.context, var['name'], p[1], var['value'], var['type'])
 
 def p_varAux2(p):
     '''varAux2 : ID
@@ -65,15 +59,14 @@ def p_varAux2(p):
                | ID EQUAL expresion
                | ID EQUAL expresion COMMA varAux2'''
     if (len(p) == 2):
-        p[0] = [{'name': p[1], 'value': None}]
+        p[0] = [{'name': p[1], 'value': None, 'type': None}]
     elif (len(p) == 4):
         if (p[2] == ','):
-            p[0] = [{'name': p[1], 'value': None}] + p[3]
+            p[0] = [{'name': p[1], 'value': None, 'type': None}] + p[3]
         else:
-            p[0] = [{'name': p[1], 'value': p[3].value}]
+            p[0] = [{'name': p[1], 'value': p[3].value, 'type': p[3].type}]
     else:
-        p[0] = [{'name': p[1], 'value': p[3].value}] + p[5]
-
+        p[0] = [{'name': p[1], 'value': p[3].value, 'type': p[3].type}] + p[5]
 
 def p_tipo(p):
     '''tipo : INT
@@ -82,16 +75,13 @@ def p_tipo(p):
             | BOOL'''
     p[0] = p[1]
 
-
 def p_bloque(p):
     '''bloque : LBRACE RBRACE
               | LBRACE bloqueAux RBRACE'''
 
-
 def p_bloqueAux(p):
     '''bloqueAux : estatuto
                  | estatuto bloqueAux'''
-
 
 def p_estatuto(p):
     '''estatuto : asignacion
@@ -99,7 +89,6 @@ def p_estatuto(p):
                 | escritura
                 | loop
                 | func_call'''
-
 
 def p_asignacion(p):
     '''asignacion : ID EQUAL expresion SEMICOLON'''
@@ -120,6 +109,7 @@ def p_escrituraAux(p):
     else:
         p[0] = [p[1]] + p[3]
 
+
 # --- NIVEL EXPRESION ---
 
 def p_expresion(p):
@@ -128,11 +118,9 @@ def p_expresion(p):
                  | or'''
     p[0] = p[1]
 
-
 def p_and(p):
     '''and : exp2 AND expresion'''
     p[0] = code_generator.gen_quad_exp('and', p[1], p[3])
-
 
 def p_or(p):
     '''or : exp2 OR expresion'''
@@ -151,31 +139,25 @@ def p_exp2(p):
             | ne'''
     p[0] = p[1]
 
-
 def p_lt(p):
     '''lt : exp3 LT exp3'''
     p[0] = code_generator.gen_quad_exp('<', p[1], p[3])
-
 
 def p_lte(p):
     '''lte : exp3 LTE exp3'''
     p[0] = code_generator.gen_quad_exp('<=', p[1], p[3])
 
-
 def p_gt(p):
     '''gt : exp3 GT exp3'''
     p[0] = code_generator.gen_quad_exp('>', p[1], p[3])
-
 
 def p_gte(p):
     '''gte : exp3 GTE exp3'''
     p[0] = code_generator.gen_quad_exp('>=', p[1], p[3])
 
-
 def p_eq(p):
     '''eq : exp3 EQUALEQUAL exp3'''
     p[0] = code_generator.gen_quad_exp('==', p[1], p[3])
-
 
 def p_ne(p):
     '''ne : exp3 NOTEQUAL exp3'''
@@ -190,11 +172,9 @@ def p_exp3(p):
             | subtraction'''
     p[0] = p[1]
 
-
 def p_addition(p):
     '''addition : termino PLUS exp3'''
     p[0] = code_generator.gen_quad_exp('+', p[1], p[3])
-
 
 def p_subtraction(p):
     '''subtraction : termino MINUS exp3'''
@@ -210,16 +190,13 @@ def p_termino(p):
                | floor_div'''
     p[0] = p[1]
 
-
 def p_mult(p):
     '''mult : factor TIMES termino'''
     p[0] = code_generator.gen_quad_exp('*', p[1], p[3])
 
-
 def p_div(p):
     '''div : factor DIVIDE termino'''
     p[0] = code_generator.gen_quad_exp('/', p[1], p[3])
-
 
 def p_floor_div(p):
     '''floor_div : factor FLOOR_DIVIDE termino'''
@@ -229,34 +206,34 @@ def p_floor_div(p):
 # --- NIVEL FACTOR ---
 
 def p_factor(p):
-    '''factor : LPAREN expresion RPAREN
-              | factorAux'''
-    if len(p) == 2:
-        p[0] = p[1]
-    else:
-        p[0] = p[2]
-
-
-def p_factorAux(p):
-    '''factorAux : unary_plus
-                 | unary_minus
-                 | unary_not
-                 | var_cte'''
+    '''factor : paren_exp
+              | factor_aux'''
     p[0] = p[1]
 
+def p_paren_exp(p):
+    '''paren_exp : LPAREN expresion RPAREN'''
+    p[0] = p[2]
+
+def p_factor_aux(p):
+    '''factor_aux : unary_plus
+                  | unary_minus
+                  | unary_not
+                  | var_cte'''
+    p[0] = p[1]
 
 def p_unary_plus(p):
-    '''unary_plus : PLUS var_cte'''
+    '''unary_plus : PLUS var_cte
+                  | PLUS paren_exp'''
     p[0] = code_generator.gen_quad_exp('unary+', p[2], Var('',''))
 
-
 def p_unary_minus(p):
-    '''unary_minus : MINUS var_cte'''
+    '''unary_minus : MINUS var_cte
+                   | MINUS paren_exp'''
     p[0] = code_generator.gen_quad_exp('unary-', p[2], Var('',''))
 
-
 def p_unary_not(p):
-    '''unary_not : NOT var_cte'''
+    '''unary_not : NOT var_cte
+                 | NOT paren_exp'''
     p[0] = code_generator.gen_quad_exp('unary!', p[2], Var('',''))
 
 
@@ -272,7 +249,6 @@ def p_var_cte(p):
                '''
     p[0] = p[1]
 
-
 def p_id(p):
     '''id : ID'''
     p[0] = utils.id_lookup(p[1])
@@ -287,13 +263,11 @@ def p_cte_f(p):
     addr = symbol_table.insert_cte('float', float(p[1]))
     p[0] = Var('float', float(p[1]), addr)
 
-
 def p_cte_string(p):
     '''cte_string : CTE_STRING'''
     p[1] = p[1][1:-1]
     addr = symbol_table.insert_cte('string', str(p[1]))
     p[0] = Var('string', str(p[1]), addr)
-
 
 def p_cte_bool(p):
     '''cte_bool : CTE_BOOL'''
@@ -306,7 +280,6 @@ def p_cte_bool(p):
 def p_loop(p):
     '''loop : while
             | repeat'''
-
 
 def p_repeat(p):
     '''repeat : repeat_exp bloque'''
@@ -333,15 +306,14 @@ def p_condicion(p):
                  | IF if_expresion bloque if_else bloque SEMICOLON'''
     code_generator.fill_gotof()
 
-
 def p_if_expresion(p):
     '''if_expresion : LPAREN expresion RPAREN'''
     code_generator.gen_gotof(p[2])
 
-
 def p_if_else(p):
     '''if_else : ELSE'''
     code_generator.gen_if_goto()
+
 
 # --- FUNCIONES ---
 
@@ -351,23 +323,19 @@ def p_funcion(p):
     symbol_table.func_dir[p[3]]['type'] = p[2]
     symbol_table.func_dir[p[3]]['pos'] = utils.func_start_pos
 
-
 def p_funcionAux(p):
     '''funcionAux : dec_func end_of_dec_func
                   | dec_func end_of_dec_func funcionAux2'''
     p[0] = p[1]
-
 
 def p_end_of_dec_func(p):
     '''end_of_dec_func : LBRACE
                        | LBRACE vars'''
     utils.func_start_pos = code_generator.quad_pos()
 
-
 def p_funcionAux2(p):
     '''funcionAux2 : estatuto
                    | estatuto funcionAux2'''
-
 
 def p_dec_func(p):
     '''dec_func : func_name LPAREN RPAREN
@@ -378,12 +346,10 @@ def p_dec_func(p):
         for var in p[3]:
             symbol_table.insert_local_var(p[1], var['name'], var['type'])
 
-
 def p_func_name(p):
     '''func_name : ID'''
     p[0] = p[1]
     symbol_table.insert_func(p[1])
-
 
 def p_dec_func_aux(p):
     '''dec_func_aux : tipo ID
@@ -393,14 +359,12 @@ def p_dec_func_aux(p):
     else:
         p[0] = [{'name': p[2], 'type': p[1]}] + p[4]
 
-
 def p_func_call(p):
     '''func_call : ID LPAREN RPAREN SEMICOLON
                  | ID LPAREN func_call_aux RPAREN SEMICOLON'''
 
     # FIXME: should evaluate function and return a value
     p[0] = Var('string', 'fixme')
-
 
 def p_func_call_var(p):
     '''func_call_var : ID LPAREN RPAREN
