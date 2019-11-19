@@ -9,6 +9,7 @@ class QuadOps:
 
     def __init__(self, quadruples):
         print('\nEXECUTION BEGIN\n')
+        self.output = open('ide_output.txt', 'w')
         while (self.pos < len(quadruples)):
             quad = quadruples[self.pos]
             op = quad[1].lower()
@@ -36,6 +37,7 @@ class QuadOps:
 
     def print(self, quad):
         value = memory.get(quad[4])
+        self.output.write(str(value) + '\n')
         print(value)
 
     def equal(self, quad):
