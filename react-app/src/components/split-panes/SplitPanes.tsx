@@ -16,7 +16,7 @@ const SplitPanes: React.FC = () => {
       <div className="pane pane-1">
         <EmojiPane />
       </div>
-      <SplitPane split="vertical" defaultSize="50%">
+      <SplitPane split="vertical" defaultSize="60%">
         <div className="pane pane-2">
           <CodeEditor />
         </div>

@@ -4,7 +4,7 @@ import { Theme, useTheme } from "@material-ui/core/styles";
 
 import { CodeContext } from "../../../contexts";
 
-import "ace-builds/src-noconflict/mode-typescript";
+import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-dracula";
 
 const CodeEditor = () => {
@@ -20,7 +20,7 @@ const CodeEditor = () => {
   return (
     <AceEditor
       ref={ref}
-      mode="typescript"
+      mode="python"
       theme="dracula"
       value={code}
       name="UNIQUE_ID_OF_DIV"

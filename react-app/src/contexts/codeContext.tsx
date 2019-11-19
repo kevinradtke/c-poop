@@ -1,10 +1,16 @@
 import React, { createContext, useState, createRef } from "react";
 
 import { EMOJI_HASH } from "../constants/emoji-categories";
+import {
+  EMOJI_CODE_TEST,
+  EMOJI_TRANSLATED_TEST
+} from "../constants/emoji-code-tests";
+
+const regex = new RegExp(Object.keys(EMOJI_HASH).join("|"), "gi");
 
 const initialState: any = {
-  code: "console.log('C💩 Rocks!');",
-  translatedCode: "console.log('C; Rocks!');"
+  code: EMOJI_CODE_TEST,
+  translatedCode: EMOJI_TRANSLATED_TEST
 };
 
 const CodeContext = createContext(initialState);
@@ -22,8 +28,6 @@ const CodeProvider = ({ children }: { children: React.ReactNode }) => {
     editor.session.insert(editor.getCursorPosition(), emoji);
     editor.focus();
   };
-
-  const regex = new RegExp(Object.keys(EMOJI_HASH).join("|"), "gi");
 
   const handleTranslation = (newCode: string) => {
     const aux = newCode.replace(regex, matched => {
