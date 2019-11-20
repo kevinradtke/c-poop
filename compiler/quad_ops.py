@@ -7,12 +7,17 @@ import memory
 class QuadOps:
 
     pos = 0
+    quadruples = []
 
     def __init__(self, quadruples):
+        self.pos = 0
+        self.quadruples = quadruples
+
+    def execute(self):
         print('\nEXECUTION BEGIN\n')
         self.output = open('ide_output.txt', 'w')
-        while (self.pos < len(quadruples)):
-            quad = quadruples[self.pos]
+        while (self.pos < len(self.quadruples)):
+            quad = self.quadruples[self.pos]
             op = quad[1].lower()
 
             if op in ops_table.ops:
@@ -60,4 +65,3 @@ class QuadOps:
 
     def endprog(self, quad):
         print('\nEXECUTION COMPLETE\n')
-        # sys.exit() // Esto hace tronar flask

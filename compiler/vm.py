@@ -9,13 +9,13 @@ def run():
     input_dict = eval(f.read())
     memory.init_memory(input_dict)
     quadruples = input_dict['quadruples']
-    QuadOps(quadruples)
+    runner = QuadOps(quadruples)
+    runner.execute()
     f.close()
 
 
 def comp():
-    # compile(test_name)
-    print("compile")
+    compile(test_name)
 
 
 def comp_and_run():
@@ -29,7 +29,7 @@ def flask_comp_and_run(file_name):
 
 
 # DEFAULT TEST
-# test_name = 'tests/test1.txt'
+test_name = 'tests/test1.txt'
 
 # TAKES TEST NAME FROM ARGS
 if (len(sys.argv) == 2):

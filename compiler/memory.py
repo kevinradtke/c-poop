@@ -21,7 +21,6 @@ def init_memory(input_dict):
 
     #Initialize main func vars
     era(func_dir, 'main')
-    display_memory()
 
 def era(func_dir, func_name):
     stack_frame = {}
