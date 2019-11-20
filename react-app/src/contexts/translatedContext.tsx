@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from "react";
-import { CodeContext } from "./codeContext";
+import { CodeContext } from "./";
 
 import { EMOJI_HASH } from "../constants/emoji-categories";
 import { EMOJI_TRANSLATED_TEST } from "../constants/emoji-code-tests";
@@ -22,6 +22,7 @@ const TranslatedProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     setTranslatedCode(aux);
+    editor.focus();
   };
 
   return (
