@@ -54,6 +54,9 @@ class QuadOps:
         if (not value):
             self.pos = quad[4]-2
 
+    def era(self, quad):
+        print('era quad')
+
     def exp(self, op, quad):
         op1 = memory.get(quad[2])
         if (quad[3]):

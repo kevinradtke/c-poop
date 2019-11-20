@@ -123,6 +123,14 @@ def fill_gotof():
     end = jump_stack.pop()
     mod_quad(end, 4, quad_pos())
 
+def gen_era(id):
+    func_dir = symbol_table.func_dir
+    if id in func_dir:
+        gen_quad('ERA', '', '', id)
+    else:
+        print('ERROR: Function', id, 'does not exist!')
+        sys.exit()
+
 def type_mismatch(op1, op='', op2=''):
     print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))
     sys.exit()
