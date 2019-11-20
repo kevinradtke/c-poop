@@ -3,6 +3,7 @@ import ops_table
 from ops_table import ops
 import memory
 
+
 class QuadOps:
 
     pos = 0
@@ -28,7 +29,6 @@ class QuadOps:
         else:
             print('ERROR: Operation `' + op + '` does not exist!')
             sys.exit()
-
 
     # QUADRUPLE FUNCTIONS
 
@@ -60,4 +60,4 @@ class QuadOps:
 
     def endprog(self, quad):
         print('\nEXECUTION COMPLETE\n')
-        sys.exit()
+        # sys.exit() // Esto hace tronar flask

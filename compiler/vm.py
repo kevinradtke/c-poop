@@ -10,6 +10,7 @@ def run():
     memory.init_memory(input_dict)
     quadruples = input_dict['quadruples']
     QuadOps(quadruples)
+    f.close()
 
 
 def comp():
@@ -28,6 +29,6 @@ test_name = 'tests/test1.txt'
 if (len(sys.argv) == 2):
     test_name = 'tests/' + sys.argv[1] + '.txt'
 
-comp_and_run()
+# comp_and_run()
 # comp()
 # run()
