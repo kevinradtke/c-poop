@@ -4,6 +4,7 @@ __pycache__
 *tab.py
 *.pyc
 *.poop
+compiler/ide_output.txt
 
 # React APP
 # dependencies
