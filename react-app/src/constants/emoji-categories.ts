@@ -121,12 +121,12 @@ export const EMOJI_CATEGORIES: EmojiCategories[] = [
       },
       {
         emoji: "👍",
-        equivalentValue: "True",
+        equivalentValue: "true",
         shortcode: ":thumbsup:"
       },
       {
         emoji: "👎",
-        equivalentValue: "False",
+        equivalentValue: "false",
         shortcode: ":thumbsdown:"
       },
       {
@@ -170,8 +170,8 @@ export const EMOJI_HASH: EmojiHash = {
   "🤲": " return ",
   "📭": " void ",
   "💡": " bool ",
-  "👍": " True ",
-  "👎": " False ",
+  "👍": " true ",
+  "👎": " false ",
   "🔢": " int ",
   "🎈": " float",
   "🧶": " string ",

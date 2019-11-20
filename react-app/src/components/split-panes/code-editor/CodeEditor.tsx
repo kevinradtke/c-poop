@@ -8,26 +8,19 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-dracula";
 
 const CodeEditor = () => {
-  const { code, ref, setCode, handleTranslation } = useContext(CodeContext);
+  const { ref, EMOJI_CODE_TEST } = useContext(CodeContext);
   const theme: Theme = useTheme();
   const { fontSize } = theme.typography;
-
-  const handleCodeChange = (newValue: any) => {
-    setCode(newValue);
-    handleTranslation(newValue);
-  };
 
   return (
     <AceEditor
       ref={ref}
+      defaultValue={EMOJI_CODE_TEST}
       mode="python"
       theme="dracula"
-      value={code}
-      name="UNIQUE_ID_OF_DIV"
       editorProps={{ $blockScrolling: true }}
       fontSize={fontSize}
       style={{ width: "100%", height: "100%" }}
-      onChange={handleCodeChange}
     />
   );
 };

@@ -1,9 +1,10 @@
 import React from "react";
+
 import SplitPane from "react-split-pane";
 
 import EmojiPane from "./emoji-pane/EmojiPane";
 import CodeEditor from "./code-editor/CodeEditor";
-// import TranslatedPane from "./translated-pane/TranslatedPane";
+import TranslatedPane from "./translated-pane/TranslatedPane";
 import TerminalPane from "./terminal-pane/TerminalPane";
 
 const SplitPanes: React.FC = () => {
@@ -22,7 +23,7 @@ const SplitPanes: React.FC = () => {
           <CodeEditor />
         </div>
         <div className="pane pane-3" style={{ overflowY: "auto" }}>
-          {/* <TranslatedPane /> */}
+          <TranslatedPane />
           <TerminalPane />
         </div>
       </SplitPane>

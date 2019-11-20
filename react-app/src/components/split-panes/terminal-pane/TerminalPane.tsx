@@ -3,15 +3,13 @@ import React, { useState, useContext } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { tomorrowNightEighties } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
-import { CodeContext } from "../../../contexts";
+import { TranslatedContext } from "../../../contexts";
 
-import test from "./test";
 import API from "./Api";
 
 const Component = () => {
-  const { translatedCode } = useContext(CodeContext);
-
-  const [code, setCode] = useState(test);
+  const { translatedCode } = useContext(TranslatedContext);
+  const [terminal, setTerminal] = useState("$");
 
   const handleClick = () => {
     API.call({
@@ -19,18 +17,19 @@ const Component = () => {
       method: "post",
       params: { code: translatedCode },
       success: (response: string) => {
-        setCode(response);
+        setTerminal(response);
       }
     });
   };
+
   return (
     <>
-      <button onClick={handleClick}>Run</button>
+      <button onClick={() => handleClick()}>Run</button>
       <SyntaxHighlighter
         style={tomorrowNightEighties}
         customStyle={{ margin: "0px" }}
       >
-        {code}
+        {terminal}
       </SyntaxHighlighter>
     </>
   );
