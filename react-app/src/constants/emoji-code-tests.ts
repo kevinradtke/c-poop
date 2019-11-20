@@ -44,7 +44,7 @@ main() {
 }`;
 
 const EMOJI_TRANSLATED_TEST: string = `program patito;
-var  int  uno, dos=2, tres;  float cuatro= 4.0;  bool  cinco =  True , seis =  False ;
+var  int  uno, dos=2, tres;  float cuatro= 4.0;  bool  cinco =  true , seis =  false ;
 
  def   void  test(){
    print("Hola"); 

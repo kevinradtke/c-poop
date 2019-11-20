@@ -14,7 +14,8 @@ def run():
 
 
 def comp():
-    compile(test_name)
+    # compile(test_name)
+    print("compile")
 
 
 def comp_and_run():
@@ -22,8 +23,13 @@ def comp_and_run():
     run()
 
 
+def flask_comp_and_run(file_name):
+    compile(file_name)
+    run()
+
+
 # DEFAULT TEST
-test_name = 'tests/test1.txt'
+# test_name = 'tests/test1.txt'
 
 # TAKES TEST NAME FROM ARGS
 if (len(sys.argv) == 2):
