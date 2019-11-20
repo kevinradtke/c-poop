@@ -19,7 +19,7 @@ const CodeEditor = () => {
       value={translatedCode}
       name="UNIQUE_ID_OF_DIV_23"
       editorProps={{ $blockScrolling: true }}
-      fontSize={fontSize}
+      fontSize={fontSize - 2}
       style={{ width: "100%" }}
       readOnly
     />

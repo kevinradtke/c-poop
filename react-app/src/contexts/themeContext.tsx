@@ -15,10 +15,10 @@ type ContextProps = {
 
 const initialState: ContextProps = {
   type: fetchTheme === "light" ? "light" : "dark",
-  fontSize: fetchFontSize || 14,
+  fontSize: fetchFontSize || 16,
   options: {
     type: ["light", "dark"],
-    fontSize: [12, 14, 16, 18]
+    fontSize: [12, 14, 16, 18, 20]
   }
 };
 
@@ -31,9 +31,9 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     palette: {
       type,
       primary: {
-        light: "#38444d",
-        main: "#15202b",
-        dark: "#0d1217"
+        light: "#434957",
+        main: "#282c34",
+        dark: "#21252b"
       }
     },
     typography: {

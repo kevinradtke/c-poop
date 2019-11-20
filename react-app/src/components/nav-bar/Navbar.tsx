@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" elevation={2}>
+      <AppBar position="static" elevation={2} className={classes.appbar}>
         <Toolbar>
           <Typography variant="h5" className={classes.title}>
             {"C"}
@@ -23,12 +23,16 @@ const Navbar: React.FC = () => {
             </span>
             {"Compiler"}
           </Typography>
-          <Button variant="contained" onClick={() => handleTranslation()}>
+          <Button
+            variant="outlined"
+            onClick={() => handleTranslation()}
+            className={classes.translateButton}
+          >
             Translate
           </Button>
           <Button
-            variant="contained"
-            color="primary"
+            variant="outlined"
+            color="secondary"
             onClick={() => handleTerminal()}
           >
             Run

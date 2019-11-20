@@ -1,6 +1,6 @@
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
@@ -9,7 +9,7 @@ const useStyles = makeStyles(() =>
       height: "100%"
     },
     listSection: {
-      backgroundColor: "#192734"
+      backgroundColor: theme.palette.primary.dark
     },
     ul: {
       backgroundColor: "inherit",

@@ -4,14 +4,14 @@ import SplitPane from "react-split-pane";
 
 import EmojiPane from "./emoji-pane/EmojiPane";
 import CodeEditor from "./code-editor/CodeEditor";
-import TranslatedPane from "./translated-pane/TranslatedPane";
-import TerminalPane from "./terminal-pane/TerminalPane";
+
+import ThirdPaneTabs from "./third-pane-tabs/ThirdPaneTabs";
 
 const SplitPanes: React.FC = () => {
   return (
     <SplitPane
       split="vertical"
-      defaultSize="20%"
+      defaultSize="15%"
       minSize={160}
       className="pane-parent"
     >
@@ -23,8 +23,7 @@ const SplitPanes: React.FC = () => {
           <CodeEditor />
         </div>
         <div className="pane pane-3" style={{ overflowY: "auto" }}>
-          <TranslatedPane />
-          <TerminalPane />
+          <ThirdPaneTabs />
         </div>
       </SplitPane>
     </SplitPane>
