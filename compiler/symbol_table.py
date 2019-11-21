@@ -43,7 +43,8 @@ def insert_func(func_name, type='void', pos=0):
             'type': type,
             'pos': pos,
             'vars': {},
-            'temps': {}
+            'temps': {},
+            'params': []
         }
 
 def insert_local_var(func_name, var_name, type, value=None, exp_type=None):
@@ -73,6 +74,8 @@ def insert_local_var(func_name, var_name, type, value=None, exp_type=None):
             print('ERROR: Stack overflow! => ' + func_name)
             sys.exit()
 
+def insert_param(func_name, var_name, var_type):
+    func_dir[func_name]['params'].append([var_name, var_type])
 
 # CONSTANTS
 

@@ -4,6 +4,7 @@ g_memory = {}
 c_memory = {}
 local_stack = []
 MAX_STACK_CALLS = 100
+func_dir = {}
 
 def init_memory(input_dict):
 
@@ -12,6 +13,7 @@ def init_memory(input_dict):
     for cte in ctes:
         c_memory[cte['addr']] = cte['value']
 
+    global func_dir
     func_dir = input_dict['func_dir']
 
     #Initialize globals
@@ -20,9 +22,9 @@ def init_memory(input_dict):
         g_memory[globals[g]['addr']] = globals[g]['value']
 
     #Initialize main func vars
-    era(func_dir, 'main')
+    era('main')
 
-def era(func_dir, func_name):
+def era(func_name):
     stack_frame = {}
 
     vars = func_dir[func_name]['vars']

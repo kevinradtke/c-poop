@@ -6,6 +6,7 @@ import sys
 import utils
 
 cube = semantic_cube.cube
+func_dir = symbol_table.func_dir
 
 quadruples = []
 quadruples_addr = []
@@ -56,7 +57,6 @@ def gen_quad_exp(op, op1, op2):
 
 def insert_temp(type, temp_name):
     func_table = symbol_table.func_table
-    func_dir = symbol_table.func_dir
     context = utils.context
     addr = func_table[context][type][2]
     if (addr >= func_table[context][type][1]):
@@ -123,10 +123,26 @@ def fill_gotof():
     end = jump_stack.pop()
     mod_quad(end, 4, quad_pos())
 
+def fill_params(params):
+    func = utils.cur_stack
+    if (len(params) != len(func_dir[func]['params'])):
+        print('ERROR: quantity of params not correct! =>', func)
+        sys.exit()
+
+    for i, param in enumerate(params):
+        func_param = func_dir[func]['params'][i]
+        if param.type == func_param[1]:
+            addr = func_dir[func]['vars'][func_param[0]]['addr']
+            gen_quad_name('PARAM', param.value, '', func_param[0])
+            gen_quad_addr('PARAM', param.addr, '', addr)
+        else:
+            print('ERROR: Param type mismatch! =>', func)
+            sys.exit()
+
 def gen_era(id):
-    func_dir = symbol_table.func_dir
     if id in func_dir:
         gen_quad('ERA', '', '', id)
+        utils.cur_stack = id
     else:
         print('ERROR: Function', id, 'does not exist!')
         sys.exit()

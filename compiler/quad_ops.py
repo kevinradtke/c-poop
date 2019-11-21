@@ -2,7 +2,7 @@ import sys
 import ops_table
 from ops_table import ops
 import memory
-
+import utils
 
 class QuadOps:
 
@@ -55,7 +55,11 @@ class QuadOps:
             self.pos = quad[4]-2
 
     def era(self, quad):
-        print('era quad')
+        memory.era(quad[4])
+
+    def param(self, quad):
+        val = memory.get(quad[2])
+        memory.set(quad[4], val)
 
     def exp(self, op, quad):
         op1 = memory.get(quad[2])
@@ -65,6 +69,9 @@ class QuadOps:
         else:
             value = ops[op](op1)
         memory.set(quad[4], value)
+
+    def endproc(self, quad):
+        memory.local_stack.pop()
 
     def endprog(self, quad):
         print('\nEXECUTION COMPLETE\n')
