@@ -73,6 +73,10 @@ class QuadOps:
             value = ops[op](op1)
         memory.set(quad[4], value)
 
+    def ret(self, quad):
+        val = memory.get(quad[2])
+        memory.set(quad[4], val)
+
     def endproc(self, quad):
         memory.local_stack.pop()
         jump = memory.jump_stack.pop()

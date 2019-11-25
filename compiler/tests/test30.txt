@@ -1,0 +1,13 @@
+program test3;
+
+def int fibonacci(int x, string y) {
+  print(x,y);
+  return 5;
+  return 10;
+}
+
+main() {
+  var int xd;
+  xd = fibonacci(5, "aa");
+  print(xd);
+}

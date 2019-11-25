@@ -27,6 +27,6 @@ def compile(file):
     if success == True:
         print('Compiling successful!')
         gen_obj()
-        # test_log(file)
+        test_log(file)
     else:
         print('Compile error')
