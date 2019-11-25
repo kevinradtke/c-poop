@@ -322,6 +322,7 @@ def p_funcion(p):
                | DEF VOID funcionAux RBRACE'''
     symbol_table.func_dir[p[3]]['type'] = p[2]
     symbol_table.func_dir[p[3]]['pos'] = utils.func_start_pos
+    code_generator.gen_quad('ENDPROC', '', '', '')
 
 def p_funcionAux(p):
     '''funcionAux : dec_func end_of_dec_func
@@ -345,6 +346,7 @@ def p_dec_func(p):
     if (len(p) == 5):
         for var in p[3]:
             symbol_table.insert_local_var(p[1], var['name'], var['type'])
+            symbol_table.insert_param(p[1], var['name'], var['type'])
 
 def p_func_name(p):
     '''func_name : ID'''
@@ -360,20 +362,27 @@ def p_dec_func_aux(p):
         p[0] = [{'name': p[2], 'type': p[1]}] + p[4]
 
 def p_func_call(p):
-    '''func_call : ID LPAREN RPAREN SEMICOLON
-                 | ID LPAREN func_call_aux RPAREN SEMICOLON'''
-
+    '''func_call : func_call_var SEMICOLON'''
     # FIXME: should evaluate function and return a value
     p[0] = Var('string', 'fixme')
 
 def p_func_call_var(p):
-    '''func_call_var : ID LPAREN RPAREN
-                 | ID LPAREN func_call_aux RPAREN'''
-    p[0] = Var('string', 'fixme')
+    '''func_call_var : func_call_begin LPAREN RPAREN
+                     | func_call_begin LPAREN func_call_aux RPAREN'''
+    if (len(p) > 4):
+        code_generator.fill_params(p[3])
+
+def p_func_call_begin(p):
+    '''func_call_begin : ID'''
+    code_generator.gen_era(p[1])
 
 def p_func_call_aux(p):
     '''func_call_aux : expresion
                      | expresion COMMA func_call_aux'''
+    if (len(p)==2):
+        p[0] = [p[1]]
+    else:
+        p[0] = [p[1]] + p[3]
 
 
 # --- ERRORS ---

@@ -2,17 +2,22 @@ import sys
 import ops_table
 from ops_table import ops
 import memory
-
+import utils
 
 class QuadOps:
 
     pos = 0
+    quadruples = []
 
     def __init__(self, quadruples):
+        self.pos = 0
+        self.quadruples = quadruples
+
+    def execute(self):
         print('\nEXECUTION BEGIN\n')
         self.output = open('ide_output.txt', 'w')
-        while (self.pos < len(quadruples)):
-            quad = quadruples[self.pos]
+        while (self.pos < len(self.quadruples)):
+            quad = self.quadruples[self.pos]
             op = quad[1].lower()
 
             if op in ops_table.ops:
@@ -49,6 +54,13 @@ class QuadOps:
         if (not value):
             self.pos = quad[4]-2
 
+    def era(self, quad):
+        memory.era(quad[4])
+
+    def param(self, quad):
+        val = memory.get(quad[2])
+        memory.set(quad[4], val)
+
     def exp(self, op, quad):
         op1 = memory.get(quad[2])
         if (quad[3]):
@@ -58,6 +70,8 @@ class QuadOps:
             value = ops[op](op1)
         memory.set(quad[4], value)
 
+    def endproc(self, quad):
+        memory.local_stack.pop()
+
     def endprog(self, quad):
         print('\nEXECUTION COMPLETE\n')
-        # sys.exit() // Esto hace tronar flask

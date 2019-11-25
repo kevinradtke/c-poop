@@ -3,6 +3,7 @@ import symbol_table
 import sys
 
 context = 'global'
+cur_stack = 'main'
 func_start_pos = 0
 
 def id_lookup(id):
