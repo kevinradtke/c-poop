@@ -133,11 +133,22 @@ def fill_params(params):
         func_param = func_dir[func]['params'][i]
         if param.type == func_param[1]:
             addr = func_dir[func]['vars'][func_param[0]]['addr']
-            gen_quad_name('PARAM', param.value, '', func_param[0])
             gen_quad_addr('PARAM', param.addr, '', addr)
+            gen_quad_name('PARAM', param.value, '', func_param[0])
         else:
             print('ERROR: Param type mismatch! =>', func)
             sys.exit()
+
+# def gen_param(exp):
+#     func = utils.cur_stack
+#     func_param = func_dir[func]['params'][utils.func_param_pos]
+#     if exp.type == func_param[1]:
+#         addr = func_dir[func]['vars'][func_param[0]]['addr']
+#         gen_quad_name('PARAM', exp.value, '', func_param[0])
+#         gen_quad_addr('PARAM', exp.addr, '', addr)
+#     else:
+#         print('ERROR: Param type mismatch! =>', func)
+#         sys.exit()
 
 def gen_era(id):
     if id in func_dir:
@@ -146,6 +157,17 @@ def gen_era(id):
     else:
         print('ERROR: Function', id, 'does not exist!')
         sys.exit()
+
+def gen_gosub(jump):
+    gen_quad('GOSUB', '', '', jump)
+
+def gen_return(exp):
+    if (exp.type == func_dir[utils.context]['type']):
+        addr = func_dir['global']['vars'][utils.context]['addr']
+        gen_quad_addr('RET', exp.addr, '', addr)
+        gen_quad_name('RET', exp.value, '', utils.context)
+    else:
+        type_mismatch('return', exp.type, 'in function: ' + utils.context)
 
 def type_mismatch(op1, op='', op2=''):
     print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))

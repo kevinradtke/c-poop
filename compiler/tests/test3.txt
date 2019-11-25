@@ -1,29 +1,17 @@
 program test3;
-var int x;
+var int x=100;
+
+def int fibonacci(int n) {
+  if (n==0) {
+    return 0;
+  }
+  else {
+    return fibonacci(n-1);
+  };
+}
 
 main() {
-  repeat 5 {
-		print("hola");
-	}
-	print("Se acabo el repeat 1!");
-
-	repeat 0 {
-		print("como es cero no se va ejecutar");
-	}
-
-	x = 5;
-	if (x > 10) {
-		repeat 2 {
-			print(x);
-			x = x * 2;
-		}
-	} else {
-		print("aqui toy");
-		repeat 3 {
-			print(x*4);
-			x = x - 1;
-		}
-	};
-
-	print("Ya fin");
+  var int f;
+  f = fibonacci(1);
+  print(f);
 }

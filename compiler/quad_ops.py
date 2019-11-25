@@ -19,7 +19,6 @@ class QuadOps:
         while (self.pos < len(self.quadruples)):
             quad = self.quadruples[self.pos]
             op = quad[1].lower()
-
             if op in ops_table.ops:
                 self.exp(op, quad)
             else:
@@ -58,8 +57,12 @@ class QuadOps:
         memory.era(quad[4])
 
     def param(self, quad):
-        val = memory.get(quad[2])
+        val = memory.get_param(quad[2])
         memory.set(quad[4], val)
+
+    def gosub(self, quad):
+        memory.jump_stack.append(self.pos+1)
+        self.pos = quad[4]-2
 
     def exp(self, op, quad):
         op1 = memory.get(quad[2])
@@ -70,8 +73,14 @@ class QuadOps:
             value = ops[op](op1)
         memory.set(quad[4], value)
 
+    def ret(self, quad):
+        val = memory.get(quad[2])
+        memory.set(quad[4], val)
+
     def endproc(self, quad):
         memory.local_stack.pop()
+        jump = memory.jump_stack.pop()
+        self.pos = jump-1
 
     def endprog(self, quad):
         print('\nEXECUTION COMPLETE\n')

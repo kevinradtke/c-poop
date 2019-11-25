@@ -5,6 +5,7 @@ from symbol_table import Var
 import sys
 import code_generator
 import utils
+import pprint
 
 tokens = lexer.tokens
 
@@ -88,7 +89,8 @@ def p_estatuto(p):
                 | condicion
                 | escritura
                 | loop
-                | func_call'''
+                | func_call
+                | function_return'''
 
 def p_asignacion(p):
     '''asignacion : ID EQUAL expresion SEMICOLON'''
@@ -318,15 +320,39 @@ def p_if_else(p):
 # --- FUNCIONES ---
 
 def p_funcion(p):
-    '''funcion : DEF tipo funcionAux RETURN expresion SEMICOLON RBRACE
-               | DEF VOID funcionAux RBRACE'''
+    '''funcion : type_func RBRACE
+               | void_func RBRACE'''
+    symbol_table.func_dir[p[1]]['pos'] = utils.func_start_pos
+    code_generator.gen_quad('ENDPROC', '', '', '')
+
+def p_type_func(p):
+    '''type_func : set_type funcionAux'''
+    p[0] = p[1]
+
+def p_set_type(p):
+    '''set_type : DEF tipo dec_func'''
+    symbol_table.func_dir[p[3]]['pos'] = code_generator.quad_pos()
     symbol_table.func_dir[p[3]]['type'] = p[2]
-    symbol_table.func_dir[p[3]]['pos'] = utils.func_start_pos
+    symbol_table.insert_global_var(p[3], p[2])
+    p[0] = p[3]
+
+def p_void_func(p):
+    '''void_func : set_void funcionAux'''
+    p[0] = p[1]
+
+def p_set_void(p):
+    '''set_void : DEF VOID dec_func'''
+    symbol_table.func_dir[p[3]]['pos'] = code_generator.quad_pos()
+    p[0] = p[3]
+
+def p_function_return(p):
+    '''function_return : RETURN expresion SEMICOLON'''
+    code_generator.gen_return(p[2])
     code_generator.gen_quad('ENDPROC', '', '', '')
 
 def p_funcionAux(p):
-    '''funcionAux : dec_func end_of_dec_func
-                  | dec_func end_of_dec_func funcionAux2'''
+    '''funcionAux : end_of_dec_func
+                  | end_of_dec_func funcionAux2'''
     p[0] = p[1]
 
 def p_end_of_dec_func(p):
@@ -363,18 +389,26 @@ def p_dec_func_aux(p):
 
 def p_func_call(p):
     '''func_call : func_call_var SEMICOLON'''
-    # FIXME: should evaluate function and return a value
-    p[0] = Var('string', 'fixme')
+    p[0] = p[1]
 
 def p_func_call_var(p):
     '''func_call_var : func_call_begin LPAREN RPAREN
                      | func_call_begin LPAREN func_call_aux RPAREN'''
     if (len(p) > 4):
         code_generator.fill_params(p[3])
+    else:
+        code_generator.fill_params([])
+    jump = symbol_table.func_dir[p[1]]['pos']
+    code_generator.gen_gosub(jump)
+    if (symbol_table.func_dir[p[1]]['type'] == 'void'):
+        p[0] = p[1]
+    else:
+        p[0] = utils.id_lookup(p[1])
 
 def p_func_call_begin(p):
     '''func_call_begin : ID'''
     code_generator.gen_era(p[1])
+    p[0] = p[1]
 
 def p_func_call_aux(p):
     '''func_call_aux : expresion
