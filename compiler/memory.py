@@ -1,8 +1,10 @@
 import memory_map
+import sys
 
 g_memory = {}
 c_memory = {}
 local_stack = []
+jump_stack = []
 MAX_STACK_CALLS = 100
 func_dir = {}
 
@@ -35,6 +37,7 @@ def era(func_name):
         local_stack.append(stack_frame)
     else:
         print('ERROR: Stack overflow! => Stack frame calls exceeded')
+        sys.exit()
 
 def display_memory():
 
@@ -70,3 +73,12 @@ def get(addr):
     else:
         stack_size = len(local_stack)
         return local_stack[stack_size-1][addr]
+
+def get_param(addr):
+    if (addr < 5000):
+        return g_memory[addr]
+    elif (addr < 9000):
+        return c_memory[addr]
+    else:
+        stack_size = len(local_stack)
+        return local_stack[stack_size-2][addr]

@@ -363,18 +363,21 @@ def p_dec_func_aux(p):
 
 def p_func_call(p):
     '''func_call : func_call_var SEMICOLON'''
-    # FIXME: should evaluate function and return a value
-    p[0] = Var('string', 'fixme')
+    p[0] = p[1]
 
 def p_func_call_var(p):
     '''func_call_var : func_call_begin LPAREN RPAREN
                      | func_call_begin LPAREN func_call_aux RPAREN'''
     if (len(p) > 4):
         code_generator.fill_params(p[3])
+    jump = symbol_table.func_dir[p[1]]['pos']
+    code_generator.gen_gosub(jump)
+    p[0] = p[1]
 
 def p_func_call_begin(p):
     '''func_call_begin : ID'''
     code_generator.gen_era(p[1])
+    p[0] = p[1]
 
 def p_func_call_aux(p):
     '''func_call_aux : expresion

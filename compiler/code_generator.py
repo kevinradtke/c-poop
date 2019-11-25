@@ -147,6 +147,9 @@ def gen_era(id):
         print('ERROR: Function', id, 'does not exist!')
         sys.exit()
 
+def gen_gosub(jump):
+    gen_quad('GOSUB', '', '', jump)
+
 def type_mismatch(op1, op='', op2=''):
     print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))
     sys.exit()
