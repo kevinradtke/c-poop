@@ -6,7 +6,7 @@ import {
   ListItemText,
   Typography
 } from "@material-ui/core/";
-import { CodeContext } from "../../../../contexts";
+import { CodeContext } from "../../../../contexts/codeContext";
 
 import useStyles from "./emoji-item-button.jss";
 

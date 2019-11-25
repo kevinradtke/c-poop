@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,6 +10,8 @@ import Box from "@material-ui/core/Box";
 import TranslatedPane from "../translated-pane/TranslatedPane";
 import TerminalPane from "../terminal-pane/TerminalPane";
 
+import { TabsContext } from "../../../contexts/tabsContext";
+
 interface TabPanelProps {
   children?: React.ReactNode;
   dir?: string;
@@ -18,7 +20,7 @@ interface TabPanelProps {
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index } = props;
 
   return (
     <Typography
@@ -27,7 +29,6 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
-      {...other}
     >
       <Box p={0}>{children}</Box>
     </Typography>
@@ -51,15 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function FullWidthTabs() {
   const classes = useStyles();
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const handleChangeIndex = (index: number) => {
-    setValue(index);
-  };
+  const { value, handleChange } = useContext(TabsContext);
 
   return (
     <div className={classes.root}>
@@ -72,21 +65,21 @@ export default function FullWidthTabs() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Terminal" {...a11yProps(0)} />
-          <Tab label="Translation" {...a11yProps(1)} />
+          <Tab label="Translation" {...a11yProps(0)} />
+          <Tab label="Terminal" {...a11yProps(1)} />
           <Tab label="Documentation" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
-        onChangeIndex={handleChangeIndex}
+        onChangeIndex={handleChange}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <TerminalPane />
+          <TranslatedPane />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <TranslatedPane />
+          <TerminalPane />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Documentación

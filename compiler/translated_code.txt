@@ -3,8 +3,6 @@ var  int  uno, dos=2, tres;  float cuatro= 4.0;  bool  cinco =  true , seis =  f
 
  def   void  test(){
    print("Hola");
-  
-  
 }
 
  def   int  test2( int  number,  string  word,  bool  poop,  float haha){

@@ -1,6 +1,6 @@
 import React from "react";
 import { CssBaseline } from "@material-ui/core";
-import { AppProvider } from "../contexts";
+import AppProvider from "../contexts";
 
 import Navbar from "./nav-bar/Navbar";
 import SplitPanes from "./split-panes/SplitPanes";

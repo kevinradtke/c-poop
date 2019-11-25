@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import AceEditor from "react-ace";
 import { Theme, useTheme } from "@material-ui/core/styles";
 
-import { CodeContext } from "../../../contexts";
+import { CodeContext } from "../../../contexts/codeContext";
 
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-dracula";

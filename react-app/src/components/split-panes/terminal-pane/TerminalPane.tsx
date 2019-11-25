@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { tomorrowNightEighties } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
-import { TerminalContext } from "../../../contexts";
+import { TerminalContext } from "../../../contexts/terminalContext";
 
 const Component = () => {
   const { terminal } = useContext(TerminalContext);

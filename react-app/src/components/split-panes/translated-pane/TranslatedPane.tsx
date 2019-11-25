@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import AceEditor from "react-ace";
 import { Theme, useTheme } from "@material-ui/core/styles";
 
-import { TranslatedContext } from "../../../contexts";
+import { TranslatedContext } from "../../../contexts/translatedContext";
 
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";

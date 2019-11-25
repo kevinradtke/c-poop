@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 
-import { TranslatedContext, TerminalContext } from "../../contexts/";
-
 import { AppBar, Button, Toolbar, Typography } from "@material-ui/core/";
+import { TranslatedContext } from "../../contexts/translatedContext";
+import { TerminalContext } from "../../contexts/terminalContext";
+import { TabsContext } from "../../contexts/tabsContext";
 
 import useStyles from "./navbar.jss";
 
@@ -11,6 +12,7 @@ const Navbar: React.FC = () => {
 
   const { handleTranslation } = useContext(TranslatedContext);
   const { handleTerminal } = useContext(TerminalContext);
+  const { handleChangeIndex } = useContext(TabsContext);
 
   return (
     <div className={classes.root}>
@@ -25,7 +27,10 @@ const Navbar: React.FC = () => {
           </Typography>
           <Button
             variant="outlined"
-            onClick={() => handleTranslation()}
+            onClick={() => {
+              handleTranslation();
+              handleChangeIndex(0);
+            }}
             className={classes.translateButton}
           >
             Translate
@@ -33,7 +38,10 @@ const Navbar: React.FC = () => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => handleTerminal()}
+            onClick={() => {
+              handleTerminal();
+              handleChangeIndex(1);
+            }}
           >
             Run
           </Button>

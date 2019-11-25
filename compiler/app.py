@@ -16,11 +16,11 @@ def run_api():
 
     code = request.form['code']
 
-    file = open("copy.txt", "w")
+    file = open("translated_code.txt", "w")
     file.write(code)
     file.close()
 
-    flask_comp_and_run("copy.txt")
+    flask_comp_and_run("translated_code.txt")
 
     with current_app.open_resource('ide_output.txt') as f:
         return f.read()
