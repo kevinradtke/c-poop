@@ -404,6 +404,7 @@ def p_func_call_var(p):
         p[0] = p[1]
     else:
         p[0] = utils.id_lookup(p[1])
+        p[0] = code_generator.get_return(p[1])
 
 def p_func_call_begin(p):
     '''func_call_begin : ID'''

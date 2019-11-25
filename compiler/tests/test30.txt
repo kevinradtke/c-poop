@@ -1,13 +1,36 @@
 program test3;
 
-def int fibonacci(int x, string y) {
-  print(x,y);
-  return 5;
-  return 10;
+def int factorial(int x) {
+  if (x<=1) {
+    return 1;
+  }
+  else {
+    x = x-1;
+    return x * factorial(x);
+  };
+}
+
+def int fibonacci(int n) {
+  var int n1, n2;
+  if(n == 0) {
+    return 0;
+  };
+  if (n == 1) {
+    return 1;
+  }
+  else {
+    n1 = n-1;
+    n2 = n-2;
+    return fibonacci(n1) + fibonacci(n2);
+ };
 }
 
 main() {
-  var int xd;
-  xd = fibonacci(5, "aa");
-  print(xd);
+  var int i = 1;
+  print("Fibonacci up to 10");
+  repeat 10 {
+    print(fibonacci(i));
+    i = i+1;
+  }
+  print("", "Factorial of 5", factorial(5));
 }

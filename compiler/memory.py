@@ -5,7 +5,7 @@ g_memory = {}
 c_memory = {}
 local_stack = []
 jump_stack = []
-MAX_STACK_CALLS = 10
+MAX_STACK_CALLS = 1000
 func_dir = {}
 
 def init_memory(input_dict):
@@ -83,4 +83,4 @@ def get_param(addr):
         return c_memory[addr]
     else:
         stack_size = len(local_stack)
-        return local_stack[stack_size-1][addr]
+        return local_stack[stack_size-2][addr]

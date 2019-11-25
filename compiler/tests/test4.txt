@@ -1,0 +1,16 @@
+program test4;
+
+def int test3(int x) {
+  print("Test 3", x);
+  return x + 5;
+}
+
+def int test2(int x, int y) {
+  print("Test 2", x, y);
+  return test3(x);
+}
+
+main() {
+  var int a = 5;
+  print(test2(a, 1));
+}

@@ -130,6 +130,7 @@ def fill_params(params):
         sys.exit()
 
     for i, param in enumerate(params):
+
         func_param = func_dir[func]['params'][i]
         if param.type == func_param[1]:
             addr = func_dir[func]['vars'][func_param[0]]['addr']
@@ -139,21 +140,10 @@ def fill_params(params):
             print('ERROR: Param type mismatch! =>', func)
             sys.exit()
 
-# def gen_param(exp):
-#     func = utils.cur_stack
-#     func_param = func_dir[func]['params'][utils.func_param_pos]
-#     if exp.type == func_param[1]:
-#         addr = func_dir[func]['vars'][func_param[0]]['addr']
-#         gen_quad_name('PARAM', exp.value, '', func_param[0])
-#         gen_quad_addr('PARAM', exp.addr, '', addr)
-#     else:
-#         print('ERROR: Param type mismatch! =>', func)
-#         sys.exit()
-
 def gen_era(id):
     if id in func_dir:
-        gen_quad('ERA', '', '', id)
         utils.cur_stack = id
+        gen_quad('ERA', '', '', id)
     else:
         print('ERROR: Function', id, 'does not exist!')
         sys.exit()
@@ -168,6 +158,16 @@ def gen_return(exp):
         gen_quad_name('RET', exp.value, '', utils.context)
     else:
         type_mismatch('return', exp.type, 'in function: ' + utils.context)
+
+def get_return(func_name):
+    return_exp = utils.id_lookup(func_name)
+    global temp_pos
+    temp_name = 'temp' + str(temp_pos)
+    temp_addr = insert_temp(return_exp.type, temp_name)
+    temp_pos += 1
+    temp_var = Var(return_exp.type, temp_name, temp_addr)
+    gen_quad_assig(temp_var, return_exp)
+    return temp_var
 
 def type_mismatch(op1, op='', op2=''):
     print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))

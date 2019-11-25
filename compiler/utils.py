@@ -3,6 +3,7 @@ import symbol_table
 import sys
 
 context = 'global'
+func_stack = ['main']
 cur_stack = 'main'
 func_start_pos = 0
 
