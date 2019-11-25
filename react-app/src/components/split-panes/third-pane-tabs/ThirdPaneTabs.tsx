@@ -9,6 +9,7 @@ import Box from "@material-ui/core/Box";
 
 import TranslatedPane from "../translated-pane/TranslatedPane";
 import TerminalPane from "../terminal-pane/TerminalPane";
+import DocumentationTab from "./documentation-tab/DocumentationTab";
 
 import { TabsContext } from "../../../contexts/tabsContext";
 
@@ -82,7 +83,7 @@ export default function FullWidthTabs() {
           <TerminalPane />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Documentación
+          <DocumentationTab />
         </TabPanel>
       </SwipeableViews>
     </div>

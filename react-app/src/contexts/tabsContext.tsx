@@ -5,7 +5,7 @@ const initialState: any = 0;
 const TabsContext = createContext(initialState);
 
 const TabsProvider = ({ children }: { children: React.ReactNode }) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(2);
 
   const handleChangeIndex = (index: any) => {
     setValue(index);

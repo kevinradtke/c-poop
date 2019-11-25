@@ -34,6 +34,7 @@ const TerminalProvider = ({ children }: { children: React.ReactNode }) => {
         setTerminal(response);
       }
     });
+
     editor.focus();
   };
 
