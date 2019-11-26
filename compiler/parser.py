@@ -13,12 +13,16 @@ tokens = lexer.tokens
 
 def p_program(p):
     '''program : program_init main_dec
-               | program_init vars_main main_dec
-               | program_init funciones main_dec
-               | program_init vars_main funciones main_dec'''
+               | program_init funciones main_dec'''
 
 def p_program_init(p):
-    '''program_init : PROGRAM ID SEMICOLON'''
+    '''program_init : init2 ID SEMICOLON
+                    | init2 ID SEMICOLON vars_main'''
+    code_generator.gen_quad('GOTO','','','')
+    utils.goto_main = code_generator.quad_pos()-2
+
+def p_init2(p):
+    '''init2 : PROGRAM'''
     symbol_table.insert_func('global')
 
 def p_funciones(p):
@@ -43,8 +47,6 @@ def p_main_init(p):
 
 def p_vars_main(p):
     '''vars_main : VAR varAux1'''
-    code_generator.gen_quad('GOTO','','','')
-    utils.goto_main = code_generator.quad_pos()-2
 
 def p_vars(p):
     '''vars : VAR varAux1'''
