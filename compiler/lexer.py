@@ -1,4 +1,5 @@
 import ply.lex as lex
+from error_control import err
 
 reserved = {
     'program': 'PROGRAM',
@@ -116,9 +117,7 @@ tokens = tokens + list(reserved.values())
 def t_error(t):
     global success
     success = False
-    print("Caracter ilegal '%s'" % t.value[0])
-    t.lexer.skip(1)
-    print("entre aqui")
+    err('Illegal character!', t.value[0])
 
 
 # Construye el lexer

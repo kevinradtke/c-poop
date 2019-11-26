@@ -2,6 +2,8 @@ import semantic_cube
 import ops_table
 import symbol_table
 from symbol_table import Var
+from error_control import type_mismatch
+from error_control import err
 import sys
 import utils
 
@@ -69,8 +71,7 @@ def insert_temp(type, temp_name):
         }
         return addr
     else:
-        print('ERROR: Stack overflow! => ' + utils.context)
-        sys.exit()
+        err('Stack overflow!', utils.context)
 
 def gen_if_goto():
     gen_quad('GOTO', '', '', '')
@@ -126,8 +127,7 @@ def fill_gotof():
 def fill_params(params):
     func = utils.cur_stack
     if (len(params) != len(func_dir[func]['params'])):
-        print('ERROR: quantity of params not correct! =>', func)
-        sys.exit()
+        err('Quantity of params not correct!', func)
 
     for i, param in enumerate(params):
 
@@ -137,16 +137,14 @@ def fill_params(params):
             gen_quad_addr('PARAM', param.addr, '', addr)
             gen_quad_name('PARAM', param.value, '', func_param[0])
         else:
-            print('ERROR: Param type mismatch! =>', func)
-            sys.exit()
+            err('Param type mismatch!', func)
 
 def gen_era(id):
     if id in func_dir:
         utils.cur_stack = id
         gen_quad('ERA', '', '', id)
     else:
-        print('ERROR: Function', id, 'does not exist!')
-        sys.exit()
+        err('Function does not exist!', id)
 
 def gen_gosub(jump):
     gen_quad('GOSUB', '', '', jump)
@@ -168,7 +166,3 @@ def get_return(func_name):
     temp_var = Var(return_exp.type, temp_name, temp_addr)
     gen_quad_assig(temp_var, return_exp)
     return temp_var
-
-def type_mismatch(op1, op='', op2=''):
-    print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))
-    sys.exit()

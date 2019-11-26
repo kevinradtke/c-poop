@@ -3,6 +3,7 @@ import ops_table
 from ops_table import ops
 import memory
 import utils
+from error_control import err
 
 class QuadOps:
 
@@ -31,8 +32,7 @@ class QuadOps:
             method = getattr(self, op)
             return method(quad)
         else:
-            print('ERROR: Operation `' + op + '` does not exist!')
-            sys.exit()
+            err('Operation does not exist!', op)
 
     # QUADRUPLE FUNCTIONS
 

@@ -2,7 +2,7 @@ import memory
 from quad_ops import QuadOps
 from compiler import compile
 import sys
-
+import utils
 
 def run():
     f = open('output.poop')
@@ -24,6 +24,7 @@ def comp_and_run():
 
 
 def flask_comp_and_run(file_name):
+    utils.env = 'ide'
     compile(file_name)
     run()
 

@@ -1,5 +1,7 @@
 import memory_map
 import sys
+from error_control import type_mismatch
+from error_control import err
 
 class Var:
     type = 'string'
@@ -30,8 +32,7 @@ func_table = {}
 
 def insert_func(func_name, type='void', pos=0):
     if func_name in func_dir.keys():
-        print(f'ERROR: function with name {func_name} already declared')
-        sys.exit()
+        err('Function already declared!', func_name)
     else:
         func_table[func_name] = {
             'int' : [[], l_limits.INT_MIN, l_limits.INT_MAX],
@@ -52,14 +53,11 @@ def insert_local_var(func_name, var_name, type, value=None, exp_type=None):
     if (exp_type == None):
         exp_type = type
     if (type != exp_type):
-        print('ERROR: Type mismatch! =>', type, '=', exp_type)
-        sys.exit()
+        type_mismatch(type, '=', exp_type)
     if var_name in func_dir[func_name]['vars'].keys():
-        print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared')
-        sys.exit()
+        err('Variable with name ' + var_name + ' already declared!', func_name)
     elif var_name in func_dir['global']['vars'].keys():
-        print(f'ERROR: variable with name `{var_name}` in function `{func_name}` already declared globally')
-        sys.exit()
+        err('Variable with name ' + var_name + ' already declared globally!', func_name)
     else:
         if (value == None):
             value = defaults[type]
@@ -74,8 +72,7 @@ def insert_local_var(func_name, var_name, type, value=None, exp_type=None):
             func_table[func_name][type][1] += 1
             return Var(type, value, addr)
         else:
-            print('ERROR: Stack overflow! => ' + func_name)
-            sys.exit()
+            err('Stack overflow!', func_name)
 
 def insert_param(func_name, var_name, var_type):
     func_dir[func_name]['params'].append([var_name, var_type])
@@ -102,8 +99,7 @@ def insert_cte(type, val):
         cte_table[type][1] += 1
         return addr
     else:
-        print('ERROR: Constant segment overflow!')
-        sys.exit()
+        err('Constant segment overflow!', val)
 
 
 # GLOBAL VARS
@@ -121,11 +117,9 @@ def insert_global_var(var_name, type, value=None, exp_type=None):
     if (exp_type == None):
         exp_type = type
     if (type != exp_type):
-        print('ERROR: Type mismatch! =>', type, '=', exp_type)
-        sys.exit()
+        type_mismatch(type, '=', exp_type)
     if var_name in func_dir['global']['vars'].keys():
-        print(f'ERROR: variable with name `{var_name}` already declared globally')
-        sys.exit()
+        err('Variable already declared globally!', var_name)
     else:
         if (value == None):
             value = defaults[type]
@@ -140,5 +134,4 @@ def insert_global_var(var_name, type, value=None, exp_type=None):
             g_table[type][1] += 1
             return Var(type, value, addr)
         else:
-            print('ERROR: Data segment overflow!')
-            sys.exit()
+            err('Data segment overflow!', var_name)
