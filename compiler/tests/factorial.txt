@@ -1,0 +1,17 @@
+program patito;
+var int x=5;
+
+def int factorial(int n) {
+  if(n > 1){
+    return n * factorial(n - 1);
+  }
+  else{
+      return 1;
+  };
+}
+
+main() {
+  var int f;
+  f = factorial(x);
+  print(f);
+}

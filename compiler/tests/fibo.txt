@@ -1,0 +1,17 @@
+program test3;
+var int x=5;
+
+def int fibonacci(int n) {
+  if (n==0) {
+    return 0;
+  }
+  else {
+    return fibonacci(n-1);
+  };
+}
+
+main() {
+  var int f;
+  f = fibonacci(3);
+  print(f);
+}

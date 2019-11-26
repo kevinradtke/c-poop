@@ -29,7 +29,7 @@ def flask_comp_and_run(file_name):
 
 
 # DEFAULT TEST
-test_name = 'tests/test1.txt'
+test_name = 'tests/test2.txt'
 
 # TAKES TEST NAME FROM ARGS
 if (len(sys.argv) == 2):

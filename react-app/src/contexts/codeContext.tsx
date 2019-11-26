@@ -15,12 +15,19 @@ const CodeProvider = ({ children }: { children: React.ReactNode }) => {
     editor.focus();
   };
 
+  const setValue = (newValue: string) => {
+    const { editor } = ref.current;
+    editor.session.setValue(newValue);
+    editor.focus();
+  };
+
   return (
     <CodeContext.Provider
       value={{
         ref,
         EMOJI_CODE_TEST,
-        addEmoji
+        addEmoji,
+        setValue
       }}
     >
       {children}
