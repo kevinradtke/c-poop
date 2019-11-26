@@ -13,13 +13,12 @@ tokens = lexer.tokens
 
 def p_program(p):
     '''program : program_init main_dec
-               | program_init vars main_dec
+               | program_init vars_main main_dec
                | program_init funciones main_dec
-               | program_init vars funciones main_dec'''
+               | program_init vars_main funciones main_dec'''
 
 def p_program_init(p):
     '''program_init : PROGRAM ID SEMICOLON'''
-    code_generator.gen_quad('GOTO','','','')
     symbol_table.insert_func('global')
 
 def p_funciones(p):
@@ -39,8 +38,13 @@ def p_main_init(p):
     '''main_init : MAIN'''
     utils.context = 'main'
     symbol_table.insert_func('main')
-    code_generator.mod_quad(0, 4, code_generator.quad_pos())
+    code_generator.mod_quad(utils.goto_main, 4, code_generator.quad_pos())
     symbol_table.func_dir['main']['pos'] = code_generator.quad_pos()
+
+def p_vars_main(p):
+    '''vars_main : VAR varAux1'''
+    code_generator.gen_quad('GOTO','','','')
+    utils.goto_main = code_generator.quad_pos()-2
 
 def p_vars(p):
     '''vars : VAR varAux1'''
@@ -50,9 +54,15 @@ def p_varAux1(p):
                | tipo varAux2 SEMICOLON varAux1'''
     for var in p[2]:
         if (utils.context == 'global'):
-            symbol_table.insert_global_var(var['name'], p[1], var['value'], var['type'])
+            new_var = symbol_table.insert_global_var(var['name'], p[1], var['name'], var['type'])
+            if (var['value']):
+                exp = Var(var['type'], var['value'], var['addr'])
+                code_generator.gen_quad_assig(new_var, exp)
         else:
-            symbol_table.insert_local_var(utils.context, var['name'], p[1], var['value'], var['type'])
+            new_var = symbol_table.insert_local_var(utils.context, var['name'], p[1], var['name'], var['type'])
+            if (var['value']):
+                exp = Var(var['type'], var['value'], var['addr'])
+                code_generator.gen_quad_assig(new_var, exp)
 
 def p_varAux2(p):
     '''varAux2 : ID
@@ -65,9 +75,9 @@ def p_varAux2(p):
         if (p[2] == ','):
             p[0] = [{'name': p[1], 'value': None, 'type': None}] + p[3]
         else:
-            p[0] = [{'name': p[1], 'value': p[3].value, 'type': p[3].type}]
+            p[0] = [{'name': p[1], 'value': p[3].value, 'type': p[3].type, 'addr': p[3].addr}]
     else:
-        p[0] = [{'name': p[1], 'value': p[3].value, 'type': p[3].type}] + p[5]
+        p[0] = [{'name': p[1], 'value': p[3].value, 'type': p[3].type, 'addr': p[3].addr}] + p[5]
 
 def p_tipo(p):
     '''tipo : INT

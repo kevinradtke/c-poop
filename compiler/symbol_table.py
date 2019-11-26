@@ -64,12 +64,14 @@ def insert_local_var(func_name, var_name, type, value=None, exp_type=None):
             value = defaults[type]
         if (func_table[func_name][type][1] <= func_table[func_name][type][2]):
             func_table[func_name][type][0].append([var_name, value, func_table[func_name][type][1]])
+            addr = func_table[func_name][type][1]
             func_dir[func_name]['vars'][var_name] = {
                 'type': type,
-                'addr': func_table[func_name][type][1],
+                'addr': addr,
                 'value': value
             }
             func_table[func_name][type][1] += 1
+            return Var(type, value, addr)
         else:
             print('ERROR: Stack overflow! => ' + func_name)
             sys.exit()
@@ -128,12 +130,14 @@ def insert_global_var(var_name, type, value=None, exp_type=None):
             value = defaults[type]
         if (g_table[type][1] <= g_table[type][2]):
             g_table[type][0].append([var_name, value, g_table[type][1]])
+            addr = g_table[type][1]
             func_dir['global']['vars'][var_name] = {
                 'type': type,
-                'addr': g_table[type][1],
+                'addr': addr,
                 'value': value
             }
             g_table[type][1] += 1
+            return Var(type, value, addr)
         else:
             print('ERROR: Data segment overflow!')
             sys.exit()
