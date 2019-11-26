@@ -1,6 +1,7 @@
 import memory_map
 import sys
 import utils
+from error_control import err
 
 g_memory = {}
 c_memory = {}
@@ -39,8 +40,7 @@ def era(func_name):
     if (len(local_stack) < MAX_STACK_CALLS):
         local_stack.append(stack_frame)
     else:
-        print('ERROR: Stack overflow! => Stack frame calls exceeded')
-        sys.exit()
+        err('Stack frame calls overflow!', func_name)
 
 def display_memory():
 

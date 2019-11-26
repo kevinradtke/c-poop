@@ -1,7 +1,9 @@
 from symbol_table import Var
 import symbol_table
 import sys
+from error_control import err
 
+env = 'testing'
 context = 'global'
 func_stack = ['main']
 cur_stack = 'main'
@@ -15,6 +17,5 @@ def id_lookup(id):
     elif (id in symbol_table.func_dir['global']['vars']):
         var = symbol_table.func_dir['global']['vars'][id]
     else:
-        print('ERROR: Variable with name `' + id + '` does not exist!')
-        sys.exit()
+        err('Variable does not exist!', id)
     return Var(var['type'], id, var['addr'])

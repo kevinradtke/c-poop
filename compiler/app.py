@@ -1,9 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
-import symbol_table
 import os
 import sys
-import time
 
 
 app = Flask(__name__)

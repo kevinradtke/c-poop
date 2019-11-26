@@ -6,6 +6,7 @@ import sys
 import code_generator
 import utils
 import pprint
+from error_control import err
 
 tokens = lexer.tokens
 
@@ -440,9 +441,7 @@ def p_func_call_aux(p):
 def p_error(p):
     global success
     success = False
-    print('Error de sintaxis en `%s`' % p.value)
-    sys.exit()
-
+    err('Syntax error!', p.value)
 
 # BUILDS PARSER
 parser = yacc.yacc(debug=False, write_tables=False)
