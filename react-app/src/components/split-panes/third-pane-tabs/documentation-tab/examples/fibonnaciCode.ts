@@ -13,11 +13,11 @@ const fibonacciCode: string = `program fibonacci💩
 }
 
 main() {
-  var 🔢 i = 1💩
+  var 🔢 i ⬅️ 1💩
   🖨(🔤Fibonacci up to 10🔤)💩
   🔂 10 {
     🖨(fibonacci(i))💩
-    i = i+1💩
+    i ⬅️ i+1💩
   }
 }`;
 export default fibonacciCode;
