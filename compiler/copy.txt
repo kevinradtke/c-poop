@@ -1,17 +1,14 @@
-program patito;
-var  int  x=5;
+program factorial;
 
- def   int  fibonacci( int  n) {
-   if  (n==0) {
-     return  0;
+ def   int  factorial( int  x) {
+   if  (x<=1) {
+     return  1;
   }
   else {
-     return  fibonacci(n-1);
+     return  x * factorial(x-1);
   };
 }
 
 main() {
-  var  int  f;
-  f = fibonacci(x);
-   print(f);
+   print("Factorial of 5", factorial(5));
 }

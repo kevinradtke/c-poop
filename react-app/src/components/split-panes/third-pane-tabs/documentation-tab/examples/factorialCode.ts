@@ -1,18 +1,15 @@
-const factorialCode: string = `program patito💩
-var 🔢 x=5💩
+const factorialCode: string = `program factorial💩
 
-🚀 🔢 factorial(🔢 n) {
-  🤔(n > 1){
-    🤲 n * factorial(n - 1)💩
+🚀 🔢 factorial(🔢 x) {
+  🤔 (x◀️⬅️1) {
+    🤲 1💩
   }
-  else{
-      🤲 1💩
-  };
+  else {
+    🤲 x * factorial(x-1)💩
+  }💩
 }
 
 main() {
-  var 🔢 f💩
-  f = factorial(x)💩
-  🖨(f)💩
+  🖨(🔤Factorial of 5🔤, factorial(5))💩
 }`;
 export default factorialCode;

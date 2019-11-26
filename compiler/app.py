@@ -1,29 +1,36 @@
-from flask import Flask, request, current_app
-from vm import flask_comp_and_run
+from flask import Flask, request
 from flask_cors import CORS
+import symbol_table
+import os
+import sys
+import time
+
 
 app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/')
-def index():
-    return 'INDEX3'
+def reset():
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
+
+
+@app.route('/reset', methods=['GET'])
+def hello_world():
+    return reset()
 
 
 @app.route('/compile', methods=["POST"])
-def run_api():
-
+def compile():
     code = request.form['code']
-
     file = open("copy.txt", "w")
     file.write(code)
     file.close()
 
-    flask_comp_and_run("copy.txt")
+    import vm
+    vm.flask_comp_and_run("copy.txt")
 
-    with current_app.open_resource('ide_output.txt') as f:
-        return f.read()
+    return open("ide_output.txt", "r").read()
 
 
 if __name__ == '__main__':

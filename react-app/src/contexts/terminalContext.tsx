@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext } from "react";
 import { TranslatedContext } from "./translatedContext";
 import { CodeContext } from "./codeContext";
+import axios from "axios";
 
 import API from "../components/split-panes/terminal-pane/Api";
 
@@ -30,8 +31,9 @@ const TerminalProvider = ({ children }: { children: React.ReactNode }) => {
       service: "compile",
       method: "post",
       params: { code: aux },
-      success: (response: string) => {
+      success: (response: any) => {
         setTerminal(response);
+        axios.get("http://localhost:5000/reset");
       }
     });
 

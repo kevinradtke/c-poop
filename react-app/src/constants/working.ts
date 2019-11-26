@@ -1,4 +1,13 @@
-const fibonacciCode: string = `program fibonacci💩
+const EMOJI_CODE_TEST: string = `program recursiveFunctions💩
+
+🚀 🔢 factorial(🔢 x) {
+  🤔 (x◀️⬅️1) {
+    🤲 1💩
+  }
+  else {
+    🤲 x * factorial(x-1)💩
+  }💩
+}
 
 🚀 🔢 fibonacci(🔢 n) {
   🤔(n 🙌 0) {
@@ -19,5 +28,7 @@ main() {
     🖨(fibonacci(i))💩
     i = i+1💩
   }
+  🖨(🔤🔤, 🔤Factorial of 5🔤, factorial(5))💩
 }`;
-export default fibonacciCode;
+
+export default EMOJI_CODE_TEST;

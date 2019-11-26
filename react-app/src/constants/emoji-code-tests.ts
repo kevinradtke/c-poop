@@ -1,46 +1,8 @@
-const EMOJI_CODE_TEST: string = `program patito💩
-var 🔢 uno, dos=2, tres; 🎈 cuatro= 4.0; 💡 cinco = 👍, seis = 👎💩
-
-🚀 📭 test(){
-  🖨(🔤Hola🔤)💩
-}
-
-🚀 🔢 test2(🔢 number, 🧶 word, 💡 poop, 🎈 haha){
-  var 🔢 siete, ocho = 8💩
-  uno = uno + dos💩
-
-  if ( uno + dos < tres){
-    dos = uno + uno💩
-  }
-  else{
-    uno = dos + dos💩
-  }💩
-
-  🖨(uno, dos, tres)💩
-  return uno💩
-}
-
-🚀 🔢 test3(🔢 iNumber){
-  var 🧶 nueve💩
-  🖨(nueve)💩
-  return nueve💩
-}
+const EMOJI_CODE_TEST: string = `program cpoop💩
 
 main() {
-  var 🧶 loc = 🔤uwu🔤💩
-  test()💩
-  🖨(5+5.0)💩
-  test2()💩
-  test3(10)💩
-  🔂 4 {
-    🖨(666)💩
-  }
-  🖨(dos)💩
-  🔁 (dos+1 >= 0) {
-    🖨(dos)💩
-    dos = dos-1💩
-  }
-  🖨(🔤Last line!🔤)💩
+  var 🧶 hello ⬅️ 🔤C Poop Rocks!🔤💩
+  🖨(hello)💩
 }`;
 
 const EMOJI_TRANSLATED_TEST: string = `program patito;

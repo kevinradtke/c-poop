@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import axios from "axios";
 
 import { AppBar, Button, Toolbar, Typography } from "@material-ui/core/";
 import { TranslatedContext } from "../../contexts/translatedContext";
@@ -14,6 +15,10 @@ const Navbar: React.FC = () => {
   const { handleTerminal } = useContext(TerminalContext);
   const { handleChangeIndex } = useContext(TabsContext);
 
+  const handleResetServer = () => {
+    axios.get("http://localhost:5000/reset");
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static" elevation={2} className={classes.appbar}>
@@ -25,6 +30,13 @@ const Navbar: React.FC = () => {
             </span>
             {"Compiler"}
           </Typography>
+          <Button
+            variant="outlined"
+            onClick={() => handleResetServer()}
+            className={classes.reset}
+          >
+            Reset Server
+          </Button>
           <Button
             variant="outlined"
             onClick={() => {
