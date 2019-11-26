@@ -10,5 +10,5 @@ program factorial;
 }
 
 main() {
-   print("Factorial of 5", factorial(5));
+   print("Factorial of 4", factorial(4));
 }

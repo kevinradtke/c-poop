@@ -5,6 +5,7 @@ __pycache__
 *.pyc
 *.poop
 compiler/ide_output.txt
+compiler/copy.txt
 
 # React APP
 # dependencies

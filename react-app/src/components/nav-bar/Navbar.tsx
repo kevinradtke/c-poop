@@ -5,6 +5,7 @@ import { AppBar, Button, Toolbar, Typography } from "@material-ui/core/";
 import { TranslatedContext } from "../../contexts/translatedContext";
 import { TerminalContext } from "../../contexts/terminalContext";
 import { TabsContext } from "../../contexts/tabsContext";
+import { CodeContext } from "../../contexts/codeContext";
 
 import useStyles from "./navbar.jss";
 
@@ -14,9 +15,12 @@ const Navbar: React.FC = () => {
   const { handleTranslation } = useContext(TranslatedContext);
   const { handleTerminal } = useContext(TerminalContext);
   const { handleChangeIndex } = useContext(TabsContext);
+  const { ref } = useContext(CodeContext);
 
   const handleResetServer = () => {
     axios.get("http://localhost:5000/reset");
+    const { editor } = ref.current;
+    editor.focus();
   };
 
   return (
