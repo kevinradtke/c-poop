@@ -1,0 +1,24 @@
+program return;
+var int x=100;
+
+def int test(int n) {
+  return n;
+}
+
+def int test2(int n) {
+  var int y=66;
+  print(y);
+  if (n < 5) {
+    return 1;
+  }
+  else {
+    return n;
+  };
+}
+
+main() {
+  var int y = 7;
+  print(y);
+  print(test(5));
+  print(test2(8));
+}

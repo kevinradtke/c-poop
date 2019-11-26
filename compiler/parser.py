@@ -360,7 +360,7 @@ def p_set_void(p):
 def p_function_return(p):
     '''function_return : RETURN expresion SEMICOLON'''
     code_generator.gen_return(p[2])
-    code_generator.gen_quad('ENDPROC', '', '', '')
+    symbol_table.func_dir[utils.context]['end'] = code_generator.quad_pos()
 
 def p_funcionAux(p):
     '''funcionAux : end_of_dec_func
@@ -368,8 +368,11 @@ def p_funcionAux(p):
     p[0] = p[1]
 
 def p_end_of_dec_func(p):
-    '''end_of_dec_func : LBRACE
-                       | LBRACE vars'''
+    '''end_of_dec_func : func_start
+                       | func_start vars'''
+
+def p_func_start(p):
+    '''func_start : LBRACE'''
     utils.func_start_pos = code_generator.quad_pos()
 
 def p_funcionAux2(p):

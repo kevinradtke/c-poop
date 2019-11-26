@@ -44,7 +44,8 @@ def insert_func(func_name, type='void', pos=0):
             'pos': pos,
             'vars': {},
             'temps': {},
-            'params': []
+            'params': [],
+            'end': 0
         }
 
 def insert_local_var(func_name, var_name, type, value=None, exp_type=None):

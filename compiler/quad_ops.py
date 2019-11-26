@@ -54,6 +54,7 @@ class QuadOps:
             self.pos = quad[4]-2
 
     def era(self, quad):
+        utils.func_stack.append(quad[4])
         memory.era(quad[4])
         utils.mode_params = True
 
@@ -62,7 +63,6 @@ class QuadOps:
         memory.set(quad[4], val)
 
     def gosub(self, quad):
-        utils.func_stack.append(id)
         memory.jump_stack.append(self.pos+1)
         self.pos = quad[4]-2
         utils.mode_params = False
@@ -78,8 +78,10 @@ class QuadOps:
         memory.set(quad[4], value, mode_params)
 
     def ret(self, quad):
+        func = utils.func_stack[len(utils.func_stack)-1]
         val = memory.get(quad[2])
         memory.set(quad[4], val)
+        self.pos = memory.func_dir[func]['end']-2
 
     def endproc(self, quad):
         memory.local_stack.pop()
