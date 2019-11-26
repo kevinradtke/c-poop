@@ -1,17 +1,15 @@
-program test3;
+program recursiveFunctions;
 
 def int factorial(int x) {
   if (x<=1) {
     return 1;
   }
   else {
-    x = x-1;
-    return x * factorial(x);
+    return x * factorial(x-1);
   };
 }
 
 def int fibonacci(int n) {
-  var int n1, n2;
   if(n == 0) {
     return 0;
   };
@@ -19,9 +17,7 @@ def int fibonacci(int n) {
     return 1;
   }
   else {
-    n1 = n-1;
-    n2 = n-2;
-    return fibonacci(n1) + fibonacci(n2);
+    return fibonacci(n-1) + fibonacci(n-2);
  };
 }
 

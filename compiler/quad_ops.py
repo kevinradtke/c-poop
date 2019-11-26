@@ -54,25 +54,28 @@ class QuadOps:
             self.pos = quad[4]-2
 
     def era(self, quad):
-        utils.func_stack.append(id)
         memory.era(quad[4])
+        utils.mode_params = True
 
     def param(self, quad):
-        val = memory.get_param(quad[2])
+        val = memory.get(quad[2], True)
         memory.set(quad[4], val)
 
     def gosub(self, quad):
+        utils.func_stack.append(id)
         memory.jump_stack.append(self.pos+1)
         self.pos = quad[4]-2
+        utils.mode_params = False
 
     def exp(self, op, quad):
-        op1 = memory.get(quad[2])
+        mode_params = utils.mode_params
+        op1 = memory.get(quad[2], mode_params)
         if (quad[3]):
-            op2 = memory.get(quad[3])
+            op2 = memory.get(quad[3], mode_params)
             value = ops[op](op1, op2)
         else:
             value = ops[op](op1)
-        memory.set(quad[4], value)
+        memory.set(quad[4], value, mode_params)
 
     def ret(self, quad):
         val = memory.get(quad[2])

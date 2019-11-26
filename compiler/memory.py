@@ -1,5 +1,6 @@
 import memory_map
 import sys
+import utils
 
 g_memory = {}
 c_memory = {}
@@ -58,29 +59,26 @@ def display_memory():
 
 # MEMORY ACCESS
 
-def set(addr, value):
+def set(addr, value, param=False):
     if (addr < 5000):
         g_memory[addr] = value
     elif (addr < 9000):
         c_memory[addr] = value
     else:
         stack_size = len(local_stack)
-        local_stack[stack_size-1][addr] = value
+        if (param):
+            local_stack[stack_size-2][addr] = value
+        else:
+            local_stack[stack_size-1][addr] = value
 
-def get(addr):
+def get(addr, param=False):
     if (addr < 5000):
         return g_memory[addr]
     elif (addr < 9000):
         return c_memory[addr]
     else:
         stack_size = len(local_stack)
-        return local_stack[stack_size-1][addr]
-
-def get_param(addr):
-    if (addr < 5000):
-        return g_memory[addr]
-    elif (addr < 9000):
-        return c_memory[addr]
-    else:
-        stack_size = len(local_stack)
-        return local_stack[stack_size-2][addr]
+        if (param):
+            return local_stack[stack_size-2][addr]
+        else:
+            return local_stack[stack_size-1][addr]

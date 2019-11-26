@@ -5,6 +5,7 @@ import sys
 context = 'global'
 func_stack = ['main']
 cur_stack = 'main'
+mode_params = False
 goto_main = 0
 func_start_pos = 0
 
