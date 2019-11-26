@@ -1,4 +1,4 @@
-program return;
+program test3;
 var int x=100;
 
 def int test(int n) {
