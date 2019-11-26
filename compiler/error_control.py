@@ -1,9 +1,9 @@
 import sys
-from utils import env
+import utils
 
 def type_mismatch(op1, op='', op2=''):
     print('ERROR: Type mismatch! => ' + str(op1) + ' ' + op + ' ' + str(op2))
-    if env == 'testing':
+    if utils.env == 'testing':
         sys.exit()
     else:
         output = open('ide_output.txt', 'w')
@@ -12,7 +12,7 @@ def type_mismatch(op1, op='', op2=''):
 
 def err(msg, id):
     print('ERROR:', msg, '=>', id)
-    if env == 'testing':
+    if utils.env == 'testing':
         sys.exit()
     else:
         output = open('ide_output.txt', 'w')
