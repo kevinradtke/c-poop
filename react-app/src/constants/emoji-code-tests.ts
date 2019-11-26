@@ -1,7 +1,7 @@
 const EMOJI_CODE_TEST: string = `program cpoop💩
 
 main() {
-  var 🧶 hello ⬅️ 🔤C Poop Rocks!🔤💩
+  var 🧵hello ⬅️ 🔤C Poop Rocks!🔤💩
   🖨(hello)💩
 }`;
 

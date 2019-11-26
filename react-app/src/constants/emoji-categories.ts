@@ -82,6 +82,11 @@ export const EMOJI_CATEGORIES: EmojiCategories[] = [
         shortcode: ":thinking:"
       },
       {
+        emoji: "❌",
+        equivalentValue: "else",
+        shortcode: ":cross:"
+      },
+      {
         emoji: "🔁",
         equivalentValue: "while",
         shortcode: ":repeat:"
@@ -140,7 +145,7 @@ export const EMOJI_CATEGORIES: EmojiCategories[] = [
         shortcode: ":balloon:"
       },
       {
-        emoji: "🧶",
+        emoji: "🧵",
         equivalentValue: "string",
         shortcode: ":string:"
       },
@@ -164,6 +169,7 @@ export const EMOJI_HASH: EmojiHash = {
   "◀️": "<",
   "🙌": " == ",
   "🤔": " if ",
+  "❌": " else ",
   "🔁": " while ",
   "🔂": " repeat ",
   "🚀": " def ",
@@ -174,6 +180,6 @@ export const EMOJI_HASH: EmojiHash = {
   "👎": " false ",
   "🔢": " int ",
   "🎈": " float",
-  "🧶": " string ",
+  "🧵": " string ",
   "🔤": '"'
 };
