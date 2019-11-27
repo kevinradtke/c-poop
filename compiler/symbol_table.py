@@ -15,7 +15,6 @@ class Var:
 
 
 func_dir = {}
-cte_dir = []
 
 defaults = {
     'int': 0,
@@ -79,6 +78,9 @@ def insert_param(func_name, var_name, var_type):
 
 # CONSTANTS
 
+cte_dir = []
+cte_dict = {}
+
 cte_limits = memory_map.CS
 
 # Pos 0 => constant list
@@ -92,10 +94,13 @@ cte_table = {
 }
 
 def insert_cte(type, val):
+    if val in cte_dict:
+        return cte_dict[val]
     addr = cte_table[type][1]
     if (addr <= cte_table[type][2]):
         cte_table[type][0].append([val, addr])
         cte_dir.append({'value': val, 'type': type, 'addr': addr})
+        cte_dict[val] = addr
         cte_table[type][1] += 1
         return addr
     else:
