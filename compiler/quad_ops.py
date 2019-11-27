@@ -17,7 +17,7 @@ class QuadOps:
     def execute(self):
         print('\nEXECUTION BEGIN\n')
         self.output = open('ide_output.txt', 'w')
-        while (self.pos < len(self.quadruples)):
+        while (self.pos < len(self.quadruples) and utils.success):
             quad = self.quadruples[self.pos]
             op = quad[1].lower()
             if op in ops_table.ops:

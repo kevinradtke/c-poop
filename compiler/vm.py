@@ -25,6 +25,7 @@ def comp_and_run():
 
 def flask_comp_and_run(file_name):
     utils.env = 'ide'
+    utils.success = True
     compile(file_name)
     run()
 
