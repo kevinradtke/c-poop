@@ -1,5 +1,7 @@
 import operator
 
+'''THIS IS AN OPERATOR DICTIONARY TO SIMPLIFY EVALUATION OF EXPRESSIONS'''
+
 ops = {
     '+': operator.add,
     '-': operator.sub,

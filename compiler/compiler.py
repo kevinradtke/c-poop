@@ -6,6 +6,7 @@ import sys
 
 
 def gen_obj():
+    '''Opens intermediate code file and stores relevant data'''
     obj_file = open('output.poop', 'w')
     output = {
         'func_dir': symbol_table.func_dir,
@@ -16,7 +17,7 @@ def gen_obj():
 
 
 def compile(file):
-
+    '''Parses input file and compiles data'''
     success = True
 
     f = open(file, 'r')

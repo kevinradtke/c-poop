@@ -4,6 +4,7 @@ from error_control import type_mismatch
 from error_control import err
 
 class Var:
+    '''Class that creates variable objects as they are being parsed'''
     type = 'string'
     value = 'temp'
     addr = 0
@@ -25,21 +26,22 @@ defaults = {
 
 # LOCAL VARS
 
-l_limits = memory_map.SS
+l_limits = memory_map.SS    # Limits for memory addresses of each type
 
 func_table = {}
 
 def insert_func(func_name, type='void', pos=0):
-    if func_name in func_dir.keys():
+    '''Inserts function in function directory'''
+    if func_name in func_dir.keys():    # Validates that it doesn exits
         err('Function already declared!', func_name)
     else:
-        func_table[func_name] = {
+        func_table[func_name] = {   # Creates register that assigns directions
             'int' : [[], l_limits.INT_MIN, l_limits.INT_MAX],
             'float' : [[], l_limits.FLOAT_MIN, l_limits.FLOAT_MAX],
             'string' : [[], l_limits.STRING_MIN, l_limits.STRING_MAX],
             'bool' : [[], l_limits.BOOL_MIN, l_limits.BOOL_MAX]
         }
-        func_dir[func_name] = {
+        func_dir[func_name] = {     # Creates register for execution
             'type': type,
             'pos': pos,
             'vars': {},
@@ -49,6 +51,7 @@ def insert_func(func_name, type='void', pos=0):
         }
 
 def insert_local_var(func_name, var_name, type, value=None, exp_type=None):
+    '''Inserts localvariable for a function'''
     if (exp_type == None):
         exp_type = type
     if (type != exp_type):
@@ -74,6 +77,7 @@ def insert_local_var(func_name, var_name, type, value=None, exp_type=None):
             err('Stack overflow!', func_name)
 
 def insert_param(func_name, var_name, var_type):
+    '''Appends param to a certain function'''
     func_dir[func_name]['params'].append([var_name, var_type])
 
 # CONSTANTS
@@ -81,7 +85,7 @@ def insert_param(func_name, var_name, var_type):
 cte_dir = []
 cte_dict = {}
 
-cte_limits = memory_map.CS
+cte_limits = memory_map.CS  # Limits for memory addresses of each type
 
 # Pos 0 => constant list
 # Pos 1 => current position (starts at lower limit)
@@ -94,7 +98,8 @@ cte_table = {
 }
 
 def insert_cte(type, val):
-    if val in cte_dict:
+    '''Inserts constant in constan directory'''
+    if val in cte_dict:         #if value is already stored, return addr
         return cte_dict[val]
     addr = cte_table[type][1]
     if (addr <= cte_table[type][2]):
@@ -109,7 +114,7 @@ def insert_cte(type, val):
 
 # GLOBAL VARS
 
-g_limits = memory_map.DS
+g_limits = memory_map.DS    # Limits for memory addresses of each type
 
 g_table = {
     'int' : [[], g_limits.INT_MIN, g_limits.INT_MAX],
@@ -119,6 +124,7 @@ g_table = {
 }
 
 def insert_global_var(var_name, type, value=None, exp_type=None):
+    '''Inserts global variable in func dir'''
     if (exp_type == None):
         exp_type = type
     if (type != exp_type):
