@@ -5,7 +5,6 @@ from symbol_table import Var
 import sys
 import code_generator
 import utils
-import pprint
 from error_control import err
 
 tokens = lexer.tokens
@@ -67,36 +66,61 @@ def p_varAux1(p):
                | tipo varAux2 SEMICOLON varAux1'''
     for var in p[2]:
         if (utils.context == 'global'):
-            new_var = symbol_table.insert_global_var(
-                var['name'], p[1], var['name'], var['type'])
-            if (var['value']):
+            if ('qty' in var):
+                name = var['name'] + '-0'
+                new_var = symbol_table.insert_global_var(name, p[1])
+                for i in range(1, var['qty']):
+                    name = var['name'] + '-'+ str(i)
+                    symbol_table.insert_global_var(name, p[1])
+                symbol_table.insert_global_var(var['name'] + '-base', 'int', new_var.addr)
+            else:
+                new_var = symbol_table.insert_global_var(var['name'], p[1], var['name'], var['type'])
+
+            if (var['value'] or var['value'] == 0):
                 exp = Var(var['type'], var['value'], var['addr'])
                 code_generator.gen_quad_assig(new_var, exp)
         else:
-            new_var = symbol_table.insert_local_var(
-                utils.context, var['name'], p[1], var['name'], var['type'])
-            if (var['value']):
+            if ('qty' in var):
+                name = var['name'] + '-0'
+                new_var = symbol_table.insert_local_var(utils.context, name, p[1])
+                for i in range(1, var['qty']):
+                    name = var['name'] + '-'+ str(i)
+                    symbol_table.insert_local_var(utils.context, name, p[1])
+                symbol_table.insert_global_var(var['name'] + '-base', 'int', new_var.addr)
+            else:
+                new_var = symbol_table.insert_local_var(utils.context, var['name'], p[1], var['name'], var['type'])
+
+            if (var['value'] or var['value'] == 0):
                 exp = Var(var['type'], var['value'], var['addr'])
                 code_generator.gen_quad_assig(new_var, exp)
 
 
 def p_varAux2(p):
     '''varAux2 : ID
+               | ID array_dec
+               | ID array_dec COMMA varAux2
                | ID COMMA varAux2
                | ID EQUAL expresion
                | ID EQUAL expresion COMMA varAux2'''
     if (len(p) == 2):
         p[0] = [{'name': p[1], 'value': None, 'type': None}]
+    elif (len(p) == 3):
+        p[0] = [{'name': p[1], 'value': None, 'type': None, 'qty': p[2].value}]
     elif (len(p) == 4):
         if (p[2] == ','):
             p[0] = [{'name': p[1], 'value': None, 'type': None}] + p[3]
         else:
-            p[0] = [{'name': p[1], 'value': p[3].value,
-                     'type': p[3].type, 'addr': p[3].addr}]
+            p[0] = [{'name': p[1], 'value': p[3].value, 'type': p[3].type, 'addr': p[3].addr}]
+    elif (len(p) == 5):
+        p[0] = [{'name': p[1], 'value': None, 'type': None, 'qty': p[2].value}] + p[4]
     else:
         p[0] = [{'name': p[1], 'value': p[3].value,
                  'type': p[3].type, 'addr': p[3].addr}] + p[5]
 
+
+def p_array_dec(p):
+    '''array_dec : LSQBRACE cte_i RSQBRACE'''
+    p[0] = p[2]
 
 def p_tipo(p):
     '''tipo : INT
@@ -123,7 +147,8 @@ def p_estatuto(p):
                 | loop
                 | func_call
                 | function_return
-                | emojiprint'''
+                | emojiprint
+                | asignacion_arr'''
 
 
 def p_asignacion(p):
@@ -131,6 +156,14 @@ def p_asignacion(p):
     var = utils.id_lookup(p[1])
     code_generator.gen_quad_assig(var, p[3])
 
+def p_asignacion_arr(p):
+    '''asignacion_arr : cte_arr EQUAL expresion SEMICOLON'''
+    var = p[1]
+    code_generator.gen_quad_assig(var, p[3])
+
+def p_array_access(p):
+    '''array_dec : LSQBRACE expresion RSQBRACE'''
+    p[0] = p[2]
 
 def p_escritura(p):
     '''escritura : PRINT LPAREN escrituraAux RPAREN SEMICOLON'''
@@ -307,6 +340,7 @@ def p_var_cte(p):
                | cte_f
                | cte_string
                | cte_bool
+               | cte_arr
                | func_call_var
                '''
     p[0] = p[1]
@@ -341,6 +375,14 @@ def p_cte_bool(p):
     addr = symbol_table.insert_cte('bool', bool(p[1]))
     p[0] = Var('bool', bool(p[1]), addr)
 
+def p_cte_arr(p):
+    '''cte_arr : ID LSQBRACE expresion RSQBRACE'''
+    base = utils.id_lookup(p[1] + '-base')
+    code_generator.gen_quad_addr('VER', p[3].addr, '', p[1])
+    code_generator.gen_quad_name('VER', p[3].value, '', p[1])
+    var = code_generator.gen_quad_exp('+', p[3], base)
+    new_var = Var(var.type, '(' + str(var.value) + ')', '(' + str(var.addr) + ')')
+    p[0] = new_var
 
 # --- CONTROL ---
 

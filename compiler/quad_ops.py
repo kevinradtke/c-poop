@@ -71,6 +71,14 @@ class QuadOps:
         if (not value):
             self.pos = quad[4]-2
 
+    def ver(self, quad):
+        '''Verifies if index is inbounds'''
+        func = utils.func_stack[len(utils.func_stack)-1]
+        var_name = quad[4] + '-' + str(memory.get(quad[2]))
+        if (var_name not in memory.func_dir[func]['vars'] and
+            var_name not in memory.func_dir['global']['vars']):
+            err('Out of bounds!', var_name)
+
     def era(self, quad):
         '''Expands current stack frame for function name'''
         utils.func_stack.append(quad[4])

@@ -60,6 +60,9 @@ def display_memory():
 # MEMORY ACCESS
 
 def set(addr, value, param=False):
+    if (str(addr).find('(')!=-1):
+        addr = int(str(addr)[1:-1])
+        addr = get(addr)
     if (addr < 5000):
         g_memory[addr] = value
     elif (addr < 9000):
@@ -72,6 +75,9 @@ def set(addr, value, param=False):
             local_stack[stack_size-1][addr] = value
 
 def get(addr, param=False):
+    if (str(addr).find('(')!=-1):
+        addr = int(str(addr)[1:-1])
+        addr = get(addr)
     if (addr < 5000):
         return g_memory[addr]
     elif (addr < 9000):

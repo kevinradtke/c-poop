@@ -18,5 +18,8 @@ def id_lookup(id):
     elif (id in symbol_table.func_dir['global']['vars']):
         var = symbol_table.func_dir['global']['vars'][id]
     else:
-        err('Variable does not exist!', id)
+        if (id.find('-') == -1):
+            err('Variable does not exist!', id)
+        else:
+            err('Out of bounds!', id[0:id.find('-')])
     return Var(var['type'], id, var['addr'])

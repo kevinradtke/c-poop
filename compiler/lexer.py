@@ -48,6 +48,8 @@ tokens = [
     'RBRACE',
     'COMMA',
     'SEMICOLON',
+    'LSQBRACE',
+    'RSQBRACE'
 ]
 
 # Caracteres ignorados
@@ -77,6 +79,8 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_COMMA = r'\,'
 t_SEMICOLON = r'\;'
+t_LSQBRACE = r'\['
+t_RSQBRACE = r'\]'
 
 
 # Constants
