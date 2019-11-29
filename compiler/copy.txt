@@ -1,22 +1,5 @@
-program fibonacci;
-
- def   int  fibonacci( int  n) {
-   if (n  ==  0) {
-     return  0;
-  };
-   if  (n  ==  1) {
-     return  1;
-  }
-   else {
-     return  fibonacci(n-1) + fibonacci(n-2);
- };
-}
+program eldaRocks;
 
 main() {
-  var  int  i = 1;
-   print("Fibonacci up to 10");
-   repeat  10 {
-     print(fibonacci(i));
-    i = i+1;
-  }
+  emojiprint("Elda Rocks!");
 }

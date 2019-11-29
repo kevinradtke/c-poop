@@ -4,7 +4,7 @@ from ops_table import ops
 import memory
 import utils
 from error_control import err
-from emoji_letter import emoji_letters
+from emoji_letters import emoji_letters
 
 
 class QuadOps:
@@ -53,12 +53,11 @@ class QuadOps:
 
     def eprint(self, quad):
         '''Prints to terminal and IDE output'''
-        value = memory.get(quad[4]).upper()
-        self.output.write(str(value) + '\n')
+        value = str(memory.get(quad[4])).upper()
         for char in value:
-
             if char in emoji_letters:
-                print(emoji_letters[char])
+                self.output.write(emoji_letters[char] + '\n')
+                # print(emoji_letters[char])
 
     def equal(self, quad):
         '''Assigns value of an expression to a variable'''

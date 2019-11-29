@@ -4,6 +4,7 @@ import FactorialExample from "./examples/factorial/FactorialExample";
 import FibonnaciExample from "./examples/fibonacci/FibonnaciExample";
 import FindExample from "./examples/find/FindExample";
 import SortExample from "./examples/sort/SortExample";
+import EmojiExample from "./examples/emoji-print/EmojiPrintExample";
 
 import useStyles from "./documentation-tab.jss";
 
@@ -18,6 +19,7 @@ const DocumentationTab: React.FC = () => {
         <FibonnaciExample />
         <FindExample />
         <SortExample />
+        <EmojiExample />
       </div>
     </div>
   );

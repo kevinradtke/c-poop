@@ -182,7 +182,7 @@ def p_escrituraAux(p):
 
 
 def p_emojiprint(p):
-    '''emojiprint : EMOJIPRINT LPAREN cte_string RPAREN SEMICOLON'''
+    '''emojiprint : EMOJIPRINT LPAREN expresion RPAREN SEMICOLON'''
     code_generator.gen_quad_addr('EPRINT', '', '', p[3].addr)
     code_generator.gen_quad_name('EPRINT', '', '', p[3].value)
 
