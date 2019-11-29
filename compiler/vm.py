@@ -6,6 +6,7 @@ import utils
 
 
 def run():
+    '''Only executes compiled file'''
     f = open('output.poop')
     input_dict = eval(f.read())
     memory.init_memory(input_dict)
@@ -16,16 +17,20 @@ def run():
 
 
 def comp():
+    '''Only compiles source code'''
     compile(test_name)
 
 
 def comp_and_run():
+    '''Compiles and executes'''
     comp()
     run()
 
 
 def flask_comp_and_run(file_name):
+    '''Compiles and executes for IDE'''
     utils.env = 'ide'
+    utils.success = True
     compile(file_name)
     run()
 

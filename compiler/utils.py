@@ -10,6 +10,7 @@ cur_stack = 'main'
 mode_params = False
 goto_main = 0
 func_start_pos = 0
+success = True
 
 def id_lookup(id):
     if (id in symbol_table.func_dir[context]['vars']):
