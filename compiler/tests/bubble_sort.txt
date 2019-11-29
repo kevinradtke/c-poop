@@ -1,0 +1,48 @@
+program arraysort;
+var int arr[6];
+
+def void bubbleSort() {
+    var int i=0, j=0, temp;
+
+    while (i < 5) {
+        j = 0;
+        while (j < 5-i) {
+            if (arr[j] > arr[j+1]) {
+                temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            };
+            j = j+1;
+        }
+        i = i+1;
+    }
+
+}
+
+def void printArr() {
+  var int i = 0;
+  while (i < 6) {
+    print(arr[i]);
+    i = i+1;
+  }
+}
+
+main() {
+  var int i = 0;
+  arr[0] = 7;
+  arr[1] = 2;
+  arr[2] = 8;
+  arr[3] = 1;
+  arr[4] = 3;
+  arr[5] = 3;
+
+  print("");
+  print("Print unordered array");
+  printArr();
+
+  bubbleSort();
+
+  print("");
+  print("Print ordered array");
+  printArr();
+}
