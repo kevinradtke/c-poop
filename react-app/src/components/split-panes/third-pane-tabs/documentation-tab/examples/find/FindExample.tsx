@@ -6,10 +6,10 @@ import { IconButton } from "@material-ui/core";
 import CodeIcon from "@material-ui/icons/Code";
 import Tooltip from "@material-ui/core/Tooltip";
 import AceEditor from "react-ace";
-import { CodeContext } from "../../../../../contexts/codeContext";
-import fibonnaciCode from "./fibonnaciCode";
+import { CodeContext } from "../../../../../../contexts/codeContext";
+import findCode from "./findCode";
 
-import useStyles from "./documentation-example.jss";
+import useStyles from "../documentation-example.jss";
 
 const FibonnaciExample: React.FC = () => {
   const { setValue } = useContext(CodeContext);
@@ -20,12 +20,12 @@ const FibonnaciExample: React.FC = () => {
   return (
     <>
       <div className={classes.div}>
-        <h4 className={classes.h4}> 2) Fibonnaci</h4>
+        <h4 className={classes.h4}> 3) Find</h4>
         <Tooltip title="Copy code" placement="top">
           <IconButton
             aria-label="code"
             size="medium"
-            onClick={() => setValue(fibonnaciCode)}
+            onClick={() => setValue(findCode)}
             className={classes.codeIcon}
           >
             <CodeIcon />
@@ -36,7 +36,7 @@ const FibonnaciExample: React.FC = () => {
       <AceEditor
         mode="python"
         theme="monokai"
-        value={fibonnaciCode}
+        value={findCode}
         editorProps={{ $blockScrolling: true }}
         fontSize={fontSize - 2}
         readOnly

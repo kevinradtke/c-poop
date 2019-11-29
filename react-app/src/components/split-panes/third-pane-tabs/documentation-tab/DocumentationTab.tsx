@@ -1,7 +1,9 @@
 import React from "react";
 
-import FactorialExample from "./examples/FactorialExample";
-import FibonnaciExample from "./examples/FibonnaciExample";
+import FactorialExample from "./examples/factorial/FactorialExample";
+import FibonnaciExample from "./examples/fibonacci/FibonnaciExample";
+import FindExample from "./examples/find/FindExample";
+import SortExample from "./examples/sort/SortExample";
 
 import useStyles from "./documentation-tab.jss";
 
@@ -14,6 +16,8 @@ const DocumentationTab: React.FC = () => {
         <h3 className={classes.h3}>Example Problems</h3>
         <FactorialExample />
         <FibonnaciExample />
+        <FindExample />
+        <SortExample />
       </div>
     </div>
   );

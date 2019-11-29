@@ -13,7 +13,8 @@ program fibonacci;
 }
 
 main() {
-  var  int  i = 1;
+  var  int  i = 1;  float x = 5;
+   print(x);
    print("Fibonacci up to 10");
    repeat  10 {
      print(fibonacci(i));

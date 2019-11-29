@@ -6,10 +6,10 @@ import { IconButton } from "@material-ui/core";
 import CodeIcon from "@material-ui/icons/Code";
 import Tooltip from "@material-ui/core/Tooltip";
 import AceEditor from "react-ace";
-import { CodeContext } from "../../../../../contexts/codeContext";
+import { CodeContext } from "../../../../../../contexts/codeContext";
 import factorialCode from "./factorialCode";
 
-import useStyles from "./documentation-example.jss";
+import useStyles from "../documentation-example.jss";
 
 const FactorialExample: React.FC = () => {
   const { setValue } = useContext(CodeContext);
@@ -40,7 +40,7 @@ const FactorialExample: React.FC = () => {
         editorProps={{ $blockScrolling: true }}
         fontSize={fontSize - 2}
         readOnly
-        style={{ height: "300px", width: "100%" }}
+        style={{ height: "270px", width: "100%" }}
       />
     </>
   );

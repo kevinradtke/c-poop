@@ -4,6 +4,7 @@ from compiler import compile
 import sys
 import utils
 
+
 def run():
     f = open('output.poop')
     input_dict = eval(f.read())

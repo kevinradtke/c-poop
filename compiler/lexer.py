@@ -47,7 +47,6 @@ tokens = [
     'RBRACE',
     'COMMA',
     'SEMICOLON',
-    # 'COLON'
 ]
 
 # Caracteres ignorados
@@ -80,11 +79,13 @@ t_SEMICOLON = r'\;'
 
 # Constants
 
+
 def t_CTE_F(t):
     r'[0-9]+\.[0-9]+'
     t.type = reserved.get(t.value, 'CTE_F')
     t.value = float(t.value)
     return t
+
 
 def t_CTE_I(t):
     r'[0-9]+'
@@ -92,11 +93,13 @@ def t_CTE_I(t):
     t.value = int(t.value)
     return t
 
+
 def t_CTE_S(t):
     r'\"([^\\\n]|(\\.))*?\"'
     t.type = reserved.get(t.value, 'CTE_STRING')
     t.value = str(t.value)
     return t
+
 
 def t_CTE_BOOL(t):
     r'(true|false)'
@@ -106,10 +109,12 @@ def t_CTE_BOOL(t):
     t.value = bool(t.value)
     return t
 
+
 def t_ID(t):
     r'[a-zA-Z][a-zA-Z0-9]*'
     t.type = reserved.get(t.value, 'ID')
     return t
+
 
 tokens = tokens + list(reserved.values())
 
