@@ -40,7 +40,7 @@ const FibonnaciExample: React.FC = () => {
         editorProps={{ $blockScrolling: true }}
         fontSize={fontSize - 2}
         readOnly
-        style={{ height: "300px", width: "100%" }}
+        style={{ height: "685px", width: "100%" }}
       />
     </>
   );

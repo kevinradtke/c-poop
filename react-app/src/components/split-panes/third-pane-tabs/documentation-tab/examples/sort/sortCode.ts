@@ -1,6 +1,6 @@
-const fibonacciCode: string = `program sort💩
+const sortCode: string = `program sort💩
 
 main() {
   🖨("sort")💩
 }`;
-export default fibonacciCode;
+export default sortCode;
