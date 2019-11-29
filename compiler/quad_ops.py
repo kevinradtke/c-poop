@@ -4,6 +4,8 @@ from ops_table import ops
 import memory
 import utils
 from error_control import err
+from emoji_letter import emoji_letters
+
 
 class QuadOps:
 
@@ -22,10 +24,10 @@ class QuadOps:
         while (self.pos < len(self.quadruples) and utils.success):
             quad = self.quadruples[self.pos]
             op = quad[1].lower()
-            if op in ops_table.ops: # if op is an expression (+, -, and, ...)
+            if op in ops_table.ops:  # if op is an expression (+, -, and, ...)
                 self.exp(op, quad)
             else:
-                self.eval(op, quad) # sends op to eval func
+                self.eval(op, quad)  # sends op to eval func
 
             self.pos += 1   # Update current quadruple position
 
@@ -33,7 +35,7 @@ class QuadOps:
         '''Assings operation to quadruple'''
         if op in dir(self):     # Checks that function exists in class
             method = getattr(self, op)
-            return method(quad) # Executes corresponding method
+            return method(quad)  # Executes corresponding method
         else:
             err('Operation does not exist!', op)
 
@@ -48,6 +50,15 @@ class QuadOps:
         value = memory.get(quad[4])
         self.output.write(str(value) + '\n')
         print(value)
+
+    def eprint(self, quad):
+        '''Prints to terminal and IDE output'''
+        value = memory.get(quad[4]).upper()
+        self.output.write(str(value) + '\n')
+        for char in value:
+
+            if char in emoji_letters:
+                print(emoji_letters[char])
 
     def equal(self, quad):
         '''Assigns value of an expression to a variable'''

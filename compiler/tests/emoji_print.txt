@@ -1,0 +1,7 @@
+program patito;
+
+main() {
+    var int a = 1;
+    a = 1 + 1;
+    emojiprint("Te quiero");
+}

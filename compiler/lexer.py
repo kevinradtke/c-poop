@@ -19,6 +19,7 @@ reserved = {
     'def': 'DEF',
     'return': 'RETURN',
     'main': 'MAIN',
+    'emojiprint': 'EMOJIPRINT'
 }
 
 # List of tokens
@@ -76,6 +77,7 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_COMMA = r'\,'
 t_SEMICOLON = r'\;'
+
 
 # Constants
 
